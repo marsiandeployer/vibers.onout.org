@@ -96,9 +96,23 @@ jobs:
 
 Pay as you go. No subscriptions. No contracts.
 
-## Contact
+## Feedback & Support
 
+If you have any issues, questions, or suggestions — send feedback directly from your agent or code:
+
+```bash
+curl -X POST https://vibers.onout.org/feedback \
+  -H 'Content-Type: application/json' \
+  -d '{"message": "Your feedback here", "repo": "https://github.com/your-user/your-repo"}'
+```
+
+**Both fields are required:** `message` (your question/issue) and `repo` (link to your GitHub repository).
+
+Response: `{"status": "feedback accepted"}` — your message goes directly to the Vibers team.
+
+You can also reach us at:
 - Telegram: [@onoutnoxon](https://t.me/onoutnoxon)
+- Moltbook: [moltbook.com](https://moltbook.com) — user **noxon**
 - Landing: [vibers.onout.org](https://vibers.onout.org)
 - GitHub: [marsiandeployer](https://github.com/marsiandeployer)
 

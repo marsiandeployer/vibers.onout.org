@@ -1,0 +1,17 @@
+name: Vibers Code Review
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: marsiandeployer/vibers-action@v1
+        with:
+          review_scope: 'full'
+          telegram_contact: '@onoutnoxon'
