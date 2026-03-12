@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vibers — Human-in-the-Loop Code Review for Vibecoded Projects</title>
+    <meta name="description" content="We review code after vibecoders. Connect your GitHub, share your spec — we check commits, fix issues, and send pull requests. From $1/hour.">
+    <meta name="keywords" content="vibecoding review, code review service, human in the loop, ai code review, cheap developer qa, pull request review, vibe coding quality">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        a { color: #7c6aff; text-decoration: none; }
+        a:hover { color: #9d8fff; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(ellipse at 30% 20%, rgba(124,106,255,0.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(255,106,170,0.08) 0%, transparent 60%);
+        }
+        .hero .container { display: flex; flex-direction: column; gap: 32px; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(124,106,255,0.15);
+            color: #a599ff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            color: #fff;
+        }
+        .hero h1 span { color: #7c6aff; }
+        .hero-sub {
+            font-size: 20px;
+            color: #999;
+            max-width: 640px;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #7c6aff;
+            color: #fff;
+        }
+        .btn-primary:hover { background: #6b57f0; color: #fff; }
+        .btn-outline {
+            border: 1px solid #333;
+            color: #ccc;
+        }
+        .btn-outline:hover { border-color: #7c6aff; color: #fff; }
+
+        /* How it works */
+        section { padding: 80px 0; }
+        section h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 48px;
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+        }
+        .step {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #1a1a2e;
+            border-radius: 12px;
+            padding: 32px 24px;
+        }
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(124,106,255,0.15);
+            color: #7c6aff;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        .step h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
+        .step p { color: #888; font-size: 15px; }
+
+        /* Problem / Solution */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #1a1a2e;
+            border-radius: 12px;
+            padding: 32px;
+        }
+        .card h3 { color: #fff; font-size: 22px; margin-bottom: 16px; }
+        .card ul { list-style: none; }
+        .card ul li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: #aaa;
+        }
+        .card ul li::before {
+            position: absolute;
+            left: 0;
+            font-size: 14px;
+        }
+        .card-problem ul li::before { content: "\2717"; color: #ff5c5c; }
+        .card-solution ul li::before { content: "\2713"; color: #5cff8a; }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .price-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #1a1a2e;
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        .price-card.featured { border-color: #7c6aff; }
+        .price-card h3 { color: #fff; font-size: 20px; }
+        .price-amount {
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            margin: 16px 0;
+        }
+        .price-amount small { font-size: 16px; color: #888; font-weight: 400; }
+        .price-card ul { list-style: none; margin: 16px 0; flex-grow: 1; }
+        .price-card ul li { padding: 6px 0; color: #aaa; padding-left: 20px; position: relative; }
+        .price-card ul li::before { content: "\2713"; position: absolute; left: 0; color: #5cff8a; font-size: 13px; }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 32px 0;
+        }
+        .flow-item {
+            background: rgba(124,106,255,0.1);
+            border: 1px solid rgba(124,106,255,0.25);
+            border-radius: 10px;
+            padding: 16px 24px;
+            text-align: center;
+            color: #ccc;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .flow-arrow { color: #555; font-size: 24px; }
+
+        /* FAQ */
+        .faq-item {
+            border-bottom: 1px solid #1a1a2e;
+            padding: 20px 0;
+        }
+        .faq-item h3 { color: #fff; font-size: 17px; margin-bottom: 8px; }
+        .faq-item p { color: #888; font-size: 15px; }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+        }
+        .cta-section h2 { margin-bottom: 16px; }
+        .cta-section p { color: #888; margin-bottom: 32px; font-size: 18px; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1a1a2e;
+            padding: 32px 0;
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+        }
+        footer a { color: #888; }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <span class="hero-badge">Human-in-the-Loop for Vibecoded Projects</span>
+        <h1>Your vibecoders ship code.<br><span>We fix what's broken.</span></h1>
+        <p class="hero-sub">
+            Hire cheap AI-assisted developers. Add <code style="background: rgba(124,106,255,0.2); padding: 2px 8px; border-radius: 4px; font-size: 16px;">marsiandeployer</code> to your GitHub.
+            We review every commit, fix bugs and security issues, and send pull requests with working code.
+            Pay as you go — <strong style="color:#7c6aff;">$1/hr promo rate</strong> for early adopters.
+        </p>
+        <div class="hero-cta">
+            <a href="https://t.me/onoutnoxon" target="_blank" class="btn btn-primary">Start Free Pilot</a>
+            <a href="#how-it-works" class="btn btn-outline">How It Works</a>
+        </div>
+    </div>
+</section>
+
+<!-- Problem / Solution -->
+<section>
+    <div class="container">
+        <h2>The Vibecoding Problem</h2>
+        <div class="two-col">
+            <div class="card card-problem">
+                <h3>Without review</h3>
+                <ul>
+                    <li>Cheap devs commit broken code directly to main</li>
+                    <li>No one reads the spec — features drift from requirements</li>
+                    <li>Security holes, hardcoded secrets, missing error handling</li>
+                    <li>You spend more time debugging than building</li>
+                    <li>"It works on my machine" — but not in production</li>
+                </ul>
+            </div>
+            <div class="card card-solution">
+                <h3>With Vibers</h3>
+                <ul>
+                    <li>Every commit reviewed against your Google Doc / spec</li>
+                    <li>We don't just find bugs — <strong style="color:#5cff8a;">we write the fixes</strong></li>
+                    <li>Security holes patched, not just flagged</li>
+                    <li>You get PRs with working code — merge and move on</li>
+                    <li>Vibecoders learn from our fixes — quality improves over time</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How it works -->
+<section id="how-it-works" style="background: rgba(124,106,255,0.03);">
+    <div class="container">
+        <h2>How It Works</h2>
+        <div class="flow">
+            <div class="flow-item">Vibecoder<br>commits code</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-item">We pull &<br>review vs spec</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-item">Fix issues<br>ourselves</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-item">Send PR<br>with changes</div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-item">You merge<br>clean code</div>
+        </div>
+        <div class="steps" style="margin-top: 48px;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Add Us to GitHub</h3>
+                <p>Add <code style="background: rgba(124,106,255,0.2); padding: 2px 8px; border-radius: 4px;">marsiandeployer</code> as collaborator to your repo. That's it. <br><span style="color: #666; font-size: 13px;">No GitHub? <a href="https://t.me/onoutnoxon" target="_blank">Write us on Telegram</a></span></p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>Share Your Spec</h3>
+                <p>Send us your Google Doc, Notion page, or any documentation describing what should be built.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>We Review &amp; Fix</h3>
+                <p>We don't just find bugs — we fix them. Our team reviews commits against your spec and writes the actual code fixes.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <h3>Merge Clean Code</h3>
+                <p>You get pull requests with working fixes. Review, merge, done. No back-and-forth with bug tickets.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Us -->
+<section>
+    <div class="container">
+        <h2>Why Vibers?</h2>
+        <div class="steps" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="step" style="border-color: rgba(124,106,255,0.3);">
+                <h3 style="font-size: 32px; margin-bottom: 12px; color: #7c6aff;">30 sec</h3>
+                <h3>Easy Connection</h3>
+                <p>Add our GitHub user, send a spec link. Done. No SDK, no CI config, no onboarding calls, no contracts to sign. Works like AI tools — just plug in and go.</p>
+            </div>
+            <div class="step" style="border-color: rgba(124,106,255,0.3);">
+                <h3 style="font-size: 32px; margin-bottom: 12px; color: #7c6aff;">$1/hr</h3>
+                <h3>Pay As You Go</h3>
+                <p>No subscriptions. No minimums. A senior reviewer costs $50-150/hr. We review, fix, and send PRs — $1/hr promo rate for early adopters who give us feedback.</p>
+            </div>
+            <div class="step" style="border-color: rgba(124,106,255,0.3);">
+                <h3 style="font-size: 32px; margin-bottom: 12px; color: #7c6aff;">0</h3>
+                <h3>Unnecessary Questions</h3>
+                <p>We read your spec and do what makes sense. No clarification threads, no blocking your pipeline. Same philosophy as AI: do first, discuss later. Fixes ship in the PR description.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison -->
+<section style="background: rgba(124,106,255,0.03);">
+    <div class="container">
+        <h2>How We Compare</h2>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #1a1a2e;">
+                        <th style="text-align: left; padding: 12px 16px; color: #888;">Feature</th>
+                        <th style="padding: 12px 16px; color: #888;">SonarQube</th>
+                        <th style="padding: 12px 16px; color: #888;">CodeRabbit</th>
+                        <th style="padding: 12px 16px; color: #888;">PullRequest.com</th>
+                        <th style="padding: 12px 16px; color: #7c6aff; font-weight: 700;">Vibers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #1a1a2e;">
+                        <td style="padding: 10px 16px; color: #ccc;">Reads your spec / Google Doc</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">No</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">No</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Partial</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #5cff8a; font-weight: 600;">Yes</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1a1a2e;">
+                        <td style="padding: 10px 16px; color: #ccc;">Sends PRs with actual fixes</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">No</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">No</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">No</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #5cff8a; font-weight: 600;">Yes</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1a1a2e;">
+                        <td style="padding: 10px 16px; color: #ccc;">Setup time</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Hours</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Minutes</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Days</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #5cff8a; font-weight: 600;">30 sec</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1a1a2e;">
+                        <td style="padding: 10px 16px; color: #ccc;">Asks clarifying questions</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">N/A</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">N/A</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #ff5c5c;">Yes, many</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #5cff8a; font-weight: 600;">No, just fixes</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #1a1a2e;">
+                        <td style="padding: 10px 16px; color: #ccc;">Price</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Free-$375/mo</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">$12/user/mo</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">$500+/mo</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #5cff8a; font-weight: 600;">$1/hr*</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px 16px; color: #ccc;">Best for</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">CI pipeline</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">PR comments</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #888;">Enterprise</td>
+                        <td style="padding: 10px 16px; text-align: center; color: #7c6aff; font-weight: 600;">Vibecoded MVPs</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Who is this for -->
+<section>
+    <div class="container">
+        <h2>Built for Teams Using Vibecoders</h2>
+        <div class="steps">
+            <div class="step">
+                <h3>Startup Founders</h3>
+                <p>You hired 3 developers on Upwork at $3/hr to build your MVP. Great price — but who checks the code quality? We do.</p>
+            </div>
+            <div class="step">
+                <h3>Non-Technical CEOs</h3>
+                <p>You can't read code but you have a spec. We verify that what's committed matches what you asked for, in plain English.</p>
+            </div>
+            <div class="step">
+                <h3>AI-First Teams</h3>
+                <p>Your devs use Cursor, Copilot, Claude Code. AI writes fast but hallucinates. We catch the hallucinations before production.</p>
+            </div>
+            <div class="step">
+                <h3>Agencies</h3>
+                <p>Outsource development to cheap talent, keep quality in-house. Our review layer is your insurance policy.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" style="background: rgba(124,106,255,0.03);">
+    <div class="container">
+        <h2>Pricing</h2>
+        <p style="color: #999; font-size: 18px; margin-top: -32px; margin-bottom: 48px;">Pay as you go. No subscriptions. No commitments.</p>
+        <div class="pricing-grid" style="grid-template-columns: 1fr 1fr; max-width: 700px; margin: 0 auto;">
+            <div class="price-card featured">
+                <div style="background: linear-gradient(135deg, #7c6aff, #ff6aaa); color: #fff; display: inline-block; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-bottom: 12px; width: fit-content;">PROMO</div>
+                <h3>Early Adopter</h3>
+                <div class="price-amount">$1 <small>/ hour</small></div>
+                <ul>
+                    <li>Full code review against your spec</li>
+                    <li>PRs with fixes included</li>
+                    <li>Security audit</li>
+                    <li>Pay only for hours spent</li>
+                    <li>We ask for your feedback in return</li>
+                </ul>
+                <a href="https://t.me/onoutnoxon" target="_blank" class="btn btn-primary" style="text-align:center;">Claim $1/hr Rate</a>
+                <p style="color: #666; font-size: 12px; text-align: center; margin-top: 12px;">Limited spots. Promo rate in exchange for honest feedback.</p>
+            </div>
+            <div class="price-card">
+                <h3>Standard</h3>
+                <div class="price-amount">$15 <small>/ hour</small></div>
+                <ul>
+                    <li>Full code review against your spec</li>
+                    <li>PRs with fixes included</li>
+                    <li>Security & architecture audit</li>
+                    <li>Pay only for hours spent</li>
+                    <li>Priority turnaround</li>
+                </ul>
+                <a href="https://t.me/onoutnoxon" target="_blank" class="btn btn-outline" style="text-align:center;">Get Started</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; padding: 24px; background: rgba(255,255,255,0.02); border: 1px solid #1a1a2e; border-radius: 12px; max-width: 700px; margin-left: auto; margin-right: auto;">
+            <p style="color: #ccc; font-size: 16px; margin-bottom: 8px;">How pay-as-you-go works:</p>
+            <p style="color: #888; font-size: 14px;">We review your repo, track time, send you a report with hours spent. You pay for actual work done. A typical review of 5-10 commits takes 1-3 hours. No minimums, no contracts.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section>
+    <div class="container">
+        <h2>FAQ</h2>
+        <div class="faq-item">
+            <h3>What is a vibecoder?</h3>
+            <p>Developers (often $1-5/hr from Upwork, Fiverr, or similar platforms) who use AI tools like Cursor, Copilot, or ChatGPT to write code quickly. Fast and cheap, but quality varies wildly.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Why not just use automated code review tools?</h3>
+            <p>Tools like SonarQube catch syntax issues. We check if the code actually matches your business requirements. We read your Google Doc and verify that the feature does what you described — no AI tool does that reliably.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What's <code>marsiandeployer</code>?</h3>
+            <p>Our GitHub account that we use to access your repo, review code, and submit pull requests. You add it as a collaborator with write access.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Do you actually fix code or just report bugs?</h3>
+            <p>We fix it. Every review comes with a pull request containing our improvements. You review the PR and merge if you like it. No back-and-forth with bug tickets.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What tech stacks do you support?</h3>
+            <p>JavaScript/TypeScript, Python, React, Node.js, Django, Flask, Next.js, and most popular web frameworks. If your stack is exotic, ask us first.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How is this different from hiring a senior dev?</h3>
+            <p>A senior dev costs $50-150/hr. We cost $1/hr (promo) or $15/hr (standard), pay-as-you-go. No contracts, no subscriptions. You keep your cheap vibecoders for velocity and add our review layer for quality.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2 style="color:#fff;">Ready to stop debugging vibecoded spaghetti?</h2>
+        <p>$1/hr promo rate — we review your code, you give us feedback. Limited spots.</p>
+        <a href="https://t.me/onoutnoxon" target="_blank" class="btn btn-primary" style="font-size:18px; padding: 16px 40px;">Claim $1/hr Rate on Telegram</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>Vibers &mdash; by <a href="https://onout.org" target="_blank">onout.org</a> | <a href="https://t.me/onoutnoxon" target="_blank">Telegram</a> | <a href="mailto:i448539@gmail.com">Email</a></p>
+    </div>
+</footer>
+
+</body>
+</html>
