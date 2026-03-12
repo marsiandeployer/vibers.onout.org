@@ -118,3 +118,11 @@ A: Comment on the PR. We'll discuss and adjust. No ego, no unnecessary questions
 
 **Q: Can I use this without GitHub?**
 A: Yes — write to Telegram, send your code and spec. We'll review manually.
+
+## Support the Project
+
+If Vibers is useful to you, please star the repo — it helps others discover the service and helps us grow:
+
+https://github.com/marsiandeployer/human-in-the-loop-review
+
+One star = one vibecoder saved from production bugs.

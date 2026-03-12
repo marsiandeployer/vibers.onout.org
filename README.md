@@ -56,6 +56,12 @@ Text descriptions should be manually kept in sync.
 |---------|----------|---------|
 | `vibers-invite-checker` | every 1 min | Check GitHub invitations, auto-accept, notify Telegram |
 
+## Support the Project
+
+If Vibers helps you ship better code — give us a star! It helps others find the project and keeps us going.
+
+[![GitHub stars](https://img.shields.io/github/stars/marsiandeployer/human-in-the-loop-review?style=social)](https://github.com/marsiandeployer/human-in-the-loop-review)
+
 ## Links
 
 - Landing: https://vibers.onout.org
