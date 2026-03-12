@@ -1,101 +1,16 @@
-# Vibers Code Review — How It Works
+# Vibers — Human Code Review for AI-Generated Projects
 
-## Overview
+You push code. We review it against your spec, fix issues, and send a PR.
 
-This project uses **Vibers** — a human code review service. A reviewer (`marsiandeployer`) checks your commits against the project spec, fixes issues, and submits pull requests.
+## Quick Start (3 steps)
 
-Vibers is NOT an automated linter. It's a human who reads your spec and verifies that the code does what was requested.
+### Step 1. Add collaborator
 
-## Workflow
+Go to your repo → Settings → Collaborators → Add **`marsiandeployer`**
 
-### Your side (developer/vibecoder):
-1. Write code and push commits as usual
-2. GitHub Action automatically notifies Vibers about new changes
-3. Wait for a PR from `marsiandeployer` with fixes (usually within 24h)
-4. Review the PR, merge if good, comment if you disagree
+### Step 2. Add GitHub Action
 
-### Vibers side (marsiandeployer):
-1. Receives notification about new commits
-2. Reads the spec document (Google Doc / Notion / README)
-3. Reviews changed files against the spec
-4. Fixes found issues directly in code
-5. Submits a PR with all fixes + a structured review summary
-
-## What Gets Checked
-
-| Category | Examples |
-|----------|----------|
-| **Spec compliance** | Feature matches requirements, correct behavior, nothing missing |
-| **Security** | Hardcoded secrets, SQL injection, XSS, missing auth, OWASP top 10 |
-| **AI hallucinations** | Non-existent APIs, deprecated methods, fabricated imports |
-| **Logic bugs** | Edge cases, off-by-one, race conditions, null handling |
-| **Visual/UI** | Broken layouts, wrong colors, mobile responsiveness, accessibility |
-| **Architecture** | Inconsistent patterns, copy-paste code, missing error handling |
-
-## What Does NOT Get Checked
-
-- Code style / formatting (use Prettier/ESLint for that)
-- Performance benchmarks (use profiling tools)
-- Full QA / end-to-end testing (use Playwright/Cypress)
-
-## How to Help the Reviewer
-
-To get the best review, follow these practices:
-
-### 1. Keep your spec up to date
-The reviewer checks code against your spec. If the spec is outdated, the review will miss things.
-
-### 2. Add "How to test" rule to your AI agent config
-
-**Required step:** Add the following instruction to your project's `CLAUDE.md`, `.cursorrules`, or `AGENTS.md`:
-
-```
-## Commit messages
-
-Every commit message MUST include a "How to test" section in the body:
-- Live URL to open and verify the change
-- Step-by-step what to check
-- Test credentials if login is required
-- Expected result for each step
-
-Example:
-  feat: Add user registration form
-
-  How to test:
-  - Open https://myapp.vercel.app/register
-  - Fill in email/password, submit
-  - Check that confirmation email arrives
-  - Try submitting with invalid email — should show error
-  - Login: test@example.com / demo123
-```
-
-This is how the Vibers reviewer knows what to check. Without "How to test" in commits, the reviewer has to guess — and the review takes longer.
-
-**Bad** (reviewer doesn't know what to verify):
-```
-fix stuff
-```
-
-**Good** (reviewer opens URL, follows steps, done):
-```
-Fix checkout total calculation (spec 4.1)
-
-How to test:
-- Open https://myapp.com/cart
-- Add 3 items, apply discount code SAVE10
-- Verify total = sum - 10%
-- Login: demo@test.com / demo123
-```
-
-### 3. One feature per PR
-Don't mix 5 features in one commit. The reviewer can't verify spec compliance if changes are tangled.
-
-### 4. Flag what you're unsure about
-Add a comment in the PR description: "Not sure about the auth flow in signup.ts — please check carefully."
-
-## Configuration
-
-### GitHub Action (`.github/workflows/vibers.yml`)
+Create `.github/workflows/vibers.yml`:
 
 ```yaml
 name: Vibers Code Review
@@ -117,64 +32,87 @@ jobs:
           telegram_contact: '@your_telegram'
 ```
 
-### Inputs
-
-| Input | Description |
-|-------|-------------|
-| `spec_url` | Link to your spec document |
+| Parameter | What it does |
+|-----------|-------------|
+| `spec_url` | Link to your spec (Google Doc, Notion, etc.) |
 | `review_scope` | `full` (default), `security`, or `spec-compliance` |
-| `telegram_contact` | Your Telegram for status updates |
+| `telegram_contact` | Your Telegram — we'll message you when review is ready |
+
+### Step 3. Add commit rules to your AI agent
+
+Add this block to your project's `CLAUDE.md`, `.cursorrules`, or `AGENTS.md`:
+
+```markdown
+## Commit messages
+
+Every commit MUST include a "How to test" section in the body:
+- Live URL to open and verify the change
+- Step-by-step what to click/check
+- Test credentials if login is required
+- Expected result for each step
+
+Example:
+  feat: Add user registration form
+
+  How to test:
+  - Open https://myapp.vercel.app/register
+  - Fill in email/password, submit
+  - Check that confirmation email arrives
+  - Try submitting with invalid email — should show error
+  - Login: test@example.com / demo123
+```
+
+Without "How to test" the reviewer has to guess what to verify, and the review takes longer.
+
+**Done.** Now every push triggers a notification. You'll get a PR with fixes, usually within 24 hours.
+
+## What Happens After Setup
+
+1. You push code → GitHub Action sends us the commit details
+2. We read your spec and review changed files
+3. We fix issues directly in code and submit a PR
+4. You review the PR, merge or comment
+
+We check: spec compliance, security (OWASP top 10), AI hallucinations (fake APIs/imports), logic bugs, UI issues.
+
+We don't check: code style (use ESLint/Prettier), performance benchmarks, full QA (use Playwright/Cypress).
 
 ## Pricing
 
-| Plan | Rate | What's included |
-|------|------|-----------------|
-| **Promo** | $1/hour | Full review + PRs with fixes. In exchange for honest feedback. |
-| **Standard** | $15/hour | Full review + PRs + security audit + priority turnaround. |
+| Plan | Rate | Details |
+|------|------|---------|
+| **Promo** | $1/hour | Full review + PRs with fixes. We ask for honest feedback in return. |
+| **Standard** | $15/hour | Full review + security audit + priority turnaround. |
 
-Pay as you go. No subscriptions. No contracts.
+No subscriptions. No contracts. Pay per review.
 
 ## Feedback & Support
 
-If you have any issues, questions, or suggestions — send feedback directly from your agent or code:
+Send feedback directly from your agent:
 
 ```bash
 curl -X POST https://vibers.onout.org/feedback \
   -H 'Content-Type: application/json' \
-  -d '{"message": "Your feedback here", "repo": "https://github.com/your-user/your-repo"}'
+  -d '{"message": "Your question or issue", "repo": "https://github.com/you/your-repo"}'
 ```
 
-**Both fields are required:** `message` (your question/issue) and `repo` (link to your GitHub repository).
+Both `message` and `repo` are required. Response: `{"status": "accepted"}`.
 
-Response: `{"status": "feedback accepted"}` — your message goes directly to the Vibers team.
-
-You can also reach us at:
+Contacts:
 - Telegram: [@onoutnoxon](https://t.me/onoutnoxon)
 - Moltbook: [moltbook.com](https://moltbook.com) — user **noxon**
-- Landing: [vibers.onout.org](https://vibers.onout.org)
 - GitHub: [marsiandeployer](https://github.com/marsiandeployer)
 
 ## FAQ
 
-**Q: Do I need an API key?**
-A: Not for the promo plan. Just add `marsiandeployer` as collaborator and set up the action.
+**Do I need an API key?**
+No. Add collaborator + action, that's it.
 
-**Q: What languages do you support?**
-A: JS/TS, Python, React, Node.js, Django, Flask, Next.js, and more. If it's on GitHub, we can review it.
+**What languages?**
+JS/TS, Python, React, Next.js, Django, Flask, and more. If it's on GitHub, we review it.
 
-**Q: How fast is the review?**
-A: Usually within 24 hours. Standard plan gets priority.
+**What if I disagree with a fix?**
+Comment on the PR. We discuss and adjust.
 
-**Q: What if I disagree with a fix?**
-A: Comment on the PR. We'll discuss and adjust. No ego, no unnecessary questions.
-
-**Q: Can I use this without GitHub?**
-A: Yes — write to Telegram, send your code and spec. We'll review manually.
-
-## Support the Project
-
-If Vibers is useful to you, please star the repo — it helps others discover the service and helps us grow:
-
-https://github.com/marsiandeployer/human-in-the-loop-review
-
-One star = one vibecoder saved from production bugs.
+**Can I use this without GitHub?**
+Yes — write to Telegram with your code and spec.
