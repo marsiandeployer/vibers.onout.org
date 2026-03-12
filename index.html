@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://vibers.onout.org/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Vibers — Code Review & Fixes for Vibecoded Projects">
-    <meta property="og:description" content="Your vibecoders ship code. We fix what's broken. Add marsiandeployer to GitHub, share your spec, get PRs with fixes. $1/hr promo rate.">
+    <meta property="og:description" content="Vibecoders ship code. We fix what's broken. Add marsiandeployer to GitHub, share your spec, get PRs with fixes. $1/hr promo rate.">
     <meta property="og:url" content="https://vibers.onout.org/">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Vibers — Code Review & Fixes for Vibecoded Projects">
@@ -23,17 +23,8 @@
       "name": "Vibers",
       "description": "Human-in-the-loop code review and fixes for vibecoded projects",
       "url": "https://vibers.onout.org/",
-      "provider": {
-        "@type": "Organization",
-        "name": "Onout",
-        "url": "https://onout.org"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "1",
-        "priceCurrency": "USD",
-        "description": "Promo rate: $1/hour for early adopters"
-      }
+      "provider": { "@type": "Organization", "name": "Onout", "url": "https://onout.org" },
+      "offers": { "@type": "Offer", "price": "1", "priceCurrency": "USD", "description": "Promo rate: $1/hour for early adopters" }
     }
     </script>
     <script type="application/ld+json">
@@ -53,34 +44,58 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
+            background: #050510;
             color: #e0e0e0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
-        a { color: #7c6aff; text-decoration: none; }
-        a:hover { color: #9d8fff; }
-        a:focus-visible, .btn:focus-visible { outline: 2px solid #7c6aff; outline-offset: 2px; }
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        main, footer, #lang-switch { position: relative; z-index: 1; }
+
+        a { color: #a78bfa; text-decoration: none; }
+        a:hover { color: #c4b5fd; }
+        a:focus-visible, .btn:focus-visible { outline: 2px solid #a78bfa; outline-offset: 2px; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Glass mixin */
+        .glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+        .glass-strong {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+        }
 
         /* Hero */
         .hero {
             min-height: 90vh;
             display: flex;
             align-items: center;
-            background: radial-gradient(ellipse at 30% 20%, rgba(124,106,255,0.12) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 80%, rgba(255,106,170,0.08) 0%, transparent 60%);
+            padding: 80px 0;
         }
         .hero .container { display: flex; flex-direction: column; gap: 32px; }
         .hero-badge {
             display: inline-block;
-            background: rgba(124,106,255,0.15);
-            color: #a599ff;
-            padding: 6px 16px;
-            border-radius: 20px;
+            background: rgba(167,139,250,0.15);
+            border: 1px solid rgba(167,139,250,0.25);
+            color: #c4b5fd;
+            padding: 6px 18px;
+            border-radius: 24px;
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
         }
         .hero h1 {
             font-size: clamp(36px, 5vw, 64px);
@@ -88,10 +103,15 @@
             line-height: 1.1;
             color: #fff;
         }
-        .hero h1 span { color: #7c6aff; }
+        .hero h1 span {
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .hero-sub {
             font-size: 20px;
-            color: #999;
+            color: #9ca3af;
             max-width: 640px;
         }
         .hero-cta {
@@ -103,15 +123,34 @@
         .btn {
             display: inline-block;
             padding: 14px 32px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 16px;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
-        .btn-primary { background: #7c6aff; color: #fff; }
-        .btn-primary:hover { background: #6b57f0; color: #fff; }
-        .btn-outline { border: 1px solid #333; color: #ccc; }
-        .btn-outline:hover { border-color: #7c6aff; color: #fff; }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: #fff;
+            border: 1px solid rgba(167,139,250,0.3);
+            box-shadow: 0 0 24px rgba(124,58,237,0.3);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+            box-shadow: 0 0 40px rgba(124,58,237,0.5);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #d1d5db;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.03);
+        }
+        .btn-outline:hover {
+            border-color: rgba(167,139,250,0.5);
+            color: #fff;
+            background: rgba(167,139,250,0.08);
+        }
 
         /* Sections */
         section { padding: 80px 0; }
@@ -121,41 +160,42 @@
             color: #fff;
             margin-bottom: 48px;
         }
-        .section-alt { background: rgba(124,106,255,0.03); }
 
         /* Steps grid */
         .steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 32px;
+            gap: 24px;
         }
         .step {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #1a1a2e;
-            border-radius: 12px;
             padding: 32px 24px;
+            transition: transform 0.3s, border-color 0.3s;
         }
+        .step:hover { transform: translateY(-4px); border-color: rgba(167,139,250,0.3); }
         .step-num {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            background: rgba(124,106,255,0.15);
-            color: #7c6aff;
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(167,139,250,0.15));
+            color: #c4b5fd;
             font-weight: 700;
             font-size: 18px;
             margin-bottom: 16px;
+            border: 1px solid rgba(167,139,250,0.2);
         }
         .step h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
-        .step p { color: #888; font-size: 15px; }
-        .step-highlight { border-color: rgba(124,106,255,0.3); }
+        .step p { color: #9ca3af; font-size: 15px; }
+        .step-highlight { border-color: rgba(167,139,250,0.25) !important; }
 
-        /* Metric in cards */
         .step-metric {
             font-size: 32px;
             font-weight: 800;
-            color: #7c6aff;
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 12px;
             line-height: 1;
         }
@@ -164,16 +204,13 @@
         .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 24px;
         }
         @media (max-width: 768px) {
             .two-col { grid-template-columns: 1fr; }
             .pricing-inner { grid-template-columns: 1fr !important; }
         }
         .card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #1a1a2e;
-            border-radius: 12px;
             padding: 32px;
         }
         .card h3 { color: #fff; font-size: 22px; margin-bottom: 16px; }
@@ -182,18 +219,15 @@
             padding: 8px 0;
             padding-left: 24px;
             position: relative;
-            color: #aaa;
+            color: #b0b0b0;
         }
         .card ul li::before { position: absolute; left: 0; font-size: 14px; }
-        .card-problem ul li::before { content: "\2717"; color: #ff5c5c; }
-        .card-solution ul li::before { content: "\2713"; color: #5cff8a; }
+        .card-problem { border-color: rgba(248,113,113,0.2) !important; }
+        .card-problem ul li::before { content: "\2717"; color: #f87171; }
+        .card-solution { border-color: rgba(52,211,153,0.2) !important; }
+        .card-solution ul li::before { content: "\2713"; color: #34d399; }
 
         /* Pricing */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
         .pricing-inner {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -202,20 +236,22 @@
             margin: 0 auto;
         }
         .price-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #1a1a2e;
-            border-radius: 12px;
             padding: 32px;
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .price-card.featured { border-color: #7c6aff; }
+        .price-card:hover { transform: translateY(-4px); }
+        .price-card.featured {
+            border-color: rgba(167,139,250,0.4) !important;
+            box-shadow: 0 0 40px rgba(124,58,237,0.15);
+        }
         .price-card h3 { color: #fff; font-size: 20px; }
         .price-amount { font-size: 36px; font-weight: 800; color: #fff; margin: 16px 0; }
-        .price-amount small { font-size: 16px; color: #888; font-weight: 400; }
+        .price-amount small { font-size: 16px; color: #9ca3af; font-weight: 400; }
         .price-card ul { list-style: none; margin: 16px 0; flex-grow: 1; }
-        .price-card ul li { padding: 6px 0; color: #aaa; padding-left: 20px; position: relative; }
-        .price-card ul li::before { content: "\2713"; position: absolute; left: 0; color: #5cff8a; font-size: 13px; }
+        .price-card ul li { padding: 6px 0; color: #b0b0b0; padding-left: 20px; position: relative; }
+        .price-card ul li::before { content: "\2713"; position: absolute; left: 0; color: #34d399; font-size: 13px; }
 
         /* Flow */
         .flow {
@@ -223,71 +259,83 @@
             flex-wrap: wrap; gap: 12px; margin: 32px 0;
         }
         .flow-item {
-            background: rgba(124,106,255,0.1);
-            border: 1px solid rgba(124,106,255,0.25);
-            border-radius: 10px;
+            background: rgba(167,139,250,0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(167,139,250,0.2);
+            border-radius: 12px;
             padding: 16px 24px;
             text-align: center;
-            color: #ccc;
+            color: #d1d5db;
             font-size: 14px;
             font-weight: 600;
         }
-        .flow-arrow { color: #555; font-size: 24px; }
+        .flow-arrow { color: #6b7280; font-size: 24px; }
 
         /* Comparison table */
         .compare-table { width: 100%; border-collapse: collapse; font-size: 15px; }
-        .compare-table th { padding: 12px 16px; color: #888; }
-        .compare-table th.vibers-col { color: #7c6aff; font-weight: 700; }
-        .compare-table th[scope="row"] { text-align: left; color: #ccc; font-weight: 400; }
+        .compare-table th { padding: 12px 16px; color: #9ca3af; }
+        .compare-table th.vibers-col { color: #a78bfa; font-weight: 700; }
+        .compare-table th[scope="row"] { text-align: left; color: #d1d5db; font-weight: 400; }
         .compare-table td { padding: 10px 16px; text-align: center; }
-        .compare-table thead tr { border-bottom: 2px solid #1a1a2e; }
-        .compare-table tbody tr { border-bottom: 1px solid #1a1a2e; }
-        .td-no { color: #ff5c5c; }
-        .td-partial { color: #888; }
-        .td-yes { color: #5cff8a; font-weight: 600; }
-        .td-vibers { color: #7c6aff; font-weight: 600; }
+        .compare-table thead tr { border-bottom: 2px solid rgba(255,255,255,0.06); }
+        .compare-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .td-no { color: #f87171; }
+        .td-partial { color: #9ca3af; }
+        .td-yes { color: #34d399; font-weight: 600; }
+        .td-vibers { color: #a78bfa; font-weight: 600; }
 
         /* FAQ */
-        .faq-item { border-bottom: 1px solid #1a1a2e; padding: 20px 0; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 20px 0; }
         .faq-item h3 { color: #fff; font-size: 17px; margin-bottom: 8px; }
-        .faq-item p { color: #888; font-size: 15px; }
+        .faq-item p { color: #9ca3af; font-size: 15px; }
 
         /* CTA */
         .cta-section { text-align: center; padding: 80px 0; }
         .cta-section h2 { margin-bottom: 16px; }
-        .cta-section p { color: #888; margin-bottom: 32px; font-size: 18px; }
+        .cta-section p { color: #9ca3af; margin-bottom: 32px; font-size: 18px; }
 
         /* Footer */
         footer {
-            border-top: 1px solid #1a1a2e;
+            border-top: 1px solid rgba(255,255,255,0.06);
             padding: 32px 0; text-align: center;
-            color: #666; font-size: 14px;
+            color: #6b7280; font-size: 14px;
         }
-        footer a { color: #888; }
+        footer a { color: #9ca3af; }
 
-        /* Promo badge */
         .promo-badge {
-            background: linear-gradient(135deg, #7c6aff, #ff6aaa);
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
             color: #fff; display: inline-block;
-            padding: 4px 12px; border-radius: 6px;
+            padding: 4px 14px; border-radius: 8px;
             font-size: 12px; font-weight: 700;
             margin-bottom: 12px; width: fit-content;
+            letter-spacing: 1px;
         }
         .code-inline {
-            background: rgba(124,106,255,0.2);
-            padding: 2px 8px; border-radius: 4px;
+            background: rgba(167,139,250,0.15);
+            border: 1px solid rgba(167,139,250,0.2);
+            padding: 2px 8px; border-radius: 6px;
+            font-size: 0.9em;
         }
         .paygo-box {
             text-align: center; margin-top: 40px; padding: 24px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid #1a1a2e; border-radius: 12px;
             max-width: 700px; margin-left: auto; margin-right: auto;
         }
-        .text-muted-sm { color: #777; font-size: 13px; }
-        .text-muted-xs { color: #777; font-size: 12px; text-align: center; margin-top: 12px; }
+        .text-muted-sm { color: #6b7280; font-size: 13px; }
+        .text-muted-xs { color: #6b7280; font-size: 12px; text-align: center; margin-top: 12px; }
+        .setup-box {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(167,139,250,0.2);
+            border-radius: 16px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            position: relative;
+        }
     </style>
 </head>
 <body>
+
+<canvas id="bg-canvas"></canvas>
 
 <main>
 
@@ -297,23 +345,39 @@
         <span class="hero-badge" data-i18n="hero_badge">Human-in-the-Loop for Vibecoded Projects</span>
         <h1 data-i18n="hero_title">Vibecoders ship code.<br><span>We fix what's broken.</span></h1>
         <p class="hero-sub" data-i18n="hero_sub">
-            Add <code class="code-inline" style="font-size: 16px;">marsiandeployer</code> to your GitHub repo.
-            Share your spec. We review every commit, fix bugs and security issues, and send pull requests with working code.
-            Pay as you go — <strong style="color:#7c6aff;">$1/hr promo rate</strong> for early adopters.
+            Tell your AI agent to install our skill — or just add <code class="code-inline" style="font-size: 16px;">marsiandeployer</code> to your GitHub repo.
+            No spec required — we figure out context from the code. We review every commit, fix issues, and send pull requests.
+            Plug &amp; play. <strong style="color:#a78bfa;">$1/hr promo rate</strong> for early adopters.
         </p>
         <div class="hero-cta">
-            <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="hero_cta1">Start Free Pilot</a>
+            <a href="#setup" class="btn btn-primary" data-i18n="hero_cta1">Connect in 10 Seconds</a>
             <a href="#how-it-works" class="btn btn-outline" data-i18n="hero_cta2">How It Works</a>
         </div>
     </div>
 </header>
+
+<!-- Quick Setup — PRIMARY CTA -->
+<section id="setup">
+    <div class="container" style="text-align:center; max-width: 720px;">
+        <div class="glass-strong" style="padding: 48px 40px;">
+            <h2 data-i18n="setup_title" style="margin-bottom: 16px;">Setup in 10 Seconds</h2>
+            <p style="color:#9ca3af; margin-bottom: 32px; font-size: 18px;" data-i18n="setup_sub">Using Claude Code, Cursor, or any AI assistant? Just tell it:</p>
+            <div class="setup-box" style="margin-bottom: 24px;">
+                <code style="color: #c4b5fd; font-size: 18px; word-break: break-all;">Install skill from https://vibers.onout.org/SKILL.md</code>
+                <button onclick="navigator.clipboard.writeText('Install skill from https://vibers.onout.org/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="position:absolute; top:12px; right:12px; background:rgba(167,139,250,0.15); color:#c4b5fd; border:1px solid rgba(167,139,250,0.25); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:13px; backdrop-filter:blur(10px);">Copy</button>
+            </div>
+            <p style="color:#9ca3af; font-size: 15px;" data-i18n="setup_desc">Your AI assistant will learn how Vibers works and help you set up the integration.<br>It will add <code class="code-inline">marsiandeployer</code> to your repo and configure review notifications.</p>
+            <p style="color:#6b7280; font-size: 14px; margin-top: 16px;" data-i18n="setup_noai">No AI assistant? No problem &mdash; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" style="color:#a78bfa;">write us on Telegram</a></p>
+        </div>
+    </div>
+</section>
 
 <!-- Problem / Solution -->
 <section>
     <div class="container">
         <h2 data-i18n="problem_title">The Vibecoding Problem</h2>
         <div class="two-col">
-            <div class="card card-problem">
+            <div class="card glass card-problem">
                 <h3 data-i18n="problem_h3">Without review</h3>
                 <ul data-i18n="problem_list">
                     <li>Cheap devs commit broken code directly to main</li>
@@ -323,11 +387,11 @@
                     <li>"It works on my machine" — but not in production</li>
                 </ul>
             </div>
-            <div class="card card-solution">
+            <div class="card glass card-solution">
                 <h3 data-i18n="solution_h3">With Vibers</h3>
                 <ul data-i18n="solution_list">
                     <li>Every commit reviewed against your Google Doc / spec</li>
-                    <li>We don't just find bugs — <strong style="color:#5cff8a;">we write the fixes</strong></li>
+                    <li>We don't just find bugs — <strong style="color:#34d399;">we write the fixes</strong></li>
                     <li>Security holes patched, not just flagged</li>
                     <li>You get PRs with working code — merge and move on</li>
                     <li>Vibecoders learn from our fixes — quality improves over time</li>
@@ -338,7 +402,7 @@
 </section>
 
 <!-- How it works -->
-<section id="how-it-works" class="section-alt">
+<section id="how-it-works">
     <div class="container">
         <h2 data-i18n="how_title">How It Works</h2>
         <div class="flow">
@@ -353,22 +417,22 @@
             <div class="flow-item" data-i18n="flow5">You merge<br>clean code</div>
         </div>
         <div class="steps" style="margin-top: 48px;">
-            <div class="step">
+            <div class="step glass">
                 <div class="step-num">1</div>
                 <h3 data-i18n="step1_h">Add Us to GitHub</h3>
                 <p data-i18n="step1_p">Add <code class="code-inline">marsiandeployer</code> as collaborator to your repo. That's it. <br><span class="text-muted-sm">No GitHub? <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Write us on Telegram</a></span></p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <div class="step-num">2</div>
-                <h3 data-i18n="step2_h">Share Your Spec</h3>
-                <p data-i18n="step2_p">Send us your Google Doc, Notion page, or any documentation describing what should be built.</p>
+                <h3 data-i18n="step2_h">Share Spec (optional)</h3>
+                <p data-i18n="step2_p">Got a Google Doc or Notion page? Share it for better reviews. No spec? No problem — we read the code and figure out context ourselves.</p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <div class="step-num">3</div>
                 <h3 data-i18n="step3_h">We Review &amp; Fix</h3>
                 <p data-i18n="step3_p">We don't just find bugs — we fix them. Our team reviews commits against your spec and writes the actual code fixes.</p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <div class="step-num">4</div>
                 <h3 data-i18n="step4_h">Merge Clean Code</h3>
                 <p data-i18n="step4_p">You get pull requests with working fixes. Review, merge, done. No back-and-forth with bug tickets.</p>
@@ -382,17 +446,17 @@
     <div class="container">
         <h2 data-i18n="why_title">Why Vibers?</h2>
         <div class="steps">
-            <div class="step step-highlight">
+            <div class="step glass step-highlight">
                 <p class="step-metric">30 sec</p>
                 <h3 data-i18n="why1_h">Easy Connection</h3>
                 <p data-i18n="why1_p">Add our GitHub user, send a spec link. Done. No SDK, no CI config, no onboarding calls, no contracts to sign.</p>
             </div>
-            <div class="step step-highlight">
+            <div class="step glass step-highlight">
                 <p class="step-metric">$1/hr</p>
                 <h3 data-i18n="why2_h">Pay As You Go</h3>
                 <p data-i18n="why2_p">No subscriptions. No minimums. A senior reviewer costs $50-150/hr. We review, fix, and send PRs — $1/hr promo rate for early adopters who give us feedback.</p>
             </div>
-            <div class="step step-highlight">
+            <div class="step glass step-highlight">
                 <p class="step-metric">0</p>
                 <h3 data-i18n="why3_h">Unnecessary Questions</h3>
                 <p data-i18n="why3_p">We read your spec and do what makes sense. No clarification threads, no blocking your pipeline. Decisions and reasoning go in the PR description.</p>
@@ -402,12 +466,12 @@
 </section>
 
 <!-- Comparison -->
-<section class="section-alt">
+<section>
     <div class="container">
-        <h2 data-i18n="compare_title">How We Compare</h2>
-        <div style="overflow-x: auto;">
+        <div class="glass-strong" style="padding: 40px; overflow-x: auto;">
+            <h2 data-i18n="compare_title" style="margin-bottom: 32px;">How We Compare</h2>
             <table class="compare-table">
-                <caption style="text-align: left; color: #555; font-size: 13px; margin-bottom: 16px;" data-i18n="compare_caption">Feature comparison: Vibers vs popular code review tools</caption>
+                <caption style="text-align: left; color: #6b7280; font-size: 13px; margin-bottom: 16px;" data-i18n="compare_caption">Feature comparison: Vibers vs popular code review tools</caption>
                 <thead>
                     <tr>
                         <th scope="col" style="text-align: left;" data-i18n="t_feature">Feature</th>
@@ -471,19 +535,19 @@
     <div class="container">
         <h2 data-i18n="who_title">Built for Teams Using Vibecoders</h2>
         <div class="steps">
-            <div class="step">
+            <div class="step glass">
                 <h3 data-i18n="who1_h">Startup Founders</h3>
                 <p data-i18n="who1_p">You hired 3 developers on Upwork at $3/hr to build your MVP. Great price — but who checks the code quality? We do.</p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <h3 data-i18n="who2_h">Non-Technical CEOs</h3>
                 <p data-i18n="who2_p">You can't read code but you have a spec. We verify that what's committed matches what you asked for, in plain English.</p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <h3 data-i18n="who3_h">AI-First Teams</h3>
                 <p data-i18n="who3_p">Your devs use Cursor, Copilot, Claude Code. AI writes fast but hallucinates. We catch the hallucinations before production.</p>
             </div>
-            <div class="step">
+            <div class="step glass">
                 <h3 data-i18n="who4_h">Agencies</h3>
                 <p data-i18n="who4_p">Outsource development to cheap talent, keep quality in-house. Our review layer is your insurance policy.</p>
             </div>
@@ -492,12 +556,12 @@
 </section>
 
 <!-- Pricing -->
-<section id="pricing" class="section-alt">
+<section id="pricing">
     <div class="container">
         <h2 data-i18n="price_title">Pricing</h2>
-        <p style="color: #999; font-size: 18px; margin-top: -32px; margin-bottom: 48px;" data-i18n="price_sub">Pay as you go. No subscriptions. No commitments.</p>
+        <p style="color: #9ca3af; font-size: 18px; margin-top: -32px; margin-bottom: 48px;" data-i18n="price_sub">Pay as you go. No subscriptions. No commitments.</p>
         <div class="pricing-inner">
-            <div class="price-card featured">
+            <div class="price-card glass-strong featured">
                 <div class="promo-badge">PROMO</div>
                 <h3 data-i18n="price1_h">Early Adopter</h3>
                 <div class="price-amount">$1 <small>/ hour</small></div>
@@ -511,7 +575,7 @@
                 <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-align:center;" data-i18n="price1_cta">Claim $1/hr Rate</a>
                 <p class="text-muted-xs" data-i18n="price1_note">Limited spots. Promo rate in exchange for honest feedback.</p>
             </div>
-            <div class="price-card">
+            <div class="price-card glass">
                 <h3 data-i18n="price2_h">Standard</h3>
                 <div class="price-amount">$15 <small>/ hour</small></div>
                 <ul data-i18n="price2_list">
@@ -524,9 +588,9 @@
                 <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-align:center;" data-i18n="price2_cta">Get Started</a>
             </div>
         </div>
-        <div class="paygo-box">
-            <p style="color: #ccc; font-size: 16px; margin-bottom: 8px;" data-i18n="paygo_h"><strong>How it works</strong></p>
-            <p style="color: #888; font-size: 14px;" data-i18n="paygo_p">We review your repo, track time, send you a report with hours spent. You pay for actual work done. A typical review of 5-10 commits takes 1-3 hours. No minimums, no contracts.</p>
+        <div class="paygo-box glass">
+            <p style="color: #d1d5db; font-size: 16px; margin-bottom: 8px;" data-i18n="paygo_h"><strong>How it works</strong></p>
+            <p style="color: #9ca3af; font-size: 14px;" data-i18n="paygo_p">We review your repo, track time, send you a report with hours spent. You pay for actual work done. A typical review of 5-10 commits takes 1-3 hours. No minimums, no contracts.</p>
         </div>
     </div>
 </section>
@@ -534,54 +598,44 @@
 <!-- FAQ -->
 <section>
     <div class="container">
-        <h2>FAQ</h2>
-        <div class="faq-item">
-            <h3 data-i18n="faq1_q">What is a vibecoder?</h3>
-            <p data-i18n="faq1_a">Developers (often $1-5/hr from Upwork, Fiverr, or similar platforms) who use AI tools like Cursor, Copilot, or ChatGPT to write code quickly. Fast and cheap, but quality varies wildly.</p>
+        <div class="glass-strong" style="padding: 40px;">
+            <h2 style="margin-bottom: 32px;">FAQ</h2>
+            <div class="faq-item">
+                <h3 data-i18n="faq1_q">What is a vibecoder?</h3>
+                <p data-i18n="faq1_a">Developers (often $1-5/hr from Upwork, Fiverr, or similar platforms) who use AI tools like Cursor, Copilot, or ChatGPT to write code quickly. Fast and cheap, but quality varies wildly.</p>
+            </div>
+            <div class="faq-item">
+                <h3 data-i18n="faq2_q">Why not just use automated code review tools?</h3>
+                <p data-i18n="faq2_a">Tools like SonarQube catch syntax issues. We check if the code actually matches your business requirements. We read your Google Doc and verify that the feature does what you described — no AI tool does that reliably.</p>
+            </div>
+            <div class="faq-item">
+                <h3 data-i18n="faq3_q">What's <code>marsiandeployer</code>?</h3>
+                <p data-i18n="faq3_a">Our GitHub account that we use to access your repo, review code, and submit pull requests. You add it as a collaborator with write access.</p>
+            </div>
+            <div class="faq-item">
+                <h3 data-i18n="faq4_q">Do you actually fix code or just report bugs?</h3>
+                <p data-i18n="faq4_a">We fix it. Every review comes with a pull request containing our improvements. You review the PR and merge if you like it. No back-and-forth with bug tickets.</p>
+            </div>
+            <div class="faq-item">
+                <h3 data-i18n="faq5_q">What tech stacks do you support?</h3>
+                <p data-i18n="faq5_a">JavaScript/TypeScript, Python, React, Node.js, Django, Flask, Next.js, and most popular web frameworks. If your stack is exotic, ask us first.</p>
+            </div>
+            <div class="faq-item" style="border-bottom:none;">
+                <h3 data-i18n="faq6_q">How is this different from hiring a senior dev?</h3>
+                <p data-i18n="faq6_a">A senior dev costs $50-150/hr. We cost $1/hr (promo) or $15/hr (standard), pay-as-you-go. No contracts, no subscriptions. You keep your cheap vibecoders for velocity and add our review layer for quality.</p>
+            </div>
         </div>
-        <div class="faq-item">
-            <h3 data-i18n="faq2_q">Why not just use automated code review tools?</h3>
-            <p data-i18n="faq2_a">Tools like SonarQube catch syntax issues. We check if the code actually matches your business requirements. We read your Google Doc and verify that the feature does what you described — no AI tool does that reliably.</p>
-        </div>
-        <div class="faq-item">
-            <h3 data-i18n="faq3_q">What's <code>marsiandeployer</code>?</h3>
-            <p data-i18n="faq3_a">Our GitHub account that we use to access your repo, review code, and submit pull requests. You add it as a collaborator with write access.</p>
-        </div>
-        <div class="faq-item">
-            <h3 data-i18n="faq4_q">Do you actually fix code or just report bugs?</h3>
-            <p data-i18n="faq4_a">We fix it. Every review comes with a pull request containing our improvements. You review the PR and merge if you like it. No back-and-forth with bug tickets.</p>
-        </div>
-        <div class="faq-item">
-            <h3 data-i18n="faq5_q">What tech stacks do you support?</h3>
-            <p data-i18n="faq5_a">JavaScript/TypeScript, Python, React, Node.js, Django, Flask, Next.js, and most popular web frameworks. If your stack is exotic, ask us first.</p>
-        </div>
-        <div class="faq-item">
-            <h3 data-i18n="faq6_q">How is this different from hiring a senior dev?</h3>
-            <p data-i18n="faq6_a">A senior dev costs $50-150/hr. We cost $1/hr (promo) or $15/hr (standard), pay-as-you-go. No contracts, no subscriptions. You keep your cheap vibecoders for velocity and add our review layer for quality.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Quick Setup -->
-<section id="setup" class="section-alt">
-    <div class="container" style="text-align:center; max-width: 720px;">
-        <h2 data-i18n="setup_title">Setup in 10 Seconds</h2>
-        <p style="color:#aaa; margin-bottom: 32px; font-size: 18px;" data-i18n="setup_sub">Using Claude Code, Cursor, or any AI assistant? Just tell it:</p>
-        <div style="background: #1a1a2e; border: 1px solid #333; border-radius: 12px; padding: 24px 32px; margin-bottom: 24px; position: relative;">
-            <code style="color: #7c6aff; font-size: 18px; word-break: break-all;">Install skill from https://vibers.onout.org/SKILL.md</code>
-            <button onclick="navigator.clipboard.writeText('Install skill from https://vibers.onout.org/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)" style="position:absolute; top:12px; right:12px; background:#333; color:#fff; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:13px;">Copy</button>
-        </div>
-        <p style="color:#888; font-size: 15px;" data-i18n="setup_desc">Your AI assistant will learn how Vibers works and help you set up the integration.<br>It will add <code class="code-inline">marsiandeployer</code> to your repo and configure review notifications.</p>
-        <p style="color:#666; font-size: 14px; margin-top: 16px;" data-i18n="setup_noai">No AI assistant? No problem &mdash; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" style="color:#7c6aff;">write us on Telegram</a></p>
     </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-section">
     <div class="container">
-        <h2 style="color:#fff;" data-i18n="cta_title">Ready to stop debugging vibecoded spaghetti?</h2>
-        <p data-i18n="cta_sub">$1/hr promo rate — we review and fix your code, you give us feedback. Limited spots.</p>
-        <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:18px; padding: 16px 40px;" data-i18n="cta_btn">Claim $1/hr Rate on Telegram</a>
+        <div class="glass-strong" style="padding: 60px 40px;">
+            <h2 style="color:#fff;" data-i18n="cta_title">Ready to stop debugging vibecoded spaghetti?</h2>
+            <p data-i18n="cta_sub">$1/hr promo rate — we review and fix your code, you give us feedback. Limited spots.</p>
+            <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:18px; padding: 16px 40px;" data-i18n="cta_btn">Claim $1/hr Rate on Telegram</a>
+        </div>
     </div>
 </section>
 
@@ -593,23 +647,87 @@
     </div>
 </footer>
 
-<div id="lang-switch" style="display:none; position:fixed; top:16px; right:16px; z-index:1000; background:rgba(20,20,40,0.9); border:1px solid #333; border-radius:8px; padding:4px;">
-    <button id="btn-en" onclick="setLang('en')" style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#888;">EN</button>
-    <button id="btn-ru" onclick="setLang('ru')" style="padding:6px 12px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#888;">RU</button>
+<div id="lang-switch" style="display:none; position:fixed; top:16px; right:16px; z-index:1000; backdrop-filter:blur(20px); background:rgba(5,5,16,0.7); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:4px;">
+    <button id="btn-en" onclick="setLang('en')" style="padding:6px 14px; border:none; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#9ca3af; transition:all 0.2s;">EN</button>
+    <button id="btn-ru" onclick="setLang('ru')" style="padding:6px 14px; border:none; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#9ca3af; transition:all 0.2s;">RU</button>
 </div>
 
+<!-- Animated background -->
+<script>
+(function() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const orbs = [];
+    const ORB_COUNT = 6;
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const palette = [
+        [124, 58, 237],   // violet
+        [167, 139, 250],  // light violet
+        [236, 72, 153],   // pink
+        [59, 130, 246],   // blue
+        [16, 185, 129],   // emerald
+        [245, 158, 11],   // amber
+    ];
+
+    for (let i = 0; i < ORB_COUNT; i++) {
+        orbs.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: 200 + Math.random() * 300,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.3,
+            color: palette[i % palette.length],
+            phase: Math.random() * Math.PI * 2
+        });
+    }
+
+    function draw(t) {
+        ctx.clearRect(0, 0, w, h);
+        for (const o of orbs) {
+            o.x += o.vx;
+            o.y += o.vy;
+            if (o.x < -o.r) o.x = w + o.r;
+            if (o.x > w + o.r) o.x = -o.r;
+            if (o.y < -o.r) o.y = h + o.r;
+            if (o.y > h + o.r) o.y = -o.r;
+
+            const pulse = 1 + 0.15 * Math.sin(t * 0.001 + o.phase);
+            const r = o.r * pulse;
+            const [cr, cg, cb] = o.color;
+            const grad = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, r);
+            grad.addColorStop(0, `rgba(${cr},${cg},${cb},0.12)`);
+            grad.addColorStop(0.5, `rgba(${cr},${cg},${cb},0.04)`);
+            grad.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+            ctx.fillStyle = grad;
+            ctx.fillRect(o.x - r, o.y - r, r * 2, r * 2);
+        }
+        requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+})();
+</script>
+
+<!-- i18n -->
 <script>
 const ru = {
     hero_badge: "Код-ревью с участием человека для вайбкодинг-проектов",
     hero_title: 'Вайбкодеры пишут код.<br><span>Мы исправляем то, что сломано.</span>',
-    hero_sub: 'Добавьте <code class="code-inline" style="font-size:16px;">marsiandeployer</code> в ваш GitHub-репозиторий. Пришлите ТЗ. Мы проверяем каждый коммит, исправляем баги и проблемы безопасности, отправляем pull request\'ы с рабочим кодом. Pay as you go — <strong style="color:#7c6aff;">$1/час промо-тариф</strong> для первых клиентов.',
-    hero_cta1: "Бесплатный пилот",
+    hero_sub: 'Скажите вашему AI-агенту установить наш skill — или просто добавьте <code class="code-inline" style="font-size:16px;">marsiandeployer</code> в GitHub-репозиторий. ТЗ необязательно — мы разбираемся в контексте по коду. Проверяем коммиты, исправляем, отправляем PR. Plug &amp; play. <strong style="color:#a78bfa;">$1/час промо-тариф</strong> для первых клиентов.',
+    hero_cta1: "Подключить за 10 секунд",
     hero_cta2: "Как это работает",
     problem_title: "Проблема вайбкодинга",
     problem_h3: "Без ревью",
     problem_list: "<li>Дешёвые разработчики коммитят сломанный код прямо в main</li><li>Никто не читает ТЗ — фичи дрейфуют от требований</li><li>Дыры в безопасности, захардкоженные секреты, нет обработки ошибок</li><li>Вы тратите больше времени на дебаг, чем на разработку</li><li>«У меня на машине работает» — а в продакшне нет</li>",
     solution_h3: "С Vibers",
-    solution_list: '<li>Каждый коммит проверяется по вашему Google Doc / ТЗ</li><li>Мы не просто находим баги — <strong style="color:#5cff8a;">мы пишем исправления</strong></li><li>Дыры в безопасности закрываются, а не просто отмечаются</li><li>Вы получаете PR с рабочим кодом — мержите и двигаетесь дальше</li><li>Вайбкодеры учатся на наших исправлениях — качество растёт со временем</li>',
+    solution_list: '<li>Каждый коммит проверяется по вашему Google Doc / ТЗ</li><li>Мы не просто находим баги — <strong style="color:#34d399;">мы пишем исправления</strong></li><li>Дыры в безопасности закрываются, а не просто отмечаются</li><li>Вы получаете PR с рабочим кодом — мержите и двигаетесь дальше</li><li>Вайбкодеры учатся на наших исправлениях — качество растёт со временем</li>',
     how_title: "Как это работает",
     flow1: "Вайбкодер<br>коммитит код",
     flow2: "Мы берём и<br>проверяем по ТЗ",
@@ -618,8 +736,8 @@ const ru = {
     flow5: "Вы мержите<br>чистый код",
     step1_h: "Добавьте нас в GitHub",
     step1_p: 'Добавьте <code class="code-inline">marsiandeployer</code> как collaborator в ваш репо. Всё. <br><span class="text-muted-sm">Нет GitHub? <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Напишите в Telegram</a></span>',
-    step2_h: "Пришлите ТЗ",
-    step2_p: "Отправьте нам Google Doc, Notion-страницу или любую документацию с описанием того, что должно быть сделано.",
+    step2_h: "ТЗ (необязательно)",
+    step2_p: "Есть Google Doc или Notion? Пришлите для более точных ревью. Нет ТЗ? Не проблема — мы читаем код и разбираемся в контексте сами.",
     step3_h: "Мы проверяем и исправляем",
     step3_p: "Мы не просто находим баги — мы их исправляем. Наша команда проверяет коммиты по вашему ТЗ и пишет реальные исправления кода.",
     step4_h: "Мержите чистый код",
@@ -633,39 +751,19 @@ const ru = {
     why3_p: "Мы читаем ваше ТЗ и делаем как надо. Никаких тредов с уточнениями, никакой блокировки пайплайна. Решения и обоснования — в описании PR.",
     compare_title: "Сравнение",
     compare_caption: "Сравнение функций: Vibers vs популярные инструменты код-ревью",
-    t_feature: "Функция",
-    t_spec: "Читает ваше ТЗ / Google Doc",
-    t_prs: "Отправляет PR с исправлениями",
-    t_setup: "Время подключения",
-    t_questions: "Задаёт уточняющие вопросы",
-    t_price: "Цена",
-    t_bestfor: "Лучше всего для",
-    t_no: "Нет",
-    t_yes: "Да",
-    t_partial: "Частично",
-    t_hours: "Часы",
-    t_minutes: "Минуты",
-    t_days: "Дни",
-    t_yesmany: "Да, много",
-    t_nofixes: "Нет, просто исправляем",
-    t_ci: "CI-пайплайн",
-    t_comments: "Комментарии к PR",
-    t_vibemvp: "Вайбкодинг MVP",
+    t_feature: "Функция", t_spec: "Читает ваше ТЗ / Google Doc", t_prs: "Отправляет PR с исправлениями",
+    t_setup: "Время подключения", t_questions: "Задаёт уточняющие вопросы", t_price: "Цена", t_bestfor: "Лучше всего для",
+    t_no: "Нет", t_yes: "Да", t_partial: "Частично", t_hours: "Часы", t_minutes: "Минуты", t_days: "Дни",
+    t_yesmany: "Да, много", t_nofixes: "Нет, просто исправляем", t_ci: "CI-пайплайн", t_comments: "Комментарии к PR", t_vibemvp: "Вайбкодинг MVP",
     who_title: "Для команд, работающих с вайбкодерами",
-    who1_h: "Основатели стартапов",
-    who1_p: "Вы наняли 3 разработчиков на Upwork за $3/час для MVP. Отличная цена — но кто проверяет качество кода? Мы.",
-    who2_h: "Нетехнические CEO",
-    who2_p: "Вы не читаете код, но у вас есть ТЗ. Мы проверяем, что закоммиченное соответствует тому, что вы просили.",
-    who3_h: "AI-first команды",
-    who3_p: "Ваши разработчики используют Cursor, Copilot, Claude Code. AI пишет быстро, но галлюцинирует. Мы ловим галлюцинации до продакшна.",
-    who4_h: "Агентства",
-    who4_p: "Аутсорсите разработку дешёвым разработчикам, сохраняете качество. Наш слой ревью — ваша страховка.",
-    price_title: "Тарифы",
-    price_sub: "Pay as you go. Без подписок. Без обязательств.",
+    who1_h: "Основатели стартапов", who1_p: "Вы наняли 3 разработчиков на Upwork за $3/час для MVP. Отличная цена — но кто проверяет качество кода? Мы.",
+    who2_h: "Нетехнические CEO", who2_p: "Вы не читаете код, но у вас есть ТЗ. Мы проверяем, что закоммиченное соответствует тому, что вы просили.",
+    who3_h: "AI-first команды", who3_p: "Ваши разработчики используют Cursor, Copilot, Claude Code. AI пишет быстро, но галлюцинирует. Мы ловим галлюцинации до продакшна.",
+    who4_h: "Агентства", who4_p: "Аутсорсите разработку дешёвым разработчикам, сохраняете качество. Наш слой ревью — ваша страховка.",
+    price_title: "Тарифы", price_sub: "Pay as you go. Без подписок. Без обязательств.",
     price1_h: "Промо",
     price1_list: "<li>Полное код-ревью по вашему ТЗ</li><li>PR с исправлениями включены</li><li>Аудит безопасности</li><li>Оплата только за потраченные часы</li><li>Мы просим обратную связь взамен</li>",
-    price1_cta: "Получить тариф $1/час",
-    price1_note: "Ограниченное количество мест. Промо в обмен на честную обратную связь.",
+    price1_cta: "Получить тариф $1/час", price1_note: "Ограниченное количество мест. Промо в обмен на честную обратную связь.",
     price2_h: "Стандарт",
     price2_list: "<li>Полное код-ревью по вашему ТЗ</li><li>PR с исправлениями включены</li><li>Аудит безопасности и архитектуры</li><li>Оплата только за потраченные часы</li><li>Приоритетные сроки</li>",
     price2_cta: "Начать",
@@ -686,22 +784,19 @@ const ru = {
     setup_title: "Подключение за 10 секунд",
     setup_sub: "Используете Claude Code, Cursor или другого AI-ассистента? Просто скажите ему:",
     setup_desc: 'Ваш AI-ассистент узнает как работает Vibers и поможет настроить интеграцию.<br>Он добавит <code class="code-inline">marsiandeployer</code> в ваш репо и настроит уведомления о ревью.',
-    setup_noai: 'Нет AI-ассистента? Не проблема &mdash; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" style="color:#7c6aff;">напишите в Telegram</a>',
+    setup_noai: 'Нет AI-ассистента? Не проблема &mdash; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" style="color:#a78bfa;">напишите в Telegram</a>',
     cta_title: "Хватит дебажить вайбкодинг-спагетти?",
     cta_sub: "$1/час промо — мы проверяем и исправляем ваш код, вы даёте обратную связь. Мест мало.",
     cta_btn: "Получить тариф $1/час в Telegram"
 };
 
 let savedEn = {};
-
 function setLang(lang) {
     document.documentElement.lang = lang;
-    const sw = document.getElementById('lang-switch');
-    sw.querySelector('#btn-en').style.background = lang === 'en' ? '#7c6aff' : 'transparent';
-    sw.querySelector('#btn-en').style.color = lang === 'en' ? '#fff' : '#888';
-    sw.querySelector('#btn-ru').style.background = lang === 'ru' ? '#7c6aff' : 'transparent';
-    sw.querySelector('#btn-ru').style.color = lang === 'ru' ? '#fff' : '#888';
-
+    document.getElementById('btn-en').style.background = lang === 'en' ? 'rgba(167,139,250,0.3)' : 'transparent';
+    document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#9ca3af';
+    document.getElementById('btn-ru').style.background = lang === 'ru' ? 'rgba(167,139,250,0.3)' : 'transparent';
+    document.getElementById('btn-ru').style.color = lang === 'ru' ? '#fff' : '#9ca3af';
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (lang === 'ru') {
@@ -713,7 +808,6 @@ function setLang(lang) {
     });
     try { localStorage.setItem('vibers_lang', lang); } catch(e) {}
 }
-
 (function() {
     const isRu = /^ru\b/i.test(navigator.language || '');
     const stored = localStorage.getItem('vibers_lang');
