@@ -34,7 +34,7 @@ jobs:
 
 | Parameter | What it does |
 |-----------|-------------|
-| `spec_url` | Link to your spec (Google Doc, Notion, etc.) |
+| `spec_url` | Link to your spec (Google Doc, Notion, etc.). **Must be publicly accessible** (or "anyone with the link can view"). Without access to spec, review is impossible. |
 | `review_scope` | `full` (default), `security`, or `spec-compliance` |
 | `telegram_contact` | Your Telegram — we'll message you when review is ready |
 
