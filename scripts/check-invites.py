@@ -67,17 +67,19 @@ def accept_invitation(invite_id):
     except subprocess.TimeoutExpired:
         print(f"Error: gh api PATCH timed out for invite {invite_id}", file=sys.stderr)
         return False
+    if result.returncode != 0:
+        print(f"Error accepting invite {invite_id}: {result.stderr.strip()}", file=sys.stderr)
     return result.returncode == 0
 
 
 def send_telegram(text):
-    """Send message via Pyrogram (userbot session)."""
+    """Send message via Pyrogram (userbot session). Returns True if sent."""
     if not TELEGRAM_SESSION:
         print(f"No TELEGRAM_SESSION_STRING, printing instead:\n{text}")
-        return
+        return True  # no session = print-only mode, consider "delivered"
     if not TELEGRAM_API_HASH:
         print("No TELEGRAM_API_HASH set, skipping telegram", file=sys.stderr)
-        return
+        return False
 
     try:
         from pyrogram import Client
@@ -95,8 +97,10 @@ def send_telegram(text):
                 pass
             app.send_message(TELEGRAM_CHAT_ID, text)
         print(f"Telegram sent to {TELEGRAM_CHAT_ID}")
+        return True
     except Exception as e:
         print(f"Telegram send failed: {e}", file=sys.stderr)
+        return False
 
 
 def main():
@@ -140,9 +144,12 @@ def main():
         )
 
         print(f"[{datetime.now().isoformat()}] Invitation from {inviter} for {repo_name} — {status}")
-        send_telegram(msg)
+        notified = send_telegram(msg)
 
-        processed.add(inv_id)
+        if notified:
+            processed.add(inv_id)
+        else:
+            print(f"[{datetime.now().isoformat()}] Telegram failed for {repo_name} — will retry notification next run")
 
     state["processed"] = list(processed)[-100:]  # keep last 100
     save_state(state)

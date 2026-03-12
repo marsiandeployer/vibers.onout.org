@@ -7,7 +7,7 @@ module.exports = {
     env: {
       TELEGRAM_SESSION_STRING: process.env.TELEGRAM_SESSION_STRING || '',
       TELEGRAM_API_HASH: process.env.TELEGRAM_API_HASH || '',
-      TELEGRAM_CHAT_ID: '-5058393445',
+      TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || '-5058393445',
     }
   }, {
     name: 'vibers-feedback',
@@ -17,7 +17,7 @@ module.exports = {
     env: {
       TELEGRAM_SESSION_STRING: process.env.TELEGRAM_SESSION_STRING || '',
       TELEGRAM_API_HASH: process.env.TELEGRAM_API_HASH || '',
-      TELEGRAM_CHAT_ID: '-5058393445',
+      TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || '-5058393445',
       FEEDBACK_PORT: '3847',
     }
   }]

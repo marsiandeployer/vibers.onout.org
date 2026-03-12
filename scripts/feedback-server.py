@@ -95,21 +95,31 @@ class FeedbackHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'{"error": "invalid content-length"}')
             return None, True
 
-        if content_length > max_size:
+        if content_length < 0 or content_length > max_size:
             self.send_response(413)
+            self._cors_headers()
             self.end_headers()
-            self.wfile.write(b'{"error": "too large"}')
+            self.wfile.write(b'{"error": "invalid or too large body"}')
             return None, True
 
         body = self.rfile.read(content_length)
         try:
-            return json.loads(body), False
+            data = json.loads(body)
         except json.JSONDecodeError:
             self.send_response(400)
             self._cors_headers()
             self.end_headers()
             self.wfile.write(b'{"error": "invalid json"}')
             return None, True
+
+        if not isinstance(data, dict):
+            self.send_response(400)
+            self._cors_headers()
+            self.end_headers()
+            self.wfile.write(b'{"error": "expected json object"}')
+            return None, True
+
+        return data, False
 
     def _send_and_respond(self, tg_text):
         """Send to Telegram and write HTTP response."""
@@ -132,6 +142,7 @@ class FeedbackHandler(BaseHTTPRequestHandler):
             self._handle_review()
         else:
             self.send_response(404)
+            self._cors_headers()
             self.end_headers()
             self.wfile.write(b'{"error": "not found"}')
 
