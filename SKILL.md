@@ -1,3 +1,8 @@
+---
+name: vibers-code-review
+description: Human code review for AI-generated projects. Checks spec compliance, security (OWASP top 10), AI hallucinations, and submits PRs with fixes.
+---
+
 # Vibers — Human Code Review for AI-Generated Projects
 
 You push code. We review it against your spec, fix issues, and send a PR.
