@@ -3,7 +3,7 @@
 Check GitHub repository invitations for marsiandeployer.
 Accept them and send Telegram notification.
 
-Run via PM2 cron every 60 seconds.
+Runs once per invocation. Scheduled via PM2 cron (*/1 * * * *).
 """
 
 import json
@@ -109,7 +109,8 @@ def send_telegram(text):
 
 def main():
     state = load_state()
-    processed = set(state["processed"])
+    processed_list = state["processed"]
+    processed = set(processed_list)
     pending = state.get("pending_notifications", [])
 
     # Retry pending notifications from previous runs
@@ -123,15 +124,22 @@ def main():
 
     # Process new invitations
     invitations = get_invitations()
+    if not isinstance(invitations, list):
+        print(f"Warning: expected list from API, got {type(invitations).__name__}", file=sys.stderr)
+        invitations = []
     for inv in invitations:
+        if not isinstance(inv, dict) or "id" not in inv:
+            print(f"Warning: skipping malformed invitation: {str(inv)[:100]}", file=sys.stderr)
+            continue
         inv_id = inv["id"]
         if inv_id in processed:
             continue
 
-        repo = inv.get("repository", {})
-        repo_name = repo.get("full_name", "unknown")
-        repo_url = repo.get("html_url", "")
-        inviter = inv.get("inviter", {}).get("login", "unknown")
+        repo = inv.get("repository") or {}
+        repo_name = repo.get("full_name", "unknown") if isinstance(repo, dict) else "unknown"
+        repo_url = repo.get("html_url", "") if isinstance(repo, dict) else ""
+        inviter_obj = inv.get("inviter") or {}
+        inviter = inviter_obj.get("login", "unknown") if isinstance(inviter_obj, dict) else "unknown"
         permissions = inv.get("permissions", "unknown")
         created = inv.get("created_at", "")
 
@@ -158,18 +166,19 @@ def main():
             still_pending.append({"inv_id": inv_id, "repo": repo_name, "msg": msg})
             print(f"[{datetime.now().isoformat()}] Telegram failed for {repo_name} — saved for retry")
 
-    state["processed"] = list(processed)[-100:]
+    # Preserve order: append new IDs in the order they were added
+    processed_list_set = set(processed_list)
+    new_ids = sorted(i for i in processed if i not in processed_list_set)
+    processed_list.extend(new_ids)
+    state["processed"] = processed_list[-100:]
     state["pending_notifications"] = still_pending[-20:]  # keep last 20
     save_state(state)
 
 
 if __name__ == "__main__":
-    import time
-    POLL_INTERVAL = 60  # seconds
-    print(f"Invite checker started, polling every {POLL_INTERVAL}s")
-    while True:
-        try:
-            main()
-        except Exception as e:
-            print(f"Unexpected error in main loop: {e}", file=sys.stderr)
-        time.sleep(POLL_INTERVAL)
+    # PM2 cron (*/1 * * * *) handles scheduling — run once and exit
+    try:
+        main()
+    except Exception as e:
+        print(f"Unexpected error in main: {e}", file=sys.stderr)
+        sys.exit(1)

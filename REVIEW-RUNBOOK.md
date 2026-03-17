@@ -20,8 +20,9 @@ Action:
 1. Read the commit message — especially "How to test" section
 2. Clone/pull the repo:
    ```bash
-   cd /root/reviews
-   gh repo clone <owner/repo> || (cd <repo> && git pull)
+   mkdir -p /root/reviews && cd /root/reviews
+   REPO="owner/repo"  # from Telegram notification
+   gh repo clone "$REPO" 2>/dev/null || (cd "$(basename $REPO)" && git fetch --all && git pull --ff-only)
    ```
 3. Read the spec (if spec_url provided)
 4. Review changed files from the notification
@@ -49,9 +50,22 @@ Priority order:
 ## 5. Monitoring
 
 - Check Telegram chat periodically for missed notifications
-- Health check: `curl https://vibers.onout.org/health` should return `{"status": "ok"}`
-- PM2 status: `pm2 show vibers-feedback` and `pm2 show vibers-invite-checker`
-- If no heartbeat in Telegram for >2 hours, SSH to server and check `pm2 logs`
+- Health check (requires nginx proxy to be configured):
+  ```bash
+  curl https://vibers.onout.org/health
+  # Expected: {"status": "ok"}
+  ```
+- PM2 status:
+  ```bash
+  pm2 show vibers-feedback         # should be online
+  pm2 show vibers-invite-checker   # runs via cron, may show stopped between runs
+  ```
+- PM2 start from config (if processes missing):
+  ```bash
+  cd /root/vibers.onout.org/scripts && pm2 start ecosystem.config.js
+  pm2 save
+  ```
+- If no notifications for >1 hour, SSH to server and check `pm2 logs vibers-feedback --lines 20`
 
 ## 6. Common Issues
 

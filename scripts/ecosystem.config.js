@@ -3,7 +3,8 @@ module.exports = {
     name: 'vibers-invite-checker',
     script: '/root/vibers.onout.org/scripts/check-invites.py',
     interpreter: 'python3',
-    autorestart: true,
+    autorestart: false,
+    cron_restart: '*/1 * * * *',
     env: {
       TELEGRAM_SESSION_STRING: process.env.TELEGRAM_SESSION_STRING || '',
       TELEGRAM_API_HASH: process.env.TELEGRAM_API_HASH || '',
