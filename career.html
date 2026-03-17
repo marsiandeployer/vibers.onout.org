@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Career — Vibers | Bug Bounty + Flow Testing</title>
+    <meta name="description" content="Join Vibers as a QA tester. Earn tokens by finding bugs and completing test flows. No experience required — learn testing, vibecoding, and break into IT.">
+    <link rel="canonical" href="https://vibers.onout.org/career.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #050510;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #bg-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+        }
+        main, footer, #lang-switch { position: relative; z-index: 1; }
+        a { color: #a78bfa; text-decoration: none; }
+        a:hover { color: #c4b5fd; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        .glass {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+        .glass-strong {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+        }
+
+        /* Nav */
+        .nav {
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav a.back { color: #9ca3af; font-size: 14px; }
+        .nav a.back:hover { color: #fff; }
+        .nav .logo { color: #fff; font-weight: 700; font-size: 18px; }
+
+        /* Hero */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            line-height: 1.15;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 18px;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        section { padding: 40px 0; }
+        section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 24px;
+        }
+
+        /* Cards grid */
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 640px) {
+            .cards { grid-template-columns: 1fr; }
+        }
+        .card {
+            padding: 28px 24px;
+        }
+        .card h3 { color: #fff; font-size: 20px; margin-bottom: 12px; }
+        .card p { color: #9ca3af; font-size: 15px; }
+
+        /* Reward table */
+        .reward-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .reward-table th {
+            text-align: left;
+            padding: 10px 16px;
+            color: #9ca3af;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(255,255,255,0.06);
+        }
+        .reward-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #d1d5db;
+            font-size: 15px;
+        }
+        .reward-table .tokens {
+            color: #a78bfa;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* List */
+        .check-list { list-style: none; }
+        .check-list li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            color: #b0b0b0;
+            font-size: 15px;
+        }
+        .check-list li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            color: #34d399;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .no-list li::before {
+            content: "\2717";
+            color: #f87171;
+        }
+
+        /* CTA */
+        .cta-box {
+            text-align: center;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+        .cta-box h2 { margin-bottom: 12px; }
+        .cta-box p { color: #9ca3af; margin-bottom: 28px; font-size: 17px; }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            color: #fff;
+            border: 1px solid rgba(167,139,250,0.3);
+            box-shadow: 0 0 24px rgba(124,58,237,0.3);
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+            box-shadow: 0 0 40px rgba(124,58,237,0.5);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* Metric */
+        .metric {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 32px 0;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        footer a { color: #9ca3af; }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<main>
+
+<!-- Nav -->
+<div class="container">
+    <nav class="nav">
+        <a href="/" class="back" data-i18n="nav_back">&larr; Back</a>
+        <span class="logo">Vibers</span>
+    </nav>
+</div>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="container">
+        <span class="hero-badge" data-i18n="c_hero_badge">WE'RE HIRING</span>
+        <h1 data-i18n="c_hero_title">Bug Bounty + <span>Flow Testing</span></h1>
+        <p class="hero-sub" data-i18n="c_hero_sub">
+            Test products. Find bugs. Complete test flows. Earn project tokens.
+            No experience needed — just curiosity and attention to detail.
+        </p>
+    </div>
+</header>
+
+<!-- Who we are -->
+<section>
+    <div class="container">
+        <div class="glass-strong" style="padding: 36px;">
+            <h2 data-i18n="c_who_title">Who We Are</h2>
+            <p style="color: #9ca3af; font-size: 16px; max-width: 700px;" data-i18n="c_who_text">
+                A small product team building web services and Telegram bots.
+                We write code with AI (Claude Code, Cursor) — it's our core workflow.
+                Now we need people to test what gets shipped.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Two ways to earn -->
+<section>
+    <div class="container">
+        <h2 data-i18n="c_earn_title">Two Ways to Earn Tokens</h2>
+        <div class="cards">
+            <div class="card glass">
+                <p class="metric">1</p>
+                <h3 data-i18n="c_flow_h">Flow Testing (Stable Income)</h3>
+                <p data-i18n="c_flow_p">
+                    Every task comes with a checklist — steps to verify after deploy.
+                    Walk through each step, mark it "Approved" or "Failed" with details.
+                    You get tokens for every completed flow, whether you find a bug or not.
+                </p>
+                <table class="reward-table" style="margin-top: 16px;">
+                    <tr>
+                        <td data-i18n="c_flow_r1">Simple flow (3-5 steps)</td>
+                        <td class="tokens">5-10 tokens</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="c_flow_r2">Medium flow (6-10 steps)</td>
+                        <td class="tokens">15-25 tokens</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="c_flow_r3">Complex flow (multi-device, integrations)</td>
+                        <td class="tokens">30-50 tokens</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card glass">
+                <p class="metric">2</p>
+                <h3 data-i18n="c_bug_h">Bug Bounty (Pay Per Result)</h3>
+                <p data-i18n="c_bug_p">
+                    Find a bug &rarr; get rewarded. The more critical the bug, the bigger the bounty.
+                    You can hunt bugs anytime, not just during assigned flows.
+                </p>
+                <table class="reward-table" style="margin-top: 16px;">
+                    <tr>
+                        <td data-i18n="c_bug_r1">Cosmetic (layout, typo)</td>
+                        <td class="tokens">5-10 tokens</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="c_bug_r2">Functional (broken button, form fails)</td>
+                        <td class="tokens">20-50 tokens</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="c_bug_r3">Critical (data loss, security, payments)</td>
+                        <td class="tokens">100-500 tokens</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About tokens -->
+<section>
+    <div class="container">
+        <div class="glass" style="padding: 32px;">
+            <h2 data-i18n="c_tokens_title">About Tokens</h2>
+            <p style="color: #9ca3af; font-size: 15px; margin-bottom: 16px;" data-i18n="c_tokens_text">
+                Rewards are paid in project tokens. Token price is floating and tied to the project's growth.
+                Think of it like equity in a startup — the earlier you join, the more upside potential.
+            </p>
+            <ul class="check-list" data-i18n="c_tokens_list">
+                <li>Tokens are real project tokens on blockchain</li>
+                <li>You can hold, trade, or convert them</li>
+                <li>Early testers get better rates as the project grows</li>
+                <li>Transparent payout history for every participant</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- What you'll do -->
+<section>
+    <div class="container">
+        <h2 data-i18n="c_do_title">What You'll Do</h2>
+        <div class="glass" style="padding: 32px;">
+            <ul class="check-list" data-i18n="c_do_list">
+                <li>Test web apps and Telegram bots manually</li>
+                <li>Walk through test flows after each deploy</li>
+                <li>Describe bugs clearly so developers can fix them immediately</li>
+                <li>Verify that recent code changes didn't break anything (regression testing)</li>
+                <li>Approve or reject task completions with evidence</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- What we need -->
+<section>
+    <div class="container">
+        <div class="cards">
+            <div class="card glass">
+                <h3 data-i18n="c_need_h">What We Need</h3>
+                <ul class="check-list" data-i18n="c_need_list">
+                    <li>Attention to detail</li>
+                    <li>Willingness to learn testing & vibecoding</li>
+                    <li>Ability to describe what's broken in writing</li>
+                    <li>A computer with a browser and Telegram</li>
+                    <li>2-3 hours per week minimum</li>
+                </ul>
+            </div>
+            <div class="card glass">
+                <h3 data-i18n="c_noneed_h">Not Required</h3>
+                <ul class="check-list no-list" data-i18n="c_noneed_list">
+                    <li>Prior QA or IT experience</li>
+                    <li>Programming knowledge</li>
+                    <li>Formal education in CS</li>
+                    <li>Full-time availability</li>
+                    <li>English fluency (we work in EN + RU)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What you'll learn -->
+<section>
+    <div class="container">
+        <div class="glass-strong" style="padding: 36px;">
+            <h2 data-i18n="c_learn_title">What You'll Learn</h2>
+            <p style="color: #9ca3af; font-size: 15px; margin-bottom: 16px;" data-i18n="c_learn_text">
+                This is a real entry point into IT. You'll gain hands-on experience with:
+            </p>
+            <ul class="check-list" data-i18n="c_learn_list">
+                <li>Manual QA testing on live products</li>
+                <li>Working with GitHub issues and pull requests</li>
+                <li>AI-assisted development workflow (vibecoding)</li>
+                <li>Bug reporting that developers actually appreciate</li>
+                <li>Regression testing methodology</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section>
+    <div class="container">
+        <div class="cta-box glass-strong">
+            <h2 style="color:#fff;" data-i18n="c_cta_title">Ready to Start Earning?</h2>
+            <p data-i18n="c_cta_sub">Write us on Telegram. Tell us a bit about yourself. We'll send you your first test flow.</p>
+            <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 18px; padding: 16px 40px;" data-i18n="c_cta_btn">
+                Apply on Telegram
+            </a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <p><a href="/">Vibers</a> &mdash; by <a href="https://onout.org" target="_blank" rel="noopener noreferrer">onout.org</a> | <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Telegram</a> | <a href="mailto:i448539@gmail.com">Email</a></p>
+    </div>
+</footer>
+
+<div id="lang-switch" style="display:none; position:fixed; top:16px; right:16px; z-index:1000; backdrop-filter:blur(20px); background:rgba(5,5,16,0.7); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:4px;">
+    <button id="btn-en" onclick="setLang('en')" style="padding:6px 14px; border:none; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#9ca3af; transition:all 0.2s;">EN</button>
+    <button id="btn-ru" onclick="setLang('ru')" style="padding:6px 14px; border:none; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; background:transparent; color:#9ca3af; transition:all 0.2s;">RU</button>
+</div>
+
+<!-- Animated background -->
+<script>
+(function() {
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    const orbs = [];
+    const ORB_COUNT = 6;
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const palette = [
+        [124, 58, 237], [167, 139, 250], [236, 72, 153],
+        [59, 130, 246], [16, 185, 129], [245, 158, 11],
+    ];
+
+    for (let i = 0; i < ORB_COUNT; i++) {
+        orbs.push({
+            x: Math.random() * w, y: Math.random() * h,
+            r: 200 + Math.random() * 300,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.3,
+            color: palette[i % palette.length],
+            phase: Math.random() * Math.PI * 2
+        });
+    }
+
+    function draw(t) {
+        ctx.clearRect(0, 0, w, h);
+        for (const o of orbs) {
+            o.x += o.vx; o.y += o.vy;
+            if (o.x < -o.r) o.x = w + o.r;
+            if (o.x > w + o.r) o.x = -o.r;
+            if (o.y < -o.r) o.y = h + o.r;
+            if (o.y > h + o.r) o.y = -o.r;
+            const pulse = 1 + 0.15 * Math.sin(t * 0.001 + o.phase);
+            const r = o.r * pulse;
+            const [cr, cg, cb] = o.color;
+            const grad = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, r);
+            grad.addColorStop(0, `rgba(${cr},${cg},${cb},0.12)`);
+            grad.addColorStop(0.5, `rgba(${cr},${cg},${cb},0.04)`);
+            grad.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+            ctx.fillStyle = grad;
+            ctx.fillRect(o.x - r, o.y - r, r * 2, r * 2);
+        }
+        requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+})();
+</script>
+
+<!-- i18n -->
+<script>
+const ru = {
+    nav_back: "&larr; Назад",
+    c_hero_badge: "МЫ НАНИМАЕМ",
+    c_hero_title: 'Bug Bounty + <span>Тестирование флоу</span>',
+    c_hero_sub: "Тестируй продукты. Находи баги. Проходи тест-флоу. Зарабатывай токены проекта. Опыт не нужен — только любопытство и внимание к деталям.",
+    c_who_title: "Кто мы",
+    c_who_text: "Небольшая продуктовая команда, делаем веб-сервисы и Telegram-ботов. Код пишем с помощью AI (Claude Code, Cursor) — это наш основной рабочий процесс. Сейчас нам нужны люди, которые будут тестировать то, что мы выпускаем.",
+    c_earn_title: "Два способа заработать токены",
+    c_flow_h: "Тестирование флоу (стабильный доход)",
+    c_flow_p: 'К каждой задаче прикреплён чек-лист — шаги для проверки после деплоя. Проходишь каждый шаг, ставишь «Approved» или «Failed» с описанием. Получаешь токены за каждый пройденный флоу, независимо от того, нашёл баг или нет.',
+    c_flow_r1: "Простой флоу (3-5 шагов)",
+    c_flow_r2: "Средний флоу (6-10 шагов)",
+    c_flow_r3: "Сложный флоу (мультиустройства, интеграции)",
+    c_bug_h: "Bug Bounty (оплата за результат)",
+    c_bug_p: "Нашёл баг → получил награду. Чем критичнее баг, тем больше баунти. Искать баги можно в любое время, не только во время назначенных флоу.",
+    c_bug_r1: "Косметический (вёрстка, опечатка)",
+    c_bug_r2: "Функциональный (кнопка не работает, форма ломается)",
+    c_bug_r3: "Критический (потеря данных, безопасность, платежи)",
+    c_tokens_title: "О токенах",
+    c_tokens_text: "Вознаграждения выплачиваются в токенах проекта. Цена токена плавающая и привязана к росту проекта. Считай это аналогом доли в стартапе — чем раньше присоединишься, тем больше потенциал роста.",
+    c_tokens_list: "<li>Токены — реальные токены проекта на блокчейне</li><li>Можно хранить, торговать или конвертировать</li><li>Ранние тестеры получают лучшие условия по мере роста проекта</li><li>Прозрачная история выплат для каждого участника</li>",
+    c_do_title: "Что нужно делать",
+    c_do_list: "<li>Тестировать веб-приложения и Telegram-ботов вручную</li><li>Проходить тест-флоу после каждого деплоя</li><li>Описывать баги так, чтобы разработчик мог сразу исправить</li><li>Проверять, что последние изменения кода ничего не сломали (регрессионное тестирование)</li><li>Ставить апрув или реджект на выполнение задач с доказательствами</li>",
+    c_need_h: "Что нужно",
+    c_need_list: "<li>Внимание к деталям</li><li>Желание учиться тестированию и вайбкодингу</li><li>Умение описать, что сломалось, в тексте</li><li>Компьютер с браузером и Telegram</li><li>Минимум 2-3 часа в неделю</li>",
+    c_noneed_h: "Не требуется",
+    c_noneed_list: "<li>Опыт в QA или IT</li><li>Знание программирования</li><li>Профильное образование</li><li>Полная занятость</li><li>Свободный английский (работаем на EN + RU)</li>",
+    c_learn_title: "Чему научишься",
+    c_learn_text: "Это реальная точка входа в IT. Получишь практический опыт:",
+    c_learn_list: "<li>Ручное QA-тестирование на реальных продуктах</li><li>Работа с GitHub issues и pull request'ами</li><li>Процесс AI-разработки (вайбкодинг)</li><li>Написание баг-репортов, которые разработчики реально ценят</li><li>Методология регрессионного тестирования</li>",
+    c_cta_title: "Готов начать зарабатывать?",
+    c_cta_sub: "Напиши нам в Telegram. Расскажи немного о себе. Мы отправим тебе первый тест-флоу.",
+    c_cta_btn: "Откликнуться в Telegram"
+};
+
+let savedEn = {};
+function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.getElementById('btn-en').style.background = lang === 'en' ? 'rgba(167,139,250,0.3)' : 'transparent';
+    document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#9ca3af';
+    document.getElementById('btn-ru').style.background = lang === 'ru' ? 'rgba(167,139,250,0.3)' : 'transparent';
+    document.getElementById('btn-ru').style.color = lang === 'ru' ? '#fff' : '#9ca3af';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (lang === 'ru') {
+            if (!savedEn[key]) savedEn[key] = el.innerHTML;
+            if (ru[key]) el.innerHTML = ru[key];
+        } else {
+            if (savedEn[key]) el.innerHTML = savedEn[key];
+        }
+    });
+    try { localStorage.setItem('vibers_lang', lang); } catch(e) {}
+}
+(function() {
+    const isRu = /^ru\b/i.test(navigator.language || '');
+    const stored = localStorage.getItem('vibers_lang');
+    if (isRu || stored) {
+        document.getElementById('lang-switch').style.display = 'flex';
+        setLang(stored || (isRu ? 'ru' : 'en'));
+    }
+})();
+</script>
+
+</body>
+</html>
