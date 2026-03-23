@@ -30,13 +30,37 @@ Action:
 ## 3. What to Check
 
 Priority order:
-1. **Spec compliance** — does the code do what the spec says?
-2. **Security** — hardcoded secrets, SQL injection, XSS, missing auth
+1. **Does it build/run?** — try to compile and start, fix the most obvious blockers
+2. **UI issues** — if there's a frontend, build it and open visually, check for broken layouts
 3. **AI hallucinations** — non-existent APIs, deprecated methods, fake imports
 4. **Logic bugs** — edge cases, off-by-one, null handling, race conditions
-5. **UI issues** — if deploy URL provided, open and check visually
+5. **Spec compliance** — does the code do what the spec says?
 
-## 4. Submit the Review
+**Static code analysis (security, etc.) is a last resort, not the main focus.**
+
+## 4. Running Code — Docker Only
+
+⚠️ **NEVER run client code directly on the host.** Always use Docker for isolation.
+
+```bash
+REPO_DIR=/root/reviews/owner-repo   # path to cloned repo
+
+# Go backend
+docker run --rm -v "$REPO_DIR/back-end":/app -w /app golang:1.22 go build ./... 2>&1
+
+# Node/Next.js frontend
+docker run --rm -v "$REPO_DIR/frontend":/app -w /app node:20 sh -c "npm ci && npm run build" 2>&1
+
+# Flutter web
+docker run --rm -v "$REPO_DIR/frontend":/app -w /app ghcr.io/cirruslabs/flutter:stable sh -c "flutter pub get && flutter build web" 2>&1
+
+# Full docker-compose stack (read-only network, no host ports)
+cd "$REPO_DIR" && docker compose up --build 2>&1
+```
+
+Fix build errors, push fixes as a PR.
+
+## 5. Submit the Review
 
 1. Fork the repo (if not already forked)
 2. Create a branch: `vibers/review-<date>`
