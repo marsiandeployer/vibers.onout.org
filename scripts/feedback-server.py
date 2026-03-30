@@ -10,6 +10,7 @@ Run via PM2.
 
 import json
 import os
+import subprocess
 import sys
 import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -19,6 +20,7 @@ TELEGRAM_API_ID = int(os.environ.get("TELEGRAM_API_ID", "20663119"))
 TELEGRAM_API_HASH = os.environ.get("TELEGRAM_API_HASH", "")
 TELEGRAM_SESSION = os.environ.get("TELEGRAM_SESSION_STRING", "")
 TELEGRAM_CHAT_ID = int(os.environ.get("TELEGRAM_CHAT_ID", "-5058393445"))
+TELEGRAM_REVIEW_CHAT_ID = int(os.environ.get("TELEGRAM_REVIEW_CHAT_ID", TELEGRAM_CHAT_ID))
 PORT = int(os.environ.get("FEEDBACK_PORT", "3847"))
 
 # Rate limiting: max 5 requests per minute per IP
@@ -27,7 +29,9 @@ RATE_WINDOW = 60
 RATE_MAX = 5
 
 
-def send_telegram(text):
+def send_telegram(text, chat_id=None):
+    if chat_id is None:
+        chat_id = TELEGRAM_CHAT_ID
     if not TELEGRAM_SESSION:
         print(f"No TELEGRAM_SESSION_STRING, printing instead:\n{text}")
         return False
@@ -48,15 +52,57 @@ def send_telegram(text):
         with app:
             for _ in app.get_dialogs():
                 pass
-            app.send_message(TELEGRAM_CHAT_ID, text)
-        print(f"Telegram sent to {TELEGRAM_CHAT_ID}")
+            app.send_message(chat_id, text)
+        print(f"Telegram sent to {chat_id}")
         return True
     except Exception as e:
         print(f"Telegram send failed: {e}", file=sys.stderr)
         return False
 
 
+GH_BOT = "marsiandeployer"
+GH_TIMEOUT = 10  # seconds per gh api call
+
+
+def check_access_status(repo_full_name):
+    """Check if GH_BOT is collaborator or has pending invite. Returns status string."""
+    if "/" not in repo_full_name or repo_full_name.startswith("http"):
+        return "⚠️ не удалось проверить (нет owner/repo)"
+
+    # Check collaborator
+    try:
+        r = subprocess.run(
+            ["gh", "api", f"/repos/{repo_full_name}/collaborators/{GH_BOT}",
+             "-i", "--silent"],
+            capture_output=True, text=True, timeout=GH_TIMEOUT
+        )
+        if r.returncode == 0 and "204" in r.stdout.split("\n")[0]:
+            return "✅ коллаборатор"
+    except Exception:
+        pass
+
+    # Check pending invite
+    try:
+        r = subprocess.run(
+            ["gh", "api", f"/repos/{repo_full_name}/invitations"],
+            capture_output=True, text=True, timeout=GH_TIMEOUT
+        )
+        if r.returncode == 0:
+            invites = json.loads(r.stdout)
+            if isinstance(invites, list):
+                for inv in invites:
+                    if isinstance(inv, dict):
+                        invitee = inv.get("invitee") or {}
+                        if isinstance(invitee, dict) and invitee.get("login") == GH_BOT:
+                            return "⏳ инвайт отправлен, ещё не принят"
+    except Exception:
+        pass
+
+    return "❌ не добавлен"
+
+
 _last_cleanup = 0
+_server_start = time.time()
 
 def check_rate_limit(ip):
     global _last_cleanup
@@ -132,9 +178,9 @@ class FeedbackHandler(BaseHTTPRequestHandler):
 
         return data, False
 
-    def _send_and_respond(self, tg_text):
+    def _send_and_respond(self, tg_text, chat_id=None):
         """Send to Telegram and write HTTP response."""
-        sent = send_telegram(tg_text)
+        sent = send_telegram(tg_text, chat_id)
         if sent:
             self.send_response(200)
             self._cors_headers()
@@ -148,10 +194,32 @@ class FeedbackHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/health":
+            import subprocess
+            uptime = time.time() - _server_start
+            tg_configured = bool(TELEGRAM_SESSION and TELEGRAM_API_HASH)
+
+            # Check invite-checker PM2 status
+            try:
+                result = subprocess.run(
+                    ["pm2", "jlist"], capture_output=True, text=True, timeout=5
+                )
+                pm2_list = json.loads(result.stdout) if result.returncode == 0 else []
+                invite_proc = next((p for p in pm2_list if p.get("name") == "vibers-invite-checker"), None)
+                invite_status = invite_proc["pm2_env"]["status"] if invite_proc else "not found"
+            except Exception:
+                invite_status = "unknown"
+
+            health = {
+                "status": "ok" if tg_configured else "degraded",
+                "uptime_seconds": int(uptime),
+                "telegram_configured": tg_configured,
+                "invite_checker": invite_status,
+                "rate_limit_ips": len(RATE_LIMIT),
+            }
             self.send_response(200)
             self._cors_headers()
             self.end_headers()
-            self.wfile.write(b'{"status": "ok"}')
+            self.wfile.write(json.dumps(health).encode())
         else:
             self.send_response(404)
             self._cors_headers()
@@ -199,7 +267,7 @@ class FeedbackHandler(BaseHTTPRequestHandler):
             f"Repo: {repo}\n"
             f"Message: {message}"
         )
-        self._send_and_respond(tg_text)
+        self._send_and_respond(tg_text, TELEGRAM_REVIEW_CHAT_ID)
 
     def _str_field(self, data, key, max_len=500, default=""):
         """Extract string field from data safely."""
@@ -238,10 +306,15 @@ class FeedbackHandler(BaseHTTPRequestHandler):
         repo_url = f"https://github.com/{repo}" if "/" in repo and not repo.startswith("http") else repo
         commit_url = f"{repo_url}/commit/{sha}" if sha else ""
 
+        # Check if marsiandeployer has access
+        repo_full_name = repo if "/" in repo and not repo.startswith("http") else ""
+        access_status = check_access_status(repo_full_name) if repo_full_name else "⚠️ не удалось проверить"
+
         # Build Telegram message — compact, useful
         tg_text = f"**Vibers: Review Request**\n\n"
         tg_text += f"[{repo}]({repo_url}) | [{sha[:8]}]({commit_url})\n"
         tg_text += f"Author: {author} | Branch: `{branch}`\n"
+        tg_text += f"Access: {access_status}\n"
 
         if commit_msg:
             tg_text += f"\n**{commit_msg}**\n"

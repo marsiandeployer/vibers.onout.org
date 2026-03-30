@@ -40,6 +40,7 @@ module.exports = {
       TELEGRAM_SESSION_STRING: process.env.TELEGRAM_SESSION_STRING || '',
       TELEGRAM_API_HASH: process.env.TELEGRAM_API_HASH || '',
       TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || '-5058393445',
+      TELEGRAM_REVIEW_CHAT_ID: process.env.TELEGRAM_REVIEW_CHAT_ID || '-5208301843',
       FEEDBACK_PORT: '3847',
     }
   }]
