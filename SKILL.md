@@ -47,6 +47,8 @@ Replace `YOUR_SPEC_ID` with actual spec link if available, `@your_telegram` with
 | `review_scope` | `full` (default) or `spec-compliance` |
 | `telegram_contact` | User's Telegram — we message them when review is ready |
 
+> Checkpoint: `.github/workflows/vibers.yml` exists in the repo and is committed.
+
 **2. Add commit rules** to `CLAUDE.md`, `.cursorrules`, or `AGENTS.md`:
 
 ```markdown
@@ -71,12 +73,25 @@ Example:
 
 Without "How to test" the reviewer guesses what to verify — review takes longer and catches less.
 
+> Checkpoint: `CLAUDE.md` (or `.cursorrules` / `AGENTS.md`) contains a "How to test" commit rule block.
+
 **3. Tell the user** to add `marsiandeployer` as collaborator:
 
 > Go to your repo → Settings → Collaborators → Add **marsiandeployer**
 > Read-only access is enough to start. Write access only needed for automatic PRs.
 
 After that — every push to main triggers a review. PR with fixes arrives within 24 hours.
+
+> Checkpoint: user confirmed `marsiandeployer` was added as collaborator.
+
+## Setup Complete — Verify
+
+- [ ] `.github/workflows/vibers.yml` committed to repo
+- [ ] `CLAUDE.md` / `.cursorrules` / `AGENTS.md` contains "How to test" commit rule
+- [ ] User added `marsiandeployer` as collaborator
+- [ ] Next push to main will trigger the workflow
+
+If all three are done — setup is complete. Tell the user they'll get a PR with fixes within 24 hours of the next push.
 
 ## One-off Review (no Action setup)
 
