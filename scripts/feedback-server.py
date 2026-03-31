@@ -262,11 +262,30 @@ class FeedbackHandler(BaseHTTPRequestHandler):
         message = message.strip()[:2000]
         repo = repo.strip()[:500]
 
+        # Fetch last 5 commits from GitHub API
+        recent_commits = ""
+        repo_path = repo.rstrip("/").replace("https://github.com/", "")
+        if "/" in repo_path and not repo_path.startswith("http"):
+            try:
+                import urllib.request
+                api_url = f"https://api.github.com/repos/{repo_path}/commits?per_page=5"
+                req = urllib.request.Request(api_url, headers={"User-Agent": "vibers-review-bot"})
+                with urllib.request.urlopen(req, timeout=5) as resp:
+                    import json as _json
+                    commits = _json.loads(resp.read())
+                    if isinstance(commits, list):
+                        lines = [f"- `{c['sha'][:7]}` {c['commit']['message'].splitlines()[0][:80]}" for c in commits]
+                        recent_commits = "\n".join(lines)
+            except Exception:
+                pass
+
         tg_text = (
             f"**Feedback**\n\n"
             f"Repo: {repo}\n"
             f"Message: {message}"
         )
+        if recent_commits:
+            tg_text += f"\n\n📋 Last commits:\n{recent_commits}"
         self._send_and_respond(tg_text)
 
     def _str_field(self, data, key, max_len=500, default=""):
