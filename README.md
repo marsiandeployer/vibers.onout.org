@@ -50,7 +50,7 @@ Spec/docs are optional. We figure out context from the code itself.
 
 | Plan | Rate | What you get |
 |------|------|-------------|
-| **Promo** | $1/hour | Full review + PRs with fixes. We ask for your honest feedback in return. |
+| **Promo** | Free | Tell us how to test. Share specs or AI-generated test cases. We'll look manually and send one PR if we find something. GitHub star + feedback in return. |
 | **Standard** | $15/hour | Full review + PRs + security & architecture audit. Priority turnaround. |
 
 Pay as you go. No subscriptions. No minimums. No contracts.

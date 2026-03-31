@@ -92,7 +92,7 @@ We don't check: code style (use ESLint/Prettier), performance benchmarks, full Q
 
 | Plan | Rate | Details |
 |------|------|---------|
-| **Promo** | $1/hour | Full review + PRs with fixes. We ask for honest feedback in return. |
+| **Promo** | Free | Tell us how to test. Share specs or AI-generated test cases. We'll look manually and send one PR if we find something. GitHub star + feedback in return. |
 | **Standard** | $15/hour | Full review + security audit + priority turnaround. |
 
 No subscriptions. No contracts. Pay per review.
