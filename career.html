@@ -530,10 +530,8 @@ function setLang(lang) {
 (function() {
     const isRu = /^ru\b/i.test(navigator.language || '');
     const stored = localStorage.getItem('vibers_lang');
-    if (isRu || stored) {
-        document.getElementById('lang-switch').style.display = 'flex';
-        setLang(stored || (isRu ? 'ru' : 'en'));
-    }
+    document.getElementById('lang-switch').style.display = 'flex';
+    setLang(stored || (isRu ? 'ru' : 'en'));
 })();
 </script>
 
