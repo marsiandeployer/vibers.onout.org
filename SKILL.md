@@ -3,7 +3,7 @@ name: vibers-code-review
 description: |
   Human-in-the-loop code review for AI-generated projects. Real people look at your code, catch obvious bugs, check main flows work, fix issues and submit PRs. Not a security firm — think alpha tester who sends a PR instead of a ticket.
 
-  Use when: user says "review my code", "check my PR", "send for review", "vibers review", "code review", "set up vibers", "add reviewer", "кто-то смотрит мой код", "проверь код", "отправь на ревью", "ревью кода", "настрой вайберс", or when a push to main happens and vibers action is configured.
+  Use when: user says "review my code", "check my PR", "send for review", "vibers review", "code review", "set up vibers", "add reviewer", or when a push to main happens and vibers action is configured.
 ---
 
 # Vibers — Human Code Review for AI-Generated Projects
