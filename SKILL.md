@@ -82,6 +82,10 @@ Example:
 
 If all are done — setup is complete. Tell the user they'll get a PR with fixes within 24 hours of the next push.
 
+> **Worried about write access?** Add branch protection on `main`:
+> Repo → Settings → Branches → Add rule → Branch name: `main` → ✅ Require a pull request before merging.
+> This prevents anyone (including the App) from pushing directly to `main` — all changes go through PRs that you approve.
+
 ## One-off Review
 
 To send a single review request directly — `message` must include a "How to test" section. Without it the server rejects the request with 400.
