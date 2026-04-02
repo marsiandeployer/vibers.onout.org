@@ -144,6 +144,10 @@ We spin up the app locally and check it hands-on:
 
 We don't check: code style (use ESLint/Prettier), performance benchmarks, security pentests, full QA regression (use Playwright/Cypress).
 
+## Free First Review
+
+⭐ **Star [marsiandeployer/vibers-action](https://github.com/marsiandeployer/vibers-action) on GitHub** to get your first review for free. After starring — mention it in `telegram_contact` or message [@onoutnoxon](https://t.me/onoutnoxon).
+
 ## Support
 
 Contacts: Telegram [@onoutnoxon](https://t.me/onoutnoxon) · GitHub [marsiandeployer](https://github.com/marsiandeployer)
