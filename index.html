@@ -448,7 +448,7 @@
     <div class="setup-box">
         <div class="setup-label" data-i18n="setup_label">Quick Start — tell your AI agent:</div>
         <code>Install skill from https://vibers.onout.org/SKILL.md</code>
-        <button class="copy-btn" id="copy-skill-btn" onclick="navigator.clipboard.writeText('Install skill from https://vibers.onout.org/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);trackLead('copy_skill_command')" data-i18n="copy_btn">Copy</button>
+        <button class="copy-btn" id="copy-skill-btn" onclick="navigator.clipboard.writeText('Install skill from https://vibers.onout.org/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);trackLead('copy_skill_command');rdt('track','Lead');" data-i18n="copy_btn">Copy</button>
         <p data-i18n="setup_note">No AI agent? <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Write us on Telegram</a> — we'll set it up manually.</p>
     </div>
 
@@ -828,7 +828,7 @@ function trackLead(action) {
         if (!sel || !sel.toString()) return;
         var node = sel.anchorNode;
         while (node) {
-            if (node === code) { trackLead('keyboard_copy_skill'); return; }
+            if (node === code) { trackLead('keyboard_copy_skill'); rdt('track','Lead'); return; }
             node = node.parentNode;
         }
     });
