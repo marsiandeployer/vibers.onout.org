@@ -287,7 +287,9 @@ class FeedbackHandler(BaseHTTPRequestHandler):
             self.wfile.write(b'{"error": "failed to deliver, contact @onoutnoxon on Telegram"}')
 
     def do_GET(self):
-        if self.path == "/health":
+        if self.path == "/admin/installs":
+            self._handle_admin_installs()
+        elif self.path == "/health":
             import subprocess
             uptime = time.time() - _server_start
             tg_configured = bool(TELEGRAM_SESSION and TELEGRAM_API_HASH)
@@ -494,6 +496,62 @@ class FeedbackHandler(BaseHTTPRequestHandler):
         tg_text += f"\n\n🔢 **Queue today: #{queue_pos}**"
 
         self._send_and_respond(tg_text, TELEGRAM_REVIEW_CHAT_ID, queue_position=queue_pos)
+
+    def _handle_admin_installs(self):
+        rows = ""
+        all_ids = set(str(k) for k in _app_installations) | set(_setup_data.keys())
+        for iid in sorted(all_ids, key=lambda x: int(x) if x.isdigit() else 0, reverse=True):
+            inst = _app_installations.get(int(iid) if iid.isdigit() else iid, {})
+            setup = _setup_data.get(str(iid), {})
+            account = inst.get("account") or setup.get("account", "—")
+            repos = ", ".join(inst.get("repos", [])) or "—"
+            spec = setup.get("spec_url", "")
+            figma = setup.get("figma_url", "")
+            tg = setup.get("telegram", "")
+            saved = setup.get("saved_at", "")
+            spec_html = f'<a href="{spec}" target="_blank">link</a>' if spec else "—"
+            figma_html = f'<a href="{figma}" target="_blank">link</a>' if figma else "—"
+            rows += f"""<tr>
+              <td><a href="https://github.com/{account}" target="_blank">@{account}</a></td>
+              <td style="font-size:12px">{repos}</td>
+              <td>{spec_html}</td>
+              <td>{figma_html}</td>
+              <td>{tg or "—"}</td>
+              <td style="font-size:12px;color:#999">{saved or "—"}</td>
+            </tr>"""
+
+        html = f"""<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<title>Vibers — Installs</title>
+<style>
+  body{{font-family:-apple-system,sans-serif;padding:32px;background:#f7f7f8;color:#1a1a1a}}
+  h1{{font-size:20px;margin-bottom:4px}}
+  .sub{{font-size:13px;color:#999;margin-bottom:24px}}
+  table{{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.07)}}
+  th{{background:#5b44e8;color:#fff;text-align:left;padding:10px 14px;font-size:13px;font-weight:600}}
+  td{{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:14px;vertical-align:top}}
+  tr:last-child td{{border-bottom:none}}
+  tr:hover td{{background:#fafafa}}
+  a{{color:#5b44e8;text-decoration:none}}
+  .count{{display:inline-block;background:#5b44e8;color:#fff;font-size:12px;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}}
+</style></head>
+<body>
+<h1>Vibers Installs <span class="count">{len(all_ids)}</span></h1>
+<div class="sub">GitHub App installations · refreshed on page load</div>
+<table>
+  <thead><tr>
+    <th>Account</th><th>Repos</th><th>Spec</th><th>Figma</th><th>Telegram</th><th>Setup at</th>
+  </tr></thead>
+  <tbody>{rows if rows else '<tr><td colspan="6" style="text-align:center;color:#999;padding:32px">No installations yet</td></tr>'}</tbody>
+</table>
+</body></html>"""
+
+        body = html.encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def _handle_github_setup(self):
         data, err = self._read_json_body(max_size=5000)

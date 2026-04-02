@@ -6,6 +6,7 @@
 # Runtime state
 scripts/.env
 scripts/*.pem
+scripts/.htpasswd
 scripts/setup-data.json
 *.pem
 scripts/.invite-state.json
