@@ -75,7 +75,7 @@ No subscriptions. No contracts. No minimums.
 ## GitHub Action Setup
 
 ```yaml
-- uses: marsiandeployer/vibers-action@v1
+- uses: marsiandeployer/vibers-action@v1.1
   with:
     spec_url: 'https://docs.google.com/document/d/YOUR_SPEC/edit'
     telegram_contact: '@your_telegram'

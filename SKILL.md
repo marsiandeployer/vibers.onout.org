@@ -54,7 +54,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
-      - uses: marsiandeployer/vibers-action@v1
+      - uses: marsiandeployer/vibers-action@v1.1
         with:
           spec_url: 'https://docs.google.com/document/d/YOUR_SPEC_ID/edit'
           telegram_contact: '@your_telegram'
