@@ -146,7 +146,7 @@ We don't check: code style (use ESLint/Prettier), performance benchmarks, securi
 
 ## Free First Review
 
-⭐ **Star [marsiandeployer/vibers-action](https://github.com/marsiandeployer/vibers-action) on GitHub** to get your first review for free. After starring — mention it in `telegram_contact` or message [@onoutnoxon](https://t.me/onoutnoxon).
+⭐ **Star [marsiandeployer/human-in-the-loop-review](https://github.com/marsiandeployer/human-in-the-loop-review) on GitHub** to get your first review for free. After starring — mention it in `telegram_contact` or message [@onoutnoxon](https://t.me/onoutnoxon).
 
 ## Support
 
