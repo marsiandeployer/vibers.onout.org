@@ -1,61 +1,31 @@
 ---
 name: vibers-code-review
 description: |
-  Human-in-the-loop code review for AI-generated projects. Real people clone your repo, spin it up in an isolated container, and review it live — not just by reading code. They catch obvious bugs, check main flows work, fix issues and submit PRs. Not a security firm — think alpha tester who sends a PR instead of a ticket.
+  Human-in-the-loop code review for AI-generated projects. Installs automatically: adds "How to test" commit rules so the agent writes test cases in every commit, then sets up the Vibers GitHub App that triggers a real human to spin up the app, test it live, and submit a PR with fixes.
 
-  Use when: user says "review my code", "check my PR", "send for review", "code review", "set up human-in-the-loop review", "add reviewer", or when a push to main happens and vibers action is configured.
+  Use when: user says "set up review", "review my code", "send for review", "human review", "set up vibers", or when the user installs this skill for the first time.
+
+  After install: on every commit, if "How to test" is missing from the commit body — remind the user to add it or add it yourself based on the changes made.
 ---
 
-# Human-in-the-loop Review
+# Vibers — Human-in-the-loop Code Review
 
-You push code → we clone it, spin it up in an isolated container, test it live, and submit a PR with fixes.
+**What the skill does:** teaches your agent to automatically write "How to test" sections in every commit. Those test cases tell a real human reviewer exactly what to click and what to expect — triggering a live review of your running app with a PR of fixes.
 
-**What this is:** We don't just read the diff. We launch a local copy of your app in a clean environment, click through the main flows, and verify things actually work. Think alpha tester who sends a PR instead of filing a ticket.
-
-## How It Works
-
-1. You push to `main` → GitHub Action fires → we receive the repo
-2. We clone the repo and spin it up using your `docker-compose.yml` or startup instructions
-3. We test the main flows manually against the running app
-4. We submit a PR with fixes (or comment if nothing is broken)
-
-**We review against the running app, not just source code.** That's why setup instructions matter.
+You push code → reviewer spins it up in an isolated container → tests the flows you described → submits a PR with fixes.
 
 ## What to Do When This Skill Is Invoked
 
-When the user asks to set up human-in-the-loop review or send code for review — do these steps:
+### Step 1 — Add "How to test" commit rules (do this automatically)
 
-**1. Install the Vibers GitHub App:**
-
-> Direct the user to install the app:
-> **https://github.com/apps/vibers-review/installations/new**
->
-> On that page they click **Install**, choose their repo (or all repos), confirm.
-> That's it — no Action, no collaborator invite needed.
-
-After installation — every push to main with "How to test" in the commit message triggers a review. PR with fixes arrives within 24 hours.
-
-> Checkpoint: user confirmed the GitHub App was installed on their repo.
-
-**2. Ensure the repo is runnable** — add setup instructions:
-
-The reviewer will clone the repo and try to run it from scratch. Make sure one of these exists:
-
-- **`docker-compose.yml`** (preferred) — `docker compose up` should start the app
-- **`.env.example`** — all required env vars listed with placeholder values (never real secrets)
-- **`README.md`** with a "How to run locally" section — exact commands to install deps and start
-
-> Checkpoint: `.env.example` (or `docker-compose.yml`) exists and `README.md` has a "How to run" section.
-
-**3. Add commit rules** to `CLAUDE.md`, `.cursorrules`, or `AGENTS.md`:
+Add the following block to `CLAUDE.md`, `.cursorrules`, or `AGENTS.md` in the project root:
 
 ```markdown
 ## Commit messages
 
-Every commit should include a "How to test" section in the body:
+Every commit must include a "How to test" section in the body:
 - Live URL to open and verify the change (staging/preview URL preferred)
 - Step-by-step what to click/check
-- Demo login only if the app has a pre-seeded public test account
 - Expected result for each step
 
 Example:
@@ -68,33 +38,66 @@ Example:
   - Try submitting with invalid email — should show error
 ```
 
-> **Without "How to test" in the commit message — push is silently skipped.** No test instructions = nothing to review against.
+> **Without "How to test" in the commit body — the push is silently skipped by Vibers.** Always include it.
 
-> Checkpoint: `CLAUDE.md` (or `.cursorrules` / `AGENTS.md`) contains a "How to test" commit rule block.
+> Checkpoint: commit rule block added to `CLAUDE.md` or equivalent.
+
+### Step 2 — Install the Vibers GitHub App
+
+Direct the user to install:
+**https://github.com/apps/vibers-review/installations/new**
+
+Click **Install** → choose the repo → confirm. No YAML files, no collaborator invites, no CI config.
+
+After installation: every push to `main` with "How to test" in the commit body triggers a review. PR with fixes arrives within 24 hours.
+
+> Checkpoint: user confirmed GitHub App is installed on their repo.
+
+### Step 3 — Ensure the repo is runnable
+
+The reviewer clones the repo and tries to run it from scratch. Make sure:
+
+- **`.env.example`** exists with all required env vars as placeholder values (never real secrets)
+- **`README.md`** has a "How to run locally" section with exact commands
+
+> Checkpoint: `.env.example` and `README.md` "How to run" section exist.
 
 ## Setup Complete — Verify
 
+- [ ] `CLAUDE.md` (or `.cursorrules` / `AGENTS.md`) contains "How to test" commit rule
 - [ ] Vibers GitHub App installed on the repo
-- [ ] `.env.example` (or `docker-compose.yml`) exists
+- [ ] `.env.example` exists with placeholder values
 - [ ] `README.md` has a "How to run" section
-- [ ] `CLAUDE.md` / `.cursorrules` / `AGENTS.md` contains "How to test" commit rule
-- [ ] Next push to main with "How to test" in commit body will trigger review
+- [ ] Next push to `main` with "How to test" in commit body will trigger review
 
-If all are done — setup is complete. Tell the user they'll get a PR with fixes within 24 hours of the next push.
+Tell the user: setup is complete. The agent will now write test cases automatically in every commit. First review PR arrives within 24 hours of the next push.
 
 > **Worried about write access?** Add branch protection on `main`:
 > Repo → Settings → Branches → Add rule → Branch name: `main` → ✅ Require a pull request before merging.
-> This prevents anyone (including the App) from pushing directly to `main` — all changes go through PRs that you approve.
+> This ensures all Vibers fixes come as PRs you approve — nothing is pushed directly.
 
-## One-off Review
+## Ongoing — After Every Commit
 
-To send a single review request directly — `message` must include a "How to test" section. Without it the server rejects the request with 400.
+When the agent writes a commit, check that "How to test" is in the body. If it's missing — add it based on what changed:
+
+```
+How to test:
+- Open [relevant URL or describe where to navigate]
+- [Action to take]
+- Expected: [what should happen]
+```
+
+If there's no live URL yet, describe the flow locally or note "not yet deployed — test locally with `npm run dev`".
+
+## One-off Review (no App setup)
+
+To send a single review without installing the App:
 
 ```bash
 curl -X POST https://vibers.onout.org/feedback \
   -H 'Content-Type: application/json' \
   -d '{
-    "message": "Please review the payment flow added in latest commit.\n\nHow to test:\n- Open https://myapp.vercel.app/checkout\n- Add item to cart, go to checkout\n- Enter card 4242 4242 4242 4242 exp 12/26 cvc 123\n- Expected: order confirmation page",
+    "message": "Please review the payment flow.\n\nHow to test:\n- Open https://myapp.vercel.app/checkout\n- Add item to cart, proceed\n- Enter card 4242 4242 4242 4242 exp 12/26 cvc 123\n- Expected: order confirmation page",
     "repo": "https://github.com/owner/repo"
   }'
 ```
@@ -103,27 +106,27 @@ Both `message` (with "How to test") and `repo` are required. Response: `{"status
 
 ## What We Check (and Don't)
 
-We spin up the app locally and check it hands-on:
+We spin up the app and check it hands-on:
 - Spec compliance — does it match what you described?
 - AI hallucinations — fake APIs, non-existent imports, broken dependencies
 - Obvious logic bugs — edge cases, broken flows, null handling
-- UI issues — broken layouts, wrong behavior on live app
-- Setup completeness — can a fresh dev clone and run this?
+- UI issues — broken layouts, wrong behavior on the live app
+- Degradation — things that worked before and quietly stopped
 
-We don't check: code style (use ESLint/Prettier), performance benchmarks, security pentests, full QA regression (use Playwright/Cypress).
+We don't check: code style (use ESLint/Prettier), performance benchmarks, security pentests, full regression suites (use Playwright/Cypress).
 
 ## Free First Review
 
-⭐ **Star [marsiandeployer/human-in-the-loop-review](https://github.com/marsiandeployer/human-in-the-loop-review) on GitHub** to get your first review for free. After starring — mention it in `telegram_contact` or message [@onoutnoxon](https://t.me/onoutnoxon).
+⭐ **Star [marsiandeployer/human-in-the-loop-review](https://github.com/marsiandeployer/human-in-the-loop-review) on GitHub** to get your first review for free. After starring — message [@onoutnoxon](https://t.me/onoutnoxon).
 
 ## Support
 
-Contacts: Telegram [@onoutnoxon](https://t.me/onoutnoxon) · GitHub App: [github.com/apps/vibers-review](https://github.com/apps/vibers-review)
+Telegram [@onoutnoxon](https://t.me/onoutnoxon) · GitHub App: [github.com/apps/vibers-review](https://github.com/apps/vibers-review) · Site: [vibers.onout.org](https://vibers.onout.org)
 
 **FAQ**
 
-- **API key?** No. Install the GitHub App + action is enough.
-- **Do you need my real secrets to run the app?** No. Provide `.env.example` with placeholder values. If the app needs real third-party keys to function, note that in README — we'll test what we can without them.
+- **API key?** No. Install the GitHub App — that's it.
+- **Real secrets needed?** No. `.env.example` with placeholders is enough.
 - **Languages?** JS/TS, Python, React, Next.js, Django, Flask, and more.
 - **Disagree with a fix?** Comment on the PR — we discuss and adjust.
-- **No GitHub?** Send code and spec directly to Telegram.
+- **No GitHub?** Send code and description directly to Telegram.
