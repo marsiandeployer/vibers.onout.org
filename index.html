@@ -587,23 +587,38 @@
     <details open>
         <summary>
             <span class="section-label" data-i18n="label_example">Example</span>
-            <span data-i18n="ex_title">What a Real Finding Looks Like</span>
+            <span data-i18n="ex_title">Real PR: MethasMP/Paycif</span>
         </summary>
         <div class="details-body">
-            <p style="font-size:13px; color:#666; margin-bottom:14px;" data-i18n="ex_intro">From a recent review of a React/Node.js SaaS built by a Cursor agent:</p>
+            <p style="font-size:13px; color:#666; margin-bottom:14px;" data-i18n="ex_intro">Client from Thailand, AI-built Paycif app (Claude Code). Our reviewer spotted mobile layout issues:</p>
             <div style="background:#fff8f8; border:1px solid #fcc; border-radius:6px; padding:16px; margin-bottom:16px;">
-                <div style="font-size:12px; font-weight:600; color:#d94f4f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;" data-i18n="ex_bug_label">Bug found</div>
-                <div style="font-size:13px; color:#333; margin-bottom:10px;" data-i18n="ex_bug_desc">User upload endpoint accepted any file type — an attacker could upload a .php shell disguised as an image. The agent had no content-type validation, only checked the file extension.</div>
-                <pre style="background:#2d2d2d; color:#f8f8f2; padding:12px; border-radius:4px; font-size:12px; overflow-x:auto; margin:0;"><code style="background:none; border:none; padding:0; color:#f8f8f2; font-size:12px;">// Before (agent-written)
-if (file.name.endsWith('.jpg')) { save(file); }
+                <div style="font-size:12px; font-weight:600; color:#d94f4f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;" data-i18n="ex_bug_label">Issues found (2)</div>
+                <div style="font-size:13px; color:#333; margin-bottom:12px;" data-i18n="ex_bug_desc">Fee cards didn't stack on mobile — layout broke. GSAP animation caused a dark overlay on the second screen on mobile. The agent added no mobile breakpoints for the new layout grid.</div>
+                <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:140px;">
+                        <div style="font-size:11px; color:#999; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Before — columns broken</div>
+                        <img src="https://i.wpmix.net/image/photo/photo_1774439739460.jpg" alt="Mobile layout broken" style="width:100%; border-radius:4px; border:1px solid #eee;">
+                    </div>
+                    <div style="flex:1; min-width:140px;">
+                        <div style="font-size:11px; color:#999; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Before — dark overlay</div>
+                        <img src="https://i.wpmix.net/image/photo/photo_1774439739463.jpg" alt="GSAP dark overlay on mobile" style="width:100%; border-radius:4px; border:1px solid #eee;">
+                    </div>
+                </div>
+                <pre style="background:#2d2d2d; color:#f8f8f2; padding:12px; border-radius:4px; font-size:12px; overflow-x:auto; margin:0;"><code style="background:none; border:none; padding:0; color:#f8f8f2; font-size:12px;">/* Before — agent wrote no mobile breakpoints */
+.freedom-grid { grid-template-columns: repeat(3, 1fr); }
 
-// After (our fix in PR)
-const mime = await fileTypeFromBuffer(buf);
-if (!['image/jpeg','image/png','image/webp'].includes(mime?.mime)) {
-  throw new Error('Invalid file type');
+/* After — our fix in PR */
+@media (max-width: 768px) {
+  .freedom-grid { grid-template-columns: 1fr; }
+  .fee-card.magical { transform: none; }
+}
+
+// GSAP overlay fix
+if (window.innerWidth > 768) {
+  gsap.to('#device-mockup', { opacity: 0.3, ... });
 }</code></pre>
             </div>
-            <p style="font-size:13px; color:#666;" data-i18n="ex_footer">This took us 12 minutes to spot and fix. The agent had been shipping this endpoint for 3 sprints.</p>
+            <p style="font-size:13px; color:#666;" data-i18n="ex_footer">Fixed and sent as <a href="https://github.com/MethasMP/Paycif/pull/3" target="_blank" rel="noopener noreferrer">PR #3</a> in one session. Client merged same day.</p>
         </div>
     </details>
 
@@ -883,11 +898,11 @@ const ru = {
     sec_revoke: "<strong>Отозвать в любой момент:</strong> GitHub Settings → Applications → Installed GitHub Apps → Vibers Review → Uninstall. 5 секунд. Никаких привязок.",
     sec_nda: "NDA доступен по запросу для платных ревью.",
     label_example: "Пример",
-    ex_title: "Как выглядит реальная находка",
-    ex_intro: "Из недавнего ревью React/Node.js SaaS, написанного агентом Cursor:",
-    ex_bug_label: "Найденный баг",
-    ex_bug_desc: "Эндпоинт загрузки файлов принимал любой тип файла — атакующий мог загрузить .php-шелл под видом изображения. Агент не проверял content-type, только расширение.",
-    ex_footer: "У нас ушло 12 минут чтобы найти и исправить. Агент шипил этот эндпоинт 3 спринта.",
+    ex_title: "Реальный PR: MethasMP/Paycif",
+    ex_intro: "Клиент из Таиланда, приложение Paycif собрано агентом (Claude Code). Наш ревьюер нашёл проблемы с мобильной вёрсткой:",
+    ex_bug_label: "Найдено проблем (2)",
+    ex_bug_desc: "Карточки не стекались в колонку на мобиле — вёрстка ломалась. GSAP-анимация давала тёмный оверлей на втором экране на мобильных. Агент не добавил mobile breakpoints для нового grid-лейаута.",
+    ex_footer: "Починили и отправили <a href=\"https://github.com/MethasMP/Paycif/pull/3\" target=\"_blank\" rel=\"noopener noreferrer\">PR #3</a> за одну сессию. Клиент смёрджил в тот же день.",
     honest_box: "<strong>Честно о себе:</strong> Мы не security-фирма. Никаких OWASP-пентестов, аудитов архитектуры, профилирования производительности. Мы — обычные люди, которые смотрят на ваш код свежим взглядом: ловят очевидные баги, проверяют что основные сценарии работают, и пишут фикс вместо того чтобы создавать тикет. Думайте об этом как альфа-тестер, который ещё и шлёт PR.",
 };
 
