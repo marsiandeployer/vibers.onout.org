@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Human-in-the-loop Review — Human-in-the-Loop Code Review for Vibecoded Projects</title>
     <meta name="description" content="We review and fix code after vibecoders. Add marsiandeployer to your GitHub, share your spec — we check commits, fix issues, and send pull requests. Free first review for a GitHub star + feedback.">
-    <link rel="canonical" href="https://vibers.onout.org/">
+    <link rel="canonical" href="https://onout.org/vibers/">
     <!-- Google tag (gtag.js) -->
     <!-- Reddit Pixel -->
     <script>
@@ -24,7 +24,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Human-in-the-loop Review — Code Review & Fixes for Vibecoded Projects">
     <meta property="og:description" content="Vibecoders ship code. We fix what's broken. Add marsiandeployer to GitHub, share your spec, get PRs with fixes. Free first review for a GitHub star + feedback.">
-    <meta property="og:url" content="https://vibers.onout.org/">
+    <meta property="og:url" content="https://onout.org/vibers/">
     <meta property="og:image" content="https://i.wpmix.net/image/photo/photo_1775222034666.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -44,7 +44,7 @@
       "@type": "Service",
       "name": "Human-in-the-loop Review",
       "description": "Human-in-the-loop code review and fixes for vibecoded projects",
-      "url": "https://vibers.onout.org/",
+      "url": "https://onout.org/vibers/",
       "provider": { "@type": "Organization", "name": "Onout", "url": "https://onout.org" },
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free first review in exchange for a GitHub star and honest feedback" }
     }
@@ -195,6 +195,22 @@
             margin-top: 10px;
         }
         .setup-box p a { color: #5b44e8; }
+        .fazier-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .fazier-badge-row a {
+            display: inline-flex;
+            align-items: center;
+            line-height: 0;
+        }
+        .fazier-badge-note {
+            font-size: 12px;
+            color: #666;
+        }
 
         /* ─── Details / Collapsible sections ─── */
         details {
@@ -480,9 +496,15 @@
     <!-- Secondary CTA: Skill command for AI agent users -->
     <div class="setup-box">
         <div class="setup-label" data-i18n="setup_label">Using Claude Code, Cursor, or Windsurf? Tell your AI agent:</div>
-        <code>Install skill from https://vibers.onout.org/SKILL.md</code>
-        <button class="copy-btn" id="copy-skill-btn" onclick="navigator.clipboard.writeText('Install skill from https://vibers.onout.org/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);trackLead('copy_skill_command');rdt('track','Lead');" data-i18n="copy_btn">Copy</button>
+        <code>Install skill from https://onout.org/vibers/SKILL.md</code>
+        <button class="copy-btn" id="copy-skill-btn" onclick="navigator.clipboard.writeText('Install skill from https://onout.org/vibers/SKILL.md');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);trackLead('copy_skill_command');rdt('track','Lead');" data-i18n="copy_btn">Copy</button>
         <p data-i18n="setup_note">Or <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">write us on Telegram</a> if you need help.</p>
+        <div class="fazier-badge-row">
+            <a href="https://fazier.com" target="_blank" rel="noopener noreferrer" aria-label="View us on Fazier">
+                <img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=light" width="120" alt="Fazier badge">
+            </a>
+            <span class="fazier-badge-note">Fazier launch badge is live on the site for submission review.</span>
+        </div>
     </div>
 
     <!-- Real testimonial -->
