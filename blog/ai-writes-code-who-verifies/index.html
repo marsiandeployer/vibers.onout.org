@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Can Write Code — But Who Verifies It? — Vibers Blog</title>
+  <meta name="description" content="AI generates 30–50% of enterprise code today, yet only 12% of organizations apply the same security standards to it. Here's who is actually responsible for verifying AI-written software — and why the industry is getting it wrong.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/ai-writes-code-who-verifies/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AI Can Write Code — But Who Verifies It?">
+  <meta property="og:description" content="AI generates 30–50% of enterprise code today, yet only 12% of organizations apply the same security standards to it. Here's who is actually responsible for verifying AI-written software — and why the industry is getting it wrong.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/ai-writes-code-who-verifies/">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AI Can Write Code — But Who Verifies It?",
+    "description": "AI generates 30–50% of enterprise code today, yet only 12% of organizations apply the same security standards to it. An editorial on the trust gap in AI-generated software and who is responsible for closing it.",
+    "author": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers — Human Code Review",
+      "url": "https://onout.org/vibers/"
+    },
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/ai-writes-code-who-verifies/"
+    },
+    "keywords": ["AI writes code who verifies", "vibe coding trust gap", "AI generated code verification", "human in the loop code review", "AI code security", "who reviews AI code"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Who is responsible for verifying AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ultimately, the developer or team that ships the code is responsible — not the AI tool. The OpenSSF has published this as a guiding principle: 'You are the developer, and AI is the assistant. You are responsible for any harm caused by the code.' In practice, this means establishing human review checkpoints before AI-written code reaches production, particularly for security-sensitive paths."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is AI-generated code harder to verify than hand-written code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI-generated code is harder to verify because it looks plausible at a glance. Developers who didn't write the code often perform shallower reviews — researchers observe patterns like 'I Accept All always, I don't read the diffs anymore.' The code may pass unit tests while concealing subtler issues: missing input validation, embedded credentials, overly broad permissions, or auth checks that exist in code but are never enforced at runtime."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What percentage of AI-generated code contains security flaws?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "According to Veracode's 2025 GenAI Code Security Report, 45% of AI-generated code contains security vulnerabilities — compared to roughly 9% for equivalent human-written code in some studies. Veracode tested 100+ LLMs and found AI code contains 2.74x more vulnerabilities overall, with Java having a 72% security failure rate. A joint Stanford/MIT analysis of 2 million AI-generated code snippets found 14.3% contained at least one security vulnerability."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does 'verifying AI code' actually mean beyond running tests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Tests check that code does what you observed it doing in a sample run. Verification checks that code does what the spec requires — for every input, every edge case, every user role, every dependency. This includes spec compliance (does behavior match what was promised?), security review (auth flows, permission scopes, secret handling), architectural review (does the structure match the intent?), and dependency validation (are supply chain risks introduced?). Tests can pass while all four of these fail."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What real incidents have happened because AI-generated code wasn't verified?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Three high-profile cases stand out. Quittr, a viral porn-addiction app, exposed 600,000+ users including minors via a misconfigured Firebase database — four months after being notified, the founders still hadn't patched it. Base44 had a platform-level SSO bypass allowing unauthorized users to register for private apps, exposing every app built on the platform regardless of per-app code review. Moltbook, an AI-agent social network, exposed 1.5 million API tokens and 35,000+ email addresses; its founder stated 'I didn't write a single line of code.'"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a human-in-the-loop code reviewer and do I need one?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A human-in-the-loop reviewer is an expert who inspects AI-generated code before it ships — not just for syntax correctness, but for spec compliance, security patterns, and architectural soundness that automated tools miss. You need one if you are shipping AI-generated code to real users, especially if you lack deep security expertise in-house. The cost of one review session is significantly lower than the cost of a data breach, forced app removal, or user loss from a production incident."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}.page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}@media(max-width:600px){.page{padding:24px 20px}}a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}.site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}.site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}.article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}@media(max-width:600px){h1{font-size:24px}}.article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}.key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}.key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}.key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}.table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}.stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}.definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}.incident-box{border:1px solid #fee2e2;background:#fff5f5;border-radius:8px;padding:16px 20px;margin:16px 0}.incident-box h4{color:#991b1b;font-size:15px;font-weight:700;margin-bottom:6px}.cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}.cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}.cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}.faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}.author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}.author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}.related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}.related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}.site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <article>
+
+    <div class="article-meta">
+      <span>April 13, 2026</span>
+      <span>Vibers Editorial</span>
+      <span>10 min read</span>
+    </div>
+
+    <h1>AI Can Write Code — But Who Verifies It?</h1>
+
+    <p class="article-lead">
+      AI tools now generate 30–50% of code at leading engineering organizations. Yet only 12% of those organizations apply the same security standards to AI-generated code as to human-written code. The industry is shipping faster than it is verifying — and the consequences are already showing up in production.
+    </p>
+
+    <div class="key-takeaways">
+      <h3>Key Takeaways</h3>
+      <ul>
+        <li>AI-generated code contains <strong>2.74x more security vulnerabilities</strong> than human-written equivalents, per Veracode's 2025 report across 100+ LLMs.</li>
+        <li>Only <strong>12% of organizations</strong> apply the same security standards to AI code as traditional code, despite 93% using it.</li>
+        <li>The "responsibility gap" is structural: founders assume AI verified it, AI has no accountability, developers trust the output, nobody checks.</li>
+        <li>Verification is not the same as testing. Tests check behavior on observed inputs. Verification checks compliance with the specification.</li>
+        <li>Real incidents — Quittr (600K+ users exposed), Base44 (platform-level SSO bypass), Moltbook (1.5M API tokens leaked) — all share one root cause: AI wrote the code, no human reviewed it seriously.</li>
+        <li>The emerging answer is <strong>human-in-the-loop review</strong>: a qualified person who reads AI-generated diffs before they ship, not after they break.</li>
+      </ul>
+    </div>
+
+    <h2>1. The Trust Gap: AI Ships Faster Than Humans Can Verify</h2>
+
+    <p>
+      There is a speed asymmetry at the heart of modern software development. AI writes code in seconds. Meaningful verification takes hours. And as AI tools become more capable — generating not just single functions but entire features, entire backends, entire apps in a weekend — that asymmetry grows.
+    </p>
+
+    <p>
+      GitHub Copilot now generates over 50% of code in enabled repositories. Collins English Dictionary named "vibe coding" its Word of the Year for 2025. At Google and Microsoft, 25–30% of all code is already AI-generated. The question was never whether AI could write code. The question was always what happens to that code afterward.
+    </p>
+
+    <div class="stat-box">
+      <strong>By June 2025</strong>, AI-generated code was adding over <strong>10,000 new security findings per month</strong> across studied enterprise repositories — a 10x increase from December 2024. <em>(Source: security vendor analysis, 2025)</em>
+    </div>
+
+    <p>
+      The trust gap is not just about security. It is about the gap between "it works in the demo" and "it behaves correctly in production, for every user, under every condition." AI models are optimized to produce plausible output quickly, not to ask the critical questions — "who should be allowed to access this endpoint?", "what happens if this field is empty?", "does this auth check actually get enforced, or just checked?" — that a thoughtful developer would ask.
+    </p>
+
+    <blockquote>
+      "AI has made code generation nearly effortless, but it has created a critical trust gap between output and deployment."
+      <cite>— Tariq Shaukat, CEO, Sonar</cite>
+    </blockquote>
+
+    <p>
+      The uncomfortable truth is that the software industry has solved this problem before. We moved from waterfall sign-offs to CI pipelines. We went from manual QA to automated test suites. Each transition required new tooling and new habits. What we have not yet built — at scale — is a verification layer that matches the pace of AI generation. And we are already paying for the gap.
+    </p>
+
+    <h2>2. Who Is Actually Responsible? (The Answer Is Nobody, Right Now)</h2>
+
+    <div class="definition">
+      <strong>The Responsibility Gap:</strong> A structural accountability vacuum in which the AI tool has no legal liability, the developer trusts the AI's output, the founder believes the tool "handles" security, and no independent party has verified anything before code reaches users.
+    </div>
+
+    <p>
+      Ask a founder who built their MVP with Cursor or Lovable who verified the security. Most will say something like: "the AI checks for issues." Ask the AI tool. It will tell you, accurately, that it produces code suggestions and that the developer is responsible for review. Ask the developer. They will say they reviewed it — meaning they read it, found no obvious syntax errors, and merged it.
+    </p>
+
+    <p>
+      None of these answers is wrong, exactly. Together they add up to nobody actually being responsible.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Stakeholder</th>
+            <th>Who THINKS is responsible</th>
+            <th>Who IS responsible</th>
+            <th>What actually happens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder / product owner</td>
+            <td>"The AI tool / Cursor / Lovable"</td>
+            <td>The organization shipping the product</td>
+            <td>Assumes AI handled it, ships without review</td>
+          </tr>
+          <tr>
+            <td>AI coding tool</td>
+            <td>"The developer using the tool"</td>
+            <td>No legal liability for tool vendors</td>
+            <td>Generates plausible code, disclaims responsibility</td>
+          </tr>
+          <tr>
+            <td>Developer / vibe coder</td>
+            <td>"I reviewed it" (scanned the diff)</td>
+            <td>The developer who merges the code</td>
+            <td>Shallow review — "looks fine," merge</td>
+          </tr>
+          <tr>
+            <td>Security / QA team</td>
+            <td>"Dev should have caught it"</td>
+            <td>Shared responsibility with dev</td>
+            <td>Often not consulted for AI-generated features</td>
+          </tr>
+          <tr>
+            <td>Platform (Firebase, Supabase, etc.)</td>
+            <td>"Developer configures permissions"</td>
+            <td>Platform has default-open configs</td>
+            <td>AI often generates code with default admin-level access</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The OpenSSF — the Open Source Security Foundation — has been explicit about this: "You are the developer, and AI is the assistant. You are responsible for any harm caused by the code." That principle is correct but it has not been operationalized. Having a policy is not the same as having a process.
+    </p>
+
+    <div class="stat-box">
+      <strong>93% of organizations</strong> now use AI-generated code in their development workflows. Only <strong>27% enforce strict governance</strong> over how AI tools are used. <strong>68% lack visibility</strong> into which AI tools their own developers are using. <em>(Source: enterprise security survey data, 2025–2026)</em>
+    </div>
+
+    <p>
+      What this creates, at the system level, is a situation where speed is measured (cycle time, deploys per day, features shipped) and verification is not. Organizations that don't measure verification capacity will default to treating it as free — which means it doesn't happen.
+    </p>
+
+    <h2>3. What Verification Actually Means (Not Just Tests)</h2>
+
+    <p>
+      Here is the most important misunderstanding in this entire conversation: running tests is not the same as verifying code.
+    </p>
+
+    <p>
+      Tests check that code does what you observed it doing on a set of inputs you thought of. If the AI also wrote the tests — which it often does — you have circular validation. The code and the tests were generated from the same model, with the same blind spots, optimizing for the same objective: producing something that looks right.
+    </p>
+
+    <div class="definition">
+      <strong>Verification vs. Testing:</strong> Testing checks observed behavior on sample inputs. Verification checks compliance with the specification — that the code behaves correctly for every user, every input, every permission level, and every failure mode the spec requires. A demo can pass all tests while failing verification on every one of those dimensions.
+    </div>
+
+    <p>
+      Real verification has four distinct layers that tests alone cannot cover:
+    </p>
+
+    <ol>
+      <li><strong>Spec compliance</strong> — Does the code actually implement what was specified? Not just "does it seem to work" but "does it match the product requirements including edge cases the spec defined?"</li>
+      <li><strong>Security review</strong> — Are auth flows correct? Are permission scopes restricted to what is necessary? Are secrets handled safely? Are all inputs validated? Does the code follow OWASP Top 10 patterns?</li>
+      <li><strong>Architectural review</strong> — Does the structure align with the system's design? Are there introduced dependencies that create supply chain risk? Does the code create technical debt that will compound?</li>
+      <li><strong>Behavioral testing under adversarial conditions</strong> — What happens when a malicious user tries to access data they shouldn't? When required fields are missing? When the service is called with unexpected inputs?</li>
+    </ol>
+
+    <p>
+      Researchers at Leonardo de Moura (Microsoft Research) have argued that the only true solution at scale is formal verification — mathematical proofs of correctness that cover every possible input rather than a sample. AWS has applied this to its Cedar authorization engine; Microsoft to its SymCrypt cryptographic library. Formal verification is real, and it is being adopted at the infrastructure level. But for the vast majority of applications shipping today with AI-generated code, formal proofs are not yet practical.
+    </p>
+
+    <p>
+      In the interim, there is a more accessible approach: a qualified human who reads the diffs before they ship.
+    </p>
+
+    <h2>4. Real-World Consequences When Nobody Verifies</h2>
+
+    <p>
+      The incidents are not hypothetical. They are already happening, and they share a recognizable pattern: fast build, no review, breach.
+    </p>
+
+    <div class="incident-box">
+      <h4>Incident: Quittr — 600,000+ Users Exposed (2025)</h4>
+      <p>Quittr, a viral app helping users quit porn addiction, reached 1.5 million downloads and approximately $500,000/month in revenue. A security researcher discovered that a Firebase misconfiguration allowed anyone authenticated as any user to access the backend database — exposing usage metrics, behavioral data, and records for approximately 100,000 minors. The researcher notified the founders on September 10, 2025. Four months later, the vulnerability was still not patched. When 404 Media contacted co-founder Alex Slater, he wished them a good day and hung up. The vulnerability was eventually fixed only after the story was published.</p>
+    </div>
+
+    <div class="incident-box">
+      <h4>Incident: Base44 — Platform-Level SSO Bypass (2025)</h4>
+      <p>The no-code platform Base44 contained a flaw that allowed unauthorized users to bypass access controls and register for private applications. This was not a per-app issue — it was a platform-level vulnerability, meaning every app built on Base44 was exposed regardless of how carefully any individual developer reviewed their own code. Base44 patched within 24 hours, but the exposure window was real and extended to every app on the platform.</p>
+    </div>
+
+    <div class="incident-box">
+      <h4>Incident: Moltbook — 1.5 Million API Tokens Leaked (2025)</h4>
+      <p>Moltbook, an AI-agent social network, exposed 1.5 million API authentication tokens, 35,000+ email addresses, and 4,060 private messages. The root cause: a public API key in the client-side bundle, combined with disabled Row Level Security on the database. The founder's public statement: "I didn't write a single line of code for Moltbook. I just had a vision..." This is the vibe coding trust gap expressed perfectly. Having a vision is not the same as having a secure product.</p>
+    </div>
+
+    <p>
+      A broader study by Escape.tech reviewed 5,600 vibe-coded apps and found over 2,000 vulnerabilities, 400+ exposed secrets, and 175 instances of personally identifiable information exposed through public endpoints. These are not edge cases. They are the baseline when code ships without meaningful verification.
+    </p>
+
+    <div class="stat-box">
+      <strong>53% of teams</strong> shipping AI-generated code later discovered security issues that passed initial review. AI-generated code fails XSS defense mechanisms in <strong>86% of cases</strong> tested (Georgetown CSET). <em>(Source: multiple 2025 security studies)</em>
+    </div>
+
+    <p>
+      The pattern is consistent: AI-generated code does not fail randomly. It fails in patterns — missing input validation, credentials in client bundles, auth checks that exist in code but are never enforced at runtime. The patterns are predictable. That means they are also preventable, by someone who knows what to look for.
+    </p>
+
+    <h2>5. The Emerging Role: Human-in-the-Loop Reviewer</h2>
+
+    <p>
+      In any fast-moving system where automation can generate more output than humans can process, the critical design question is: where does the human checkpoint live, and who performs it?
+    </p>
+
+    <p>
+      For AI-generated code, the checkpoint that is missing is not automated. Automated scanners catch known patterns. They find the SQL injection that looks like the SQL injections they were trained on. They do not catch the permission model that looks correct to a static analyzer but allows a user to access another user's data at runtime. They do not notice that the spec said "users can only see their own orders" and the implementation has no such restriction. They do not flag the auth token that is stored correctly in the backend and insecurely in the client bundle.
+    </p>
+
+    <blockquote>
+      "68% of developers say they trust AI-assisted code reviews more than peer reviews for catching syntax and mechanical issues — but only 22% say they trust AI for architectural or design-level reviews."
+      <cite>— Developer survey data, 2025</cite>
+    </blockquote>
+
+    <p>
+      The human-in-the-loop reviewer is not a replacement for automated tools. It is the layer above them: the person who reads the diff with the spec in one hand and asks whether this code actually does what the product promised users it would do.
+    </p>
+
+    <p>
+      This role is not new. What is new is its importance. Before AI coding tools, developers were intimate with every line they wrote. They made hundreds of small security decisions consciously. With AI coding tools, those decisions are made invisibly — by a model optimizing for plausibility, not correctness. The human reviewer is the person who makes those invisible decisions visible again.
+    </p>
+
+    <p>
+      Researchers at Stanford and MIT analyzed this dynamic directly: "Traditional SDLC mechanisms — peer review, code author familiarity, incremental change management — function differently when a developer is primarily reviewing AI-generated output rather than reasoning through code they authored." The familiar checkpoints exist, but they are not doing the same work.
+    </p>
+
+    <h2>6. How to Close the Verification Gap</h2>
+
+    <p>
+      There is no single intervention that solves this. But there is a hierarchy of impact:
+    </p>
+
+    <h3>Move the checkpoint upstream, not downstream</h3>
+    <p>
+      The most expensive place to find a vulnerability is in production, after it has been exploited. The second most expensive is after shipping but before exploitation. Verification before merge is cheaper than both. Verification built into the specification — before any code is written — is cheapest of all, because it defines what correct behavior looks like before the AI generates anything.
+    </p>
+
+    <h3>Separate the writer from the verifier</h3>
+    <p>
+      If the same agent writes both the code and the tests, you have moved the problem, not solved it. The verifier needs independence from the generator. This is why QA teams traditionally do not report to engineering managers, and why human reviewers bring value that is structurally different from more AI tooling.
+    </p>
+
+    <h3>Define "done" as spec-compliant, not demo-passing</h3>
+    <p>
+      The "demo passes, production breaks" pattern is almost always a definition problem. The demo proved the happy path works. Production requires every path to work. Closing the gap means writing acceptance criteria before building, and verifying against them, not against impressions.
+    </p>
+
+    <h3>Track AI-specific quality metrics</h3>
+    <p>
+      Defect density from AI-generated code. Regression rates in AI-touched modules. Review load per reviewer. Merge confidence scores. These are the numbers that will tell you whether your verification is working. Cycle time tells you how fast you are shipping. It does not tell you what you are shipping.
+    </p>
+
+    <h3>Apply external review at security boundaries</h3>
+    <p>
+      Auth flows. Permission models. Data access patterns. Payment processing. Any code path where a mistake affects user data or financial outcomes. These are the paths where AI-generated code fails at the highest rate and where the consequences of failure are highest. External review at these boundaries — by someone who did not write the code and is not optimistic about it — is the highest-leverage intervention available today.
+    </p>
+
+    <div class="cta-block">
+      <h3>Vibers closes the verification gap</h3>
+      <p>Human review for every push — spec compliance, security patterns, architectural soundness. Not bots. Not another scanner. A qualified person who reads your diffs before they ship.</p>
+      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers on GitHub</a>
+    </div>
+
+    <h2>FAQ: AI Writes Code — Who Verifies?</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Who is responsible for verifying AI-generated code?</div>
+      <div class="faq-a">Ultimately, the developer or team that ships the code is responsible — not the AI tool. The OpenSSF has been explicit: "You are the developer, and AI is the assistant. You are responsible for any harm caused by the code." In practice, this means establishing human review checkpoints before AI-written code reaches production, particularly for security-sensitive paths.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Why is AI-generated code harder to verify than hand-written code?</div>
+      <div class="faq-a">AI-generated code is harder to verify because it looks plausible at a glance. Developers who didn't write the code tend to perform shallower reviews — researchers observe patterns like "I Accept All always, I don't read the diffs anymore." The code may pass unit tests while concealing subtler issues: missing input validation, embedded credentials, overly broad permissions, or auth checks that exist in code but are never actually enforced at runtime.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What percentage of AI-generated code contains security flaws?</div>
+      <div class="faq-a">According to Veracode's 2025 GenAI Code Security Report, 45% of AI-generated code contains security vulnerabilities. Veracode tested 100+ LLMs and found AI code contains 2.74x more vulnerabilities overall, with Java showing a 72% security failure rate. A joint Stanford/MIT analysis of over 2 million AI-generated code snippets found 14.3% contained at least one security vulnerability, compared to 9.1% for equivalent human-written code.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What does "verifying AI code" actually mean beyond running tests?</div>
+      <div class="faq-a">Tests check that code does what you observed it doing in a sample run. Verification checks that code does what the spec requires — for every input, every edge case, every user role, every dependency. This includes spec compliance, security review (auth flows, permission scopes, secret handling), architectural review, and behavioral testing under adversarial conditions. Tests can pass while all four of these fail simultaneously.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What real incidents have happened because AI-generated code wasn't verified?</div>
+      <div class="faq-a">Three high-profile cases: Quittr exposed 600,000+ users including minors via a misconfigured Firebase database — founders were notified in September 2025 and hadn't patched it four months later. Base44 had a platform-level SSO bypass exposing every app on the platform. Moltbook exposed 1.5 million API tokens and 35,000+ email addresses; its founder publicly stated "I didn't write a single line of code." All three cases share a pattern: fast build, no verification, breach.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What is a human-in-the-loop code reviewer and do I need one?</div>
+      <div class="faq-a">A human-in-the-loop reviewer is an expert who inspects AI-generated code before it ships — not just for syntax, but for spec compliance, security patterns, and architectural soundness that automated tools miss. You need one if you are shipping AI-generated code to real users, especially if you lack deep security expertise in-house. The cost of one review session is significantly lower than the cost of a data breach, forced app removal, or user loss from a production incident.</div>
+    </div>
+
+    <div class="author-bio">
+      <div class="author-info">
+        <h4>Vibers Editorial</h4>
+        <p>Vibers is a human-in-the-loop code review service for AI-generated software. We review real pull requests — spec compliance, security, architecture — before they reach production. This article draws on industry research from Veracode, CodeRabbit, Georgetown CSET, Stanford/MIT, and incident reporting from 404 Media and Cybernews.</p>
+      </div>
+    </div>
+
+    <nav aria-label="Related articles">
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a;">Related Reading</h3>
+      <div class="related-grid">
+        <div class="related-card">
+          <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks</a>
+          <p>Why AI-built MVPs ship with structural security flaws — and how to audit before launch.</p>
+        </div>
+        <div class="related-card">
+          <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+          <p>Automated scanners catch patterns. Here's what they consistently miss and why.</p>
+        </div>
+        <div class="related-card">
+          <a href="/vibers/blog/human-in-the-loop-code-review-teams/">Human-in-the-Loop Code Review for Teams</a>
+          <p>How engineering teams are structuring human oversight in AI-assisted development workflows.</p>
+        </div>
+        <div class="related-card">
+          <a href="/vibers/blog/">All Articles</a>
+          <p>Browse all Vibers writing on AI code quality, security, and verification.</p>
+        </div>
+      </div>
+    </nav>
+
+  </article>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Vibers &middot; <a href="/vibers/">vibers.onout.org</a></span>
+    <span><a href="https://github.com/apps/vibers-review/installations/new">Install GitHub App</a> &middot; <a href="/vibers/blog/">Blog</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
