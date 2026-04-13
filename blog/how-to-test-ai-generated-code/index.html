@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Test AI-Generated Code: A Step-by-Step Guide for Founders</title>
+  <meta name="description" content="A practical, founder-focused guide to testing AI-generated code. Learn the 4 testing layers, tools, and what only humans can verify — before you ship." />
+  <link rel="canonical" href="https://onout.org/vibers/blog/how-to-test-ai-generated-code/" />
+
+  <!-- BlogPosting JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How to Test AI-Generated Code: A Step-by-Step Guide for Founders",
+    "description": "A practical, founder-focused guide to testing AI-generated code. Learn the 4 testing layers, tools, and what only humans can verify — before you ship.",
+    "image": "https://onout.org/vibers/blog/how-to-test-ai-generated-code/og.png",
+    "url": "https://onout.org/vibers/blog/how-to-test-ai-generated-code/",
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "author": {
+      "@type": "Person",
+      "name": "Noxon",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers — Human Code Review",
+      "url": "https://onout.org/vibers/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/how-to-test-ai-generated-code/"
+    },
+    "keywords": "how to test AI generated code, AI code testing, vibe coding testing, verify AI code, code review checklist"
+  }
+  </script>
+
+  <!-- FAQPage JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I test AI-generated code if I'm not technical?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Start with manual flow testing: go through every user-facing path yourself — sign up, log in, submit a form, check an edge case. Write down what should happen at each step, then verify it does. You don't need to read the code to catch broken flows. Then hire a human reviewer or use a service like Vibers to do the technical layers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can AI tools test their own generated code reliably?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No — not reliably. When AI generates both the implementation and its tests, the tests are almost always tautological: they confirm what the code does, not what it should do. AI tests miss security boundaries, business logic edge cases, and spec compliance. Human oversight of the test suite is mandatory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most dangerous category of bugs in AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Security omissions — entire layers that were never implemented because the AI wasn't explicitly prompted for them. Examples include missing authentication checks, absent rate limiting, and wildcard CORS configurations. A December 2025 CodeRabbit analysis found security vulnerabilities were 2.74x more prevalent in AI-authored PRs than human-written ones."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a proper AI code review take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A thorough review of a small-to-medium feature (500–2000 lines of AI-generated code) takes 2–6 hours when done properly. Automated layers (linting, SAST, unit tests) run in minutes; the manual spec verification and security review take the most time. Rushing this phase is the most common cause of production incidents."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I run AI-generated code through a linter before review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — always run linting and static analysis first. It catches the easy issues (style drift, unused imports, simple type errors) automatically, so the human reviewer can focus on logic, security, and spec compliance. ESLint, Pylint, CodeQL, and Semgrep are standard choices depending on your stack."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What percentage of AI-generated code has security vulnerabilities?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Studies vary, but the figures are significant. A 2025 analysis found that approximately 45% of AI-generated code contains vulnerabilities. CodeRabbit's December 2025 analysis of 470 open-source PRs found AI-authored code had 2.74x more security findings than human-written code. Treat AI-generated code as untrusted until it passes security review."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
+    .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
+    @media(max-width:600px){.page{padding:24px 20px}}
+    a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}
+    .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
+    @media(max-width:600px){h1{font-size:24px}}
+    .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
+    .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+    .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+    .key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
+    h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
+    p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}
+    .table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}
+    blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
+    .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
+    .step-card{border-left:4px solid #5b44e8;padding:16px 20px;margin:16px 0;background:#f8f7ff;border-radius:0 8px 8px 0}
+    .step-card h4{font-size:16px;font-weight:700;color:#2d2080;margin-bottom:8px}
+    .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}
+    .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 13, 2026</span>
+    <span>10 min read</span>
+    <span>Founders &amp; Builders</span>
+  </div>
+
+  <h1>How to Test AI-Generated Code: A Step-by-Step Guide for Founders</h1>
+
+  <p class="article-lead">To test AI-generated code, run it through four layers in order: automated checks (linting + static analysis), unit and integration tests, manual flow testing against your spec, and human security review. Skip any layer and you're shipping blind — AI-generated code has 2.74x more security issues and 75% more logic errors than human-written code.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>AI-generated code has on average 10.83 issues per PR vs. 6.45 for human-written code (CodeRabbit, Dec 2025)</li>
+      <li>Four testing layers: automated checks, unit/integration tests, manual flow, spec verification</li>
+      <li>AI tools that write their own tests produce tautological tests — they verify what the code does, not what it should do</li>
+      <li>Security omissions are the #1 risk: missing auth, no rate limiting, wildcard CORS</li>
+      <li>Only a human can verify whether the code matches your original product spec</li>
+      <li>19.7% of packages suggested by AI coding assistants don't actually exist</li>
+    </ul>
+  </div>
+
+  <h2>1. Why You Can't Skip Testing AI-Generated Code</h2>
+
+  <p>The promise of AI coding tools is speed. The reality is that speed without verification creates a new category of production failure that's harder to debug than traditional bugs — because the code <em>looks</em> right, passes a quick demo, and breaks precisely when it matters most.</p>
+
+  <div class="stat-box">
+    <strong>Stat:</strong> GitHub reported that over 51% of all code committed to its platform in early 2026 was either generated or substantially assisted by AI. That's a majority of new production code that needs a testing process designed for it.
+    <br><small>Source: GitHub Engineering Blog, 2026</small>
+  </div>
+
+  <p>The failure modes of AI-generated code are structurally different from human mistakes. When a human skips an auth check, it's usually a bug. When AI skips an auth check, it's because nobody told it the endpoint needed one — an entire security layer was never implemented. A December 2025 analysis of 470 open-source PRs by CodeRabbit found AI-authored code had:</p>
+
+  <ul>
+    <li>75% more misconfigurations than human-written code</li>
+    <li>2.74x more security findings</li>
+    <li>Significantly higher rates of control-flow omissions (missing null checks, early returns, exception handling)</li>
+  </ul>
+
+  <p>Real documented examples from 2025–2026 illustrate the stakes: Moltbook exposed 1.5 million API keys due to missing Row Level Security. Lovable-built apps had inverted access control logic across 170 production applications (CVE-2025-48757). These aren't edge cases — they're a pattern.</p>
+
+  <div class="stat-box">
+    <strong>Stat:</strong> In an August 2025 survey by Final Round AI, 16 of 18 CTOs reported experiencing production disasters directly caused by AI-generated code they'd reviewed too quickly.
+    <br><small>Source: Final Round AI CTO Survey, August 2025</small>
+  </div>
+
+  <p>The solution isn't to stop using AI coding tools. It's to build a testing process matched to their specific failure modes. Here's what that looks like in practice.</p>
+
+  <h2>2. The 4 Testing Layers (and Why Each One Matters)</h2>
+
+  <div class="definition">
+    <strong>Definition — Testing Layer:</strong> A distinct pass through your code that checks for a specific category of correctness. Each layer catches different bugs that the others miss. Running all four in order is what "tested" actually means for AI-generated code.
+  </div>
+
+  <p>Think of these as filters stacked in series. Each one catches what the previous missed:</p>
+
+  <div class="step-card">
+    <h4>Layer 1: Automated Static Checks</h4>
+    <p>Linting, type checking, static analysis (SAST), and dependency scanning. Runs in seconds. Catches style drift, obvious type errors, known CVEs in dependencies, and simple logic mistakes. This is your first gate — nothing moves forward if it fails here.</p>
+  </div>
+
+  <div class="step-card">
+    <h4>Layer 2: Unit and Integration Tests</h4>
+    <p>Tests that verify individual functions and their interactions. Critical caveat: these tests must be written independently of the AI-generated implementation, or they will be tautological — confirming what the code does rather than whether it does the right thing.</p>
+  </div>
+
+  <div class="step-card">
+    <h4>Layer 3: Manual Flow Testing</h4>
+    <p>A human goes through every critical user path end-to-end: sign up, log in, core feature, payment, edge cases. This is where context blindness shows up — AI had no idea about that third-party integration behavior or that edge case in your billing logic.</p>
+  </div>
+
+  <div class="step-card">
+    <h4>Layer 4: Spec Verification (Human Review)</h4>
+    <p>Does the code actually do what your product spec said it should? This requires reading the spec and the code together. AI tools cannot do this reliably — they don't have access to your original intent, only the prompt. A senior human reviewer who understands the business context is irreplaceable here.</p>
+  </div>
+
+  <div class="stat-box">
+    <strong>Stat:</strong> Qodo's 2025 research found that 65% of developers cite context gaps as the primary cause of poor AI code quality during refactoring — the model doesn't know your business rules, architecture, or what existing code already handles.
+    <br><small>Source: Qodo Developer Survey, 2025</small>
+  </div>
+
+  <h2>3. Step-by-Step: How to Run Each Layer</h2>
+
+  <h3>Step 1 — Run Automated Static Checks</h3>
+
+  <p>Before any human looks at the code, run the machines first. This eliminates trivial issues so reviewers focus on real problems.</p>
+
+  <ol>
+    <li><strong>Linting:</strong> ESLint (JavaScript/TypeScript), Pylint or Ruff (Python), RuboCop (Ruby). Fix all errors; treat warnings as errors for new code.</li>
+    <li><strong>Type checking:</strong> TypeScript strict mode, mypy for Python. AI often generates code that type-checks locally but fails at runtime with real data shapes.</li>
+    <li><strong>SAST scanning:</strong> CodeQL (free via GitHub), Semgrep, or Snyk. Run on every PR. Flag: hardcoded secrets, SQL injection risks, XSS vectors, use of <code>eval()</code>.</li>
+    <li><strong>Dependency audit:</strong> <code>npm audit</code>, <code>pip-audit</code>, or Dependabot. Critical because 19.7% of packages suggested by AI coding assistants don't actually exist — and of those that do, many may have known CVEs.</li>
+  </ol>
+
+  <div class="definition">
+    <strong>SAST (Static Application Security Testing):</strong> Automated analysis of source code for security vulnerabilities, without running the program. Essential for AI-generated code because security omissions are invisible to functionality tests.
+  </div>
+
+  <h3>Step 2 — Write Tests Before or Independently of Generation</h3>
+
+  <p>This is the hardest discipline to maintain under deadline pressure, but it's the one that separates shipped products from production incidents.</p>
+
+  <ol>
+    <li>Before generating implementation, write at minimum the test descriptions: "should reject login with invalid password," "should return 404 for non-existent resource," "should enforce rate limit after 5 attempts."</li>
+    <li>Generate the implementation. Then verify the tests you wrote actually pass — not just that coverage went up.</li>
+    <li>Add mutation testing if your stack supports it (Stryker for JS, mutmut for Python). Coverage tells you which lines run; mutation score tells you whether your tests would catch a real bug.</li>
+    <li>Specifically write tests for: authentication and authorization boundaries, all API endpoints with unauthorized callers, form validation with adversarial input, and payment flows with declined/expired cards.</li>
+  </ol>
+
+  <blockquote>
+    "A test suite with 100% coverage but a 4% mutation score executes every line and misses 96% of potential bugs. AI can push coverage from 30% to 90% in minutes — that number means almost nothing without mutation testing."
+    <cite>— TwoCents Software Engineering Blog, 2026</cite>
+  </blockquote>
+
+  <h3>Step 3 — Manual Flow Testing Against a Written Script</h3>
+
+  <p>Do this yourself, or have someone who understands your product do it — not the person who built it. Write the test script before running it:</p>
+
+  <ol>
+    <li>List every primary user journey (new user, returning user, power user, admin).</li>
+    <li>For each journey, write the expected outcome at every step. Don't improvise — document it first.</li>
+    <li>Run each path and mark pass/fail. Pay special attention to: error states (what happens when things go wrong?), empty states (first-time user, no data), and boundary conditions (maximum file size, special characters in names, concurrent sessions).</li>
+    <li>Test on mobile. AI-generated CSS is frequently broken on small screens even when it looks fine on desktop.</li>
+    <li>Try to break it: submit empty forms, use SQL injection strings in text fields, navigate directly to protected URLs while logged out.</li>
+  </ol>
+
+  <h3>Step 4 — Spec Verification by a Human Reviewer</h3>
+
+  <p>Pull up your original spec, brief, or feature description. Read the AI-generated code alongside it. Ask these questions:</p>
+
+  <ol>
+    <li>Does the behavior match the spec, or just an approximation of it?</li>
+    <li>Are there spec requirements the AI silently dropped because they were complex?</li>
+    <li>Does the error handling match what you specified, or did AI invent its own approach?</li>
+    <li>Are there security requirements in the spec (rate limiting, access control, audit logging) that don't appear in the code?</li>
+    <li>Does the code introduce architectural patterns inconsistent with the rest of the codebase?</li>
+  </ol>
+
+  <p>This is the layer that automated tools cannot replace. It requires understanding both the intent (your spec) and the implementation (the code) — and matching them.</p>
+
+  <h2>4. Tools That Help (With Honest Limitations)</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Tool / Approach</th>
+          <th>What It Catches</th>
+          <th>What It Misses</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ESLint / Pylint</td>
+          <td>Style drift, simple errors, unused variables</td>
+          <td>Logic bugs, security issues, spec violations</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td>CodeQL / Semgrep</td>
+          <td>Known vulnerability patterns, injection risks</td>
+          <td>Business logic errors, novel attack vectors</td>
+          <td>Free (OSS)</td>
+        </tr>
+        <tr>
+          <td>Dependabot / npm audit</td>
+          <td>Known CVEs in dependencies</td>
+          <td>Hallucinated packages, logic-level misuse of libraries</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td>CodeRabbit / PR-Agent</td>
+          <td>Code style, obvious anti-patterns, some security flags</td>
+          <td>Spec compliance, business logic, architectural fit</td>
+          <td>$15–25/mo</td>
+        </tr>
+        <tr>
+          <td>Manual QA (self)</td>
+          <td>UX flows, obvious breakage, mobile issues</td>
+          <td>Security vulnerabilities, code-level logic errors</td>
+          <td>Your time</td>
+        </tr>
+        <tr>
+          <td>Human code review (senior dev)</td>
+          <td>Everything automated tools miss + spec compliance</td>
+          <td>Nothing (if done thoroughly)</td>
+          <td>$100–300/review</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The key insight: automated tools handle the easy, repeatable work. Human reviewers handle the hard, contextual work. The mistake most founders make is using automated tools and calling it reviewed — or skipping them entirely and going straight to manual testing.</p>
+
+  <p>For a deeper look at where AI code review bots fall short, see our article on <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">what AI code review bots consistently miss</a>.</p>
+
+  <h2>5. Automated Testing vs. Human Verification: What Each Layer Actually Catches</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Issue Type</th>
+          <th>Automated Testing</th>
+          <th>Human Verification</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Syntax errors &amp; style drift</td>
+          <td>Catches reliably</td>
+          <td>Unnecessary (automation handles it)</td>
+        </tr>
+        <tr>
+          <td>Known CVEs in dependencies</td>
+          <td>Catches reliably</td>
+          <td>Redundant</td>
+        </tr>
+        <tr>
+          <td>Unit test regressions</td>
+          <td>Catches if tests are good</td>
+          <td>Needed to validate the tests themselves</td>
+        </tr>
+        <tr>
+          <td>Logic errors (wrong algorithm)</td>
+          <td>Misses frequently</td>
+          <td>Catches reliably with spec in hand</td>
+        </tr>
+        <tr>
+          <td>Missing auth / access control</td>
+          <td>Partially (SAST patterns only)</td>
+          <td>Catches reliably</td>
+        </tr>
+        <tr>
+          <td>Spec compliance</td>
+          <td>Cannot check (no access to spec)</td>
+          <td>Only humans can verify this</td>
+        </tr>
+        <tr>
+          <td>Hallucinated APIs / wrong library usage</td>
+          <td>Misses (code looks valid syntactically)</td>
+          <td>Catches with domain knowledge</td>
+        </tr>
+        <tr>
+          <td>Business logic edge cases</td>
+          <td>Misses (context-dependent)</td>
+          <td>Catches with product knowledge</td>
+        </tr>
+        <tr>
+          <td>Architectural drift</td>
+          <td>Misses</td>
+          <td>Catches with codebase familiarity</td>
+        </tr>
+        <tr>
+          <td>UX flow breakage</td>
+          <td>E2E tests catch some</td>
+          <td>Manual testing catches all</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>6. What Only Humans Can Verify</h2>
+
+  <p>This deserves its own section because it's where the most expensive bugs hide.</p>
+
+  <h3>Spec Compliance</h3>
+  <p>No automated tool has access to what you intended to build. A human reviewer reads the spec and the code together and asks: "Does this code actually implement what was asked for?" AI tools — including AI code reviewers — cannot do this. They can only assess whether the code is internally consistent, not whether it matches an external intent.</p>
+
+  <h3>Security Architecture</h3>
+  <p>SAST tools catch known patterns (SQL injection, hardcoded secrets). They don't catch missing security layers — endpoints that should require authentication but don't, rate limits that were never added, audit logging that was omitted. A human security review maps the attack surface and checks that each entry point is defended.</p>
+
+  <h3>Business Logic Correctness</h3>
+  <p>Your payment proration formula, your subscription downgrade behavior, your refund eligibility rules — these live in your head (and hopefully your spec), not in the AI's training data. Automated tests can verify that the code runs without crashing. Only a human who understands the business can verify that it does the right thing.</p>
+
+  <div class="stat-box">
+    <strong>Stat:</strong> Faros AI's analysis of 10,000+ developers found that AI adoption is associated with a 154% increase in average PR size — and larger PRs mean more reviewer fatigue, which means more bugs slip through. Explicit review checklists for AI-generated PRs are the documented mitigation.
+    <br><small>Source: Faros AI Engineering Intelligence Report, 2025</small>
+  </div>
+
+  <h3>Architectural Fit</h3>
+  <p>AI generates code that works in isolation. Whether it fits your existing architecture — naming conventions, data flow patterns, error handling strategy, logging approach — requires a reviewer who knows the codebase. Technical debt from AI-generated code accumulates faster than most founders expect.</p>
+
+  <p>For a detailed look at verifying a complete vibe-coded product before launch, see our <a href="/vibers/blog/review-vibe-coded-app-before-launch/">review checklist for vibe-coded apps</a>.</p>
+
+  <div class="cta-block">
+    <h3>We test and verify AI-generated code against your spec</h3>
+    <p>Vibers provides human-in-the-loop code review for AI-generated projects. We check spec compliance, security, logic, and production readiness — in 24–48 hours.</p>
+    <a href="https://github.com/apps/vibers-review/installations/new" class="cta-btn">Install the Review App</a>
+  </div>
+
+  <h2>7. Common Mistakes Founders Make When Testing AI Code</h2>
+
+  <p>Having observed many vibe-coded projects reach production, the failure patterns are consistent:</p>
+
+  <ul>
+    <li><strong>Trusting coverage numbers:</strong> AI can generate tests that hit 90% coverage in minutes. Coverage measures which lines execute, not whether the tests catch real bugs. A high coverage number from AI-generated tests is meaningless without independent test authorship.</li>
+    <li><strong>Testing the happy path only:</strong> The demo always works. Edge cases, error states, and adversarial inputs are where production failures live.</li>
+    <li><strong>Reviewing generated code on your own laptop only:</strong> Local environments hide configuration bugs. Test in a staging environment that mirrors production.</li>
+    <li><strong>Skipping dependency validation:</strong> AI suggests packages that may not exist, may be deprecated, or may have known vulnerabilities. Run <code>npm audit</code> or <code>pip-audit</code> before every deploy.</li>
+    <li><strong>Prompting on top of broken code:</strong> Over 80 developers in a single r/Anthropic thread in 2025 described this failure: keeping prompting when the AI is already confused creates a compounding error state that becomes nearly impossible to unwind.</li>
+  </ul>
+
+  <p>For a deeper look at the full taxonomy of vibe coding failures, see <a href="/vibers/blog/vibe-coding-mistakes-production/">the most common vibe coding mistakes in production</a>.</p>
+
+  <h2>FAQ</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">How do I test AI-generated code if I'm not technical?</div>
+    <div class="faq-a">Start with manual flow testing: go through every user-facing path yourself — sign up, log in, submit a form, check an edge case. Write down what should happen at each step, then verify it does. You don't need to read the code to catch broken flows. Then bring in a human reviewer or use a service like Vibers to handle the technical layers you can't assess yourself.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can AI tools test their own generated code reliably?</div>
+    <div class="faq-a">No — not reliably. When AI generates both the implementation and its tests, the tests are almost always tautological: they confirm what the code does, not what it should do. AI tests miss security boundaries, business logic edge cases, and spec compliance. Human oversight of the test suite is mandatory.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is the most dangerous category of bugs in AI-generated code?</div>
+    <div class="faq-a">Security omissions — entire layers that were never implemented because the AI wasn't explicitly prompted for them. Examples include missing authentication checks, absent rate limiting, and wildcard CORS configurations. A December 2025 CodeRabbit analysis found security vulnerabilities were 2.74x more prevalent in AI-authored PRs than human-written ones.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How long does a proper AI code review take?</div>
+    <div class="faq-a">A thorough review of a small-to-medium feature (500–2000 lines of AI-generated code) takes 2–6 hours when done properly. Automated layers (linting, SAST, unit tests) run in minutes; the manual spec verification and security review take the most time. Rushing this phase is the most common cause of production incidents.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Should I run AI-generated code through a linter before review?</div>
+    <div class="faq-a">Yes — always run linting and static analysis first. It catches the easy issues (style drift, unused imports, simple type errors) automatically, so the human reviewer can focus on logic, security, and spec compliance. ESLint, Pylint, CodeQL, and Semgrep are standard choices depending on your stack.</div>
+  </div>
+
+  <div class="faq-item" style="border-bottom:none">
+    <div class="faq-q">What percentage of AI-generated code has security vulnerabilities?</div>
+    <div class="faq-a">Studies vary, but the figures are significant. Research from 2025 found that approximately 45% of AI-generated code contains vulnerabilities. CodeRabbit's December 2025 analysis of 470 open-source PRs found AI-authored code had 2.74x more security findings than human-written code. Treat AI-generated code as untrusted until it passes security review.</div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Noxon — Vibers</h4>
+      <p>Building human-in-the-loop code review infrastructure for AI-generated projects. Vibers reviews vibe-coded apps against spec before they reach production. Based on reviewing real-world AI-generated codebases since 2024.</p>
+    </div>
+  </div>
+
+  <h2>Related Articles</h2>
+  <div class="related-grid">
+    <div class="related-card">
+      <a href="/vibers/blog/">All Blog Posts</a>
+      <p>The full Vibers research library on AI code quality</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/vibe-coding-mistakes-production/">Vibe Coding Mistakes in Production</a>
+      <p>The most common failures — and how to avoid them</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>
+      <p>The complete pre-launch checklist for AI-built products</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+      <p>Why automated review isn't enough — with documented examples</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Vibers — Human Code Review</span>
+    <span>
+      <a href="/vibers/">Home</a> &middot;
+      <a href="/vibers/blog/">Blog</a> &middot;
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a> &middot;
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
