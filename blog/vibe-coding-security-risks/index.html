@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vibe Coding Security Risks: What Founders Miss Before Launch — Vibers Blog</title>
-  <meta name="description" content="Georgia Tech found 70+ critical vulnerabilities in AI-generated code. Learn the exact security risks vibe coding introduces — and what to audit before you ship.">
+  <meta name="description" content="Georgia Tech's Vibe Security Radar confirmed 74 real-world CVEs in AI-generated code. Wiz scanned 5,600 vibe-coded apps and found 400 exposed secrets. Here's what every founder must audit before launch.">
   <link rel="canonical" href="https://onout.org/vibers/blog/vibe-coding-security-risks/">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Vibe Coding Security Risks: What Founders Miss Before Launch">
-  <meta property="og:description" content="Georgia Tech found 70+ critical vulnerabilities in AI-generated code. Learn the exact security risks vibe coding introduces — and what to audit before you ship.">
+  <meta property="og:description" content="Georgia Tech's Vibe Security Radar confirmed 74 real-world CVEs in AI-generated code. Wiz scanned 5,600 vibe-coded apps and found 400 exposed secrets. Here's what every founder must audit before launch.">
   <meta property="og:url" content="https://onout.org/vibers/blog/vibe-coding-security-risks/">
   <meta property="og:site_name" content="Vibers — Human Code Review">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Vibe Coding Security Risks: What Founders Miss Before Launch">
-  <meta name="twitter:description" content="Georgia Tech found 70+ critical vulnerabilities in AI-generated code. Learn the exact security risks vibe coding introduces — and what to audit before you ship.">
+  <meta name="twitter:description" content="Georgia Tech's Vibe Security Radar confirmed 74 real-world CVEs in AI-generated code. Wiz scanned 5,600 vibe-coded apps and found 400 exposed secrets.">
 
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
@@ -30,7 +30,7 @@
       {
         "@type": "BlogPosting",
         "headline": "Vibe Coding Security Risks: What Founders Miss Before Launch",
-        "description": "Georgia Tech found 70+ critical vulnerabilities in AI-generated code. Learn the exact security risks vibe coding introduces — and what to audit before you ship.",
+        "description": "Georgia Tech's Vibe Security Radar confirmed 74 real-world CVEs in AI-generated code. Wiz scanned 5,600 vibe-coded apps and found 400 exposed secrets. Here's what every founder must audit before launch.",
         "url": "https://onout.org/vibers/blog/vibe-coding-security-risks/",
         "datePublished": "2026-04-13",
         "dateModified": "2026-04-13",
@@ -44,7 +44,7 @@
           "name": "Vibers — Human Code Review",
           "url": "https://vibers.onout.org"
         },
-        "keywords": ["vibe coding security risks", "AI code vulnerabilities", "Cursor security", "Claude Code security", "vibe coding audit"],
+        "keywords": ["vibe coding security risks", "AI code vulnerabilities", "Cursor security", "Claude Code security", "vibe coding audit", "AI generated code security"],
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://onout.org/vibers/blog/vibe-coding-security-risks/"
@@ -58,7 +58,7 @@
             "name": "What are the most common security risks in vibe-coded apps?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "According to Georgia Tech researchers (2025), the most common vulnerabilities in AI-generated code include improper input validation, hardcoded credentials, over-permissive IAM roles, injection flaws (SQL, command, prompt), broken authorization, and arbitrary code execution via unsafe deserialization. These issues appear across codebases built with Cursor, Claude Code, and Windsurf."
+              "text": "According to Georgia Tech's Vibe Security Radar (2025–2026), the most common vulnerabilities in AI-generated code include command injection, authentication bypass, server-side request forgery, hardcoded credentials, over-permissive IAM roles, and broken authorization. Wiz research scanning 5,600 vibe-coded applications found over 2,000 vulnerabilities and 400 exposed secrets across those apps."
             }
           },
           {
@@ -66,7 +66,7 @@
             "name": "Is vibe coding safe to use for production apps?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Vibe coding can produce production-ready code, but it carries measurable security risk if unreviewed. Georgia Tech identified 70+ critical vulnerabilities in a single AI-generated codebase audit (2025). Tools like Cursor and Windsurf can also introduce vulnerable dependencies, creating supply chain risk. Human review before launch is strongly recommended."
+              "text": "Vibe coding can produce functional code quickly, but research shows it carries serious security risk if unreviewed. The SusVibes benchmark (arXiv, December 2025) found that over 80% of functionally correct AI-generated solutions contain exploitable vulnerabilities. Georgia Tech confirmed 74 real-world CVEs traceable to AI coding tools. Human review before launch is strongly recommended."
             }
           },
           {
@@ -74,7 +74,7 @@
             "name": "Can AI code review tools like CodeRabbit catch vibe coding security bugs?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CodeRabbit has a 46% bug detection accuracy, meaning it misses approximately half of all bugs — including security-critical ones. Automated AI reviewers lack the contextual understanding needed to catch logic-level authorization flaws, secret leakage patterns, and over-permissive cloud configurations."
+              "text": "CodeRabbit has approximately 46% bug detection accuracy, meaning it misses roughly half of all bugs including security-critical ones. Research by Intruder.io found that standard static analysis tools like Semgrep OSS and Gosec also failed to detect header injection vulnerabilities in vibe-coded honeypots because detection requires contextual understanding beyond automated scanning."
             }
           },
           {
@@ -82,7 +82,7 @@
             "name": "Why do developers trust AI-generated code too much?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Research shows developers apply less scrutiny to AI-generated code than to manually written code, a cognitive bias sometimes called 'automation bias.' The fluent, well-structured appearance of AI output signals competence — even when the underlying logic contains security flaws. Databricks' 2025 blog post 'Passing the Security Vibe Check' describes this dynamic in production deployments."
+              "text": "Developers apply less scrutiny to AI-generated code than to manually written code — a cognitive bias called automation bias. The fluent, well-structured appearance of AI output signals competence even when the underlying logic is flawed. Daniel Kang, a University of Illinois professor, warns this gives novice coders a false sense of safety and predicts security vulnerabilities will go up dramatically as security-unaware developers deploy more AI-generated apps."
             }
           },
           {
@@ -90,15 +90,15 @@
             "name": "What is a supply chain risk in vibe coding?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "AI coding tools like Cursor and Claude Code suggest dependencies from their training data, which may include outdated or vulnerable packages. Because vibe coders rarely audit package.json or requirements.txt manually, vulnerable third-party libraries ship silently. This is a supply chain risk: your app's attack surface extends to every dependency your AI chose."
+              "text": "AI coding tools suggest dependencies from training data that has a cutoff date. A library that was standard in 2023 may have a critical CVE in 2025, but the AI does not know this. Research found 42,000+ tokens exposed in JavaScript bundles across 5 million scanned applications, often from AI-suggested dependencies. Because vibe coders rarely audit package.json or requirements.txt manually, vulnerable libraries ship silently."
             }
           },
           {
             "@type": "Question",
-            "name": "How should I audit a vibe-coded app for security before launch?",
+            "name": "What real-world incidents have exposed vibe coding security failures?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "A pre-launch security audit of a vibe-coded app should cover: (1) scan all environment files and config for hardcoded secrets, (2) review IAM roles and cloud permission scopes, (3) check every user input path for validation and sanitization, (4) audit authentication and authorization logic for broken access control, (5) run dependency vulnerability scans (npm audit, pip-audit), and (6) have a human reviewer read the actual code — not just run automated tools."
+              "text": "Two notable cases: Quittr, a vibe-coded app that reached $1M revenue in 10 days and received an Oprah mention, had its Firebase database publicly readable — exposing all user data. Moltbook, an AI-powered social network built entirely with AI coding tools, was found to have critical vulnerabilities exposing user credentials shortly after launch. Both incidents were reported in early 2026."
             }
           }
         ]
@@ -112,58 +112,43 @@
     body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
     .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
     @media(max-width:600px){.page{padding:24px 20px}}
-    a{color:#5b44e8;text-decoration:none}
-    a:hover{text-decoration:underline}
+    a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}
     .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
-    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
-    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
-    .site-nav .nav-links a{color:#555}
-    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
     .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
     h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
     @media(max-width:600px){h1{font-size:24px}}
     .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
     .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
     .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
-    .key-takeaways ul{padding-left:20px}
-    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    .key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
     h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
     h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
-    p{margin-bottom:16px;color:#333}
-    ul,ol{padding-left:24px;margin-bottom:16px}
-    li{margin-bottom:8px;color:#333}
+    p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}
     .table-wrap{overflow-x:auto;margin-bottom:24px}
     table{width:100%;border-collapse:collapse;font-size:14px}
     th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
-    td{padding:9px 14px;border-bottom:1px solid #eee}
-    tr:nth-child(even) td{background:#fafaf8}
-    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
-    .stat-box strong{color:#92400e}
+    td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}
     blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
     blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
     .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
     .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
-    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
-    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
-    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}
-    .cta-btn:hover{background:#4834c8;text-decoration:none}
-    .faq-section h2{border-top:none;padding-top:0}
-    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
-    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
-    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}
     .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
-    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
-    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}
     .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
     .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}
-    .related-card:hover{border-color:#5b44e8}
-    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
-    .related-card p{font-size:13px;color:#888;margin-top:6px}
-    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-footer a{color:#555}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+    .incident-box{background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:16px 20px;margin:20px 0}
+    .incident-box .incident-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#be123c;margin-bottom:6px}
+    .incident-box p{margin:0;font-size:15px;color:#3f0a15}
   </style>
 </head>
 <body>
@@ -182,107 +167,119 @@
     <div class="article-meta">
       <span>April 13, 2026</span>
       <span>Security</span>
-      <span>9 min read</span>
+      <span>10 min read</span>
     </div>
 
     <h1>Vibe Coding Security Risks: What Founders Miss Before Launch</h1>
 
-    <p class="article-lead">Vibe coding ships fast — but it ships vulnerabilities just as fast. According to Georgia Tech researchers (2025), a single AI-generated codebase audit uncovered more than 70 critical security vulnerabilities. Most founders launching with Cursor, Claude Code, or Windsurf never see them.</p>
+    <p class="article-lead">Vibe coding ships products in days — and ships security vulnerabilities just as fast. Georgia Tech's Vibe Security Radar has confirmed 74 real-world CVEs traceable to AI coding tools. Wiz scanned 5,600 vibe-coded applications and found 2,000+ vulnerabilities and 400 exposed secrets. Most solo founders using Cursor, Claude Code, or Windsurf never audit any of this before launch.</p>
 
     <div class="key-takeaways">
       <h3>Key Takeaways</h3>
       <ul>
-        <li>Georgia Tech (2025) found 70+ critical vulnerabilities in AI-generated code — in one codebase.</li>
-        <li>Developers scrutinize AI-written code less than manually written code, creating systematic blind spots.</li>
-        <li>The six highest-risk vulnerability classes: hardcoded credentials, broken authorization, injection flaws, over-permissive IAM, improper input validation, and unsafe deserialization.</li>
-        <li>CodeRabbit catches only 46% of bugs — meaning roughly half of all issues, including security ones, ship undetected.</li>
-        <li>AI tools suggest dependencies from training data; those packages may be outdated, vulnerable, or malicious.</li>
+        <li>Georgia Tech's Vibe Security Radar confirmed 74 CVEs from AI-generated code — 35 appeared in March 2026 alone, more than all of 2025 combined.</li>
+        <li>The SusVibes benchmark (arXiv, December 2025) found over 80% of functionally correct AI-generated solutions contain exploitable vulnerabilities.</li>
+        <li>Wiz scanned 5,600 vibe-coded apps and found 2,000+ vulnerabilities and 400 exposed secrets, including API keys and credentials.</li>
+        <li>CodeRabbit catches ~46% of bugs — standard SAST tools (Semgrep, Gosec) miss context-dependent vulnerabilities entirely.</li>
+        <li>Real apps have already failed publicly: Quittr ($1M revenue, Oprah mention) had its Firebase database publicly readable.</li>
       </ul>
     </div>
 
-    <h2>Why Vibe Coding Creates a Security Blind Spot</h2>
+    <h2>The Scale of the Problem Is Now Measurable</h2>
 
-    <p>The promise of vibe coding is real: describe what you want, and tools like Cursor, Claude Code, or Windsurf generate working software in minutes. A solo founder can ship an MVP in a weekend that would have taken a team weeks three years ago.</p>
+    <p>For much of 2024, the claim that "vibe coding is insecure" was anecdotal. Developers warned about it in forum posts, security researchers raised concerns, but hard data was scarce. That changed in 2025 and early 2026, when multiple independent research teams began publishing numbers.</p>
 
-    <p>But "working" and "secure" are not the same thing. According to research published by Georgia Tech in 2025, AI-generated code consistently produces security vulnerabilities at a rate that would alarm any security engineer — and the developers using these tools rarely notice.</p>
+    <p>The most authoritative source is Georgia Tech's Vibe Security Radar, run by researcher Hanqing Zhao and the Systems Software and Security Lab (SSLab). The project scanned more than 43,000 security advisories to identify CVEs where the vulnerability was introduced by AI-generated code.</p>
 
     <div class="stat-box">
-      <strong>70+ critical vulnerabilities</strong> were identified by Georgia Tech researchers (2025) in a single audit of AI-generated code — including injection flaws, broken access control, and hardcoded secrets.
+      <strong>74 confirmed CVEs</strong> traceable to AI-generated code were found by Georgia Tech's Vibe Security Radar as of early 2026 — including 14 critical-risk and 25 high-risk vulnerabilities. The pace is accelerating: 35 cases were detected in March 2026 alone, exceeding all 18 cases found across the entire second half of 2025. <em>(Georgia Tech SSLab, 2026)</em>
     </div>
 
-    <p>The deeper problem is cognitive. According to the same body of research, developers apply significantly less scrutiny to AI-generated code than to code they wrote themselves. The output looks fluent, is well-structured, and passes basic tests. That appearance of competence triggers what psychologists call "automation bias" — a tendency to over-trust automated systems.</p>
+    <p>Researcher Zhao noted a structural amplification risk: "Millions of developers using the same models means the same bugs showing up across different projects." When one AI tool introduces a specific class of vulnerability, it does not introduce it once — it introduces it across every codebase that used the same prompt pattern.</p>
 
-    <p>The result: security gaps that would be caught in a normal code review go unnoticed because the reviewer's guard is already down.</p>
+    <blockquote>
+      "AI is knocking down decades of security silos that were built up to protect users, and it's being traded for convenience."
+      <cite>— Jamieson O'Reilly, ethical hacker, NBC News interview (2026)</cite>
+    </blockquote>
 
     <div class="definition">
-      <strong>Vibe coding</strong> is the practice of building software primarily through natural language prompts to AI tools (Cursor, Claude Code, Windsurf, GitHub Copilot), where the developer describes intent and the AI generates the implementation. The developer's role shifts from writing code to reviewing, directing, and shipping AI output.
+      <strong>Vibe coding</strong> is the practice of building software primarily through natural language prompts to AI tools — Cursor, Claude Code, Windsurf, GitHub Copilot — where the developer describes intent and the AI generates implementation. The developer's role shifts from writing code to reviewing, directing, and shipping AI output.
     </div>
 
-    <h2>The Six Vulnerability Classes That Ship Most Often</h2>
+    <h2>Real Incidents: When Vibe Coding Fails in Production</h2>
 
-    <p>Not all security bugs are equally likely in vibe-coded apps. Research and post-mortems from AI-first teams point to a recurring set of vulnerability classes that AI tools produce disproportionately.</p>
+    <p>Statistics become concrete when real products fail. Two high-profile incidents in 2025–2026 illustrate what vibe coding security risks look like in practice.</p>
+
+    <div class="incident-box">
+      <div class="incident-label">Incident — Quittr App (2025)</div>
+      <p>Quittr, a habit-tracking app built with AI coding tools, reached $1M in revenue within 10 days of launch and received an Oprah mention. Security researchers subsequently discovered that its Firebase database was publicly readable — meaning any user's data was accessible without authentication. The app had 39,000+ users at risk. The incident went viral on Reddit and became a widely cited example of vibe coding's security gap.</p>
+    </div>
+
+    <div class="incident-box">
+      <div class="incident-label">Incident — Moltbook (January 2026)</div>
+      <p>Developer Matt Schlicht built Moltbook, an AI-powered social network for AI systems, entirely using AI coding tools. Within weeks of launch, security researchers identified critical vulnerabilities exposing users' credentials, attributed directly to its AI-coded architecture. The disclosure highlighted that even developers with technical backgrounds can ship dangerous vulnerabilities when relying on AI to generate authentication logic.</p>
+    </div>
+
+    <p>These are not edge cases. Reddit threads documenting vibe coding security failures surface new examples weekly. The pattern is consistent: functional app, fast launch, public data exposure, scramble to patch.</p>
+
+    <h2>The Six Vulnerability Classes That Appear Most Often</h2>
+
+    <p>Not all security bugs appear equally in vibe-coded apps. Research from Georgia Tech (2025–2026), Intruder.io (2025), and the SusVibes academic benchmark (arXiv, December 2025) points to a recurring set of vulnerability classes that AI tools produce disproportionately.</p>
 
     <h3>1. Hardcoded Credentials</h3>
 
-    <p>AI models generate code that works — and the fastest path to "working" is often embedding API keys, database passwords, or JWT secrets directly in source files. According to Georgia Tech's 2025 findings, hardcoded credentials are among the most frequently observed vulnerabilities in AI-generated codebases.</p>
+    <p>AI models generate code that works — and the fastest path to working is often embedding API keys, database passwords, or JWT secrets directly in source files. Wiz's scan of 5,600 vibe-coded applications found 400 exposed secrets across those apps alone.</p>
 
-    <p>The risk is compounded by the vibe coding workflow: code is generated quickly, tested locally, and pushed to GitHub — often a public repository — before anyone thinks to move secrets into environment variables.</p>
+    <p>The vibe coding workflow amplifies this risk: code is generated quickly, tested locally, and pushed to a public GitHub repository before anyone thinks to move secrets into environment variables. By the time the push happens, the secret is already in git history.</p>
 
-    <h3>2. Improper Input Validation</h3>
+    <h3>2. Broken Authorization</h3>
 
-    <p>AI tools generate input handling code that handles the happy path. Edge cases — empty strings, oversized payloads, Unicode exploits, null bytes — are frequently absent. According to Georgia Tech (2025), improper input validation is one of the top vulnerability categories across all AI-generated codebases studied.</p>
+    <p>Authentication (proving who you are) and authorization (controlling what you can access) are separate concerns. AI tools handle authentication reasonably well — JWT flows and session management are well-represented in training data. Authorization is harder: it requires understanding your specific roles, ownership rules, and data boundaries.</p>
 
-    <p>Without validation, user-controlled data flows directly into database queries, shell commands, file paths, and template renderers. Every one of those is an injection vector.</p>
+    <p>Broken authorization in vibe-coded apps typically looks like an endpoint that checks "is the user logged in?" but not "does this user own this resource?" According to Georgia Tech (2025), authentication bypass is one of the three most common vulnerability types confirmed in its CVE tracking — alongside command injection and SSRF.</p>
 
-    <h3>3. Injection Flaws</h3>
+    <h3>3. Command and SQL Injection</h3>
 
-    <p>SQL injection, OS command injection, and prompt injection all share a root cause: unsanitized user input reaching an interpreter. AI-generated code frequently constructs queries with string concatenation rather than parameterized statements, especially when the developer's prompt described the feature rather than the security requirement.</p>
+    <p>Injection flaws occur when unsanitized user input reaches an interpreter. AI-generated code frequently constructs queries with string concatenation rather than parameterized statements, especially when the developer's prompt described the feature rather than the security constraint.</p>
 
     <div class="stat-box">
-      <strong>Injection flaws</strong> have ranked in OWASP's Top 10 every year since the list's inception. Georgia Tech (2025) confirmed injection vulnerabilities appear consistently in AI-generated codebases, often introduced silently through generated data access layers.
+      <strong>Injection flaws</strong> have ranked in OWASP's Top 10 every year since the list's inception. Georgia Tech (2026) confirmed command injection as one of the three most common vulnerability types in tracked CVEs from AI coding tools — Claude Code and GitHub Copilot account for most detections in their dataset.
     </div>
 
     <h3>4. Over-Permissive IAM Roles</h3>
 
-    <p>When a vibe coder asks their AI tool to "set up S3 access" or "connect Lambda to DynamoDB," the generated IAM policies frequently grant wildcard permissions (`*`) rather than least-privilege scopes. According to Databricks' 2025 blog post "Passing the Security Vibe Check," over-permissive cloud configurations are a systematic output of AI-assisted infrastructure-as-code generation.</p>
+    <p>When a vibe coder asks their AI tool to "set up S3 access" or "connect Lambda to DynamoDB," the generated IAM policies frequently grant wildcard permissions (<code>*</code>) rather than least-privilege scopes. Databricks' 2025 blog post "Passing the Security Vibe Check" describes over-permissive cloud configurations as a systematic output of AI-assisted infrastructure-as-code generation.</p>
 
-    <p>A compromised API key attached to a wildcard IAM role gives an attacker the keys to your entire cloud account, not just one bucket.</p>
+    <p>Intruder.io's research confirmed this directly: they tested a Gemini-generated IAM role and found it was vulnerable to privilege escalation — it took four iterations to eliminate the flaw, and in its initial state an attacker could escalate to Global Admin and compromise an entire AWS account.</p>
 
-    <h3>5. Broken Authorization</h3>
+    <h3>5. Improper Input Validation</h3>
 
-    <p>Authentication (proving who you are) and authorization (controlling what you can access) are separate concerns. AI tools handle authentication reasonably well — JWT, OAuth flows, session management are well-represented in training data. Authorization logic is harder: it requires understanding the specific roles, ownership rules, and data boundaries of your application.</p>
+    <p>AI tools generate input handling code that handles the happy path. Edge cases — empty strings, oversized payloads, Unicode exploits, null bytes — are frequently absent. Without validation, user-controlled data flows directly into database queries, shell commands, file paths, and template renderers. Each of those is an injection vector.</p>
 
-    <p>Broken authorization in vibe-coded apps typically looks like: an endpoint that checks "is the user logged in?" but not "does this user own this resource?" According to Georgia Tech (2025), broken authorization is one of the most critical and most common vulnerability classes in AI-generated applications.</p>
+    <p>The SusVibes benchmark (arXiv, December 2025) found specific patterns: timing side-channels in authentication functions, CRLF injection via unvalidated redirect URLs, and XSS via direct assignment of user-controlled URLs without scheme validation. These appeared across 77 different CWE types in their test suite of 200 real-world tasks.</p>
 
     <h3>6. Arbitrary Code Execution via Unsafe Deserialization</h3>
 
-    <p>AI tools routinely generate deserialization code using unsafe patterns — Python's `pickle`, Node's `eval()` on parsed JSON, PHP's `unserialize()` — without warning. When attacker-controlled data reaches these functions, the result is remote code execution: the worst possible outcome.</p>
+    <p>AI tools routinely generate deserialization code using unsafe patterns — Python's <code>pickle</code>, Node's <code>eval()</code> on parsed JSON, PHP's <code>unserialize()</code> — without warning. When attacker-controlled data reaches these functions, the result is remote code execution: the worst possible outcome.</p>
 
-    <p>According to Georgia Tech's 2025 research, arbitrary code execution vulnerabilities via unsafe deserialization appear in AI-generated codebases at a rate that reflects the prevalence of these patterns in the training data the models learned from.</p>
+    <p>Databricks' 2025 research documented that AI-generated code can introduce arbitrary code execution vulnerabilities that appear functionally correct on the surface. The code runs, tests pass, and the vulnerability is invisible until someone exploits it.</p>
 
-    <h2>The Supply Chain Problem: Vulnerable Dependencies</h2>
+    <h2>Why Automated Scanners Cannot Close the Gap</h2>
 
-    <p>Every dependency your AI tool adds to your project is a potential attack surface you did not choose consciously.</p>
-
-    <p>AI coding tools like Cursor and Claude Code suggest packages based on training data. That training data has a cutoff date — and package ecosystems move fast. A library that was the standard recommendation in 2023 may have a critical CVE in 2025. The AI does not know this.</p>
+    <p>The instinctive response to "AI generates insecure code" is "use a security scanner." This is understandable — but the data does not support it as a complete solution.</p>
 
     <div class="stat-box">
-      <strong>Supply chain attacks</strong> accounted for 245% growth in attack volume between 2021 and 2024, according to Sonatype's State of the Software Supply Chain report. AI-suggested dependencies that are outdated or unmaintained expand this attack surface silently.
+      <strong>46% bug detection rate</strong> — CodeRabbit's documented accuracy means roughly one in two bugs, including security-critical ones, reach production undetected. <em>(NBC News / CodeRabbit, 2026)</em>
     </div>
 
-    <p>The typical vibe coder never opens `package.json` or `requirements.txt` to audit what was added. The AI wrote it, the tests pass, it ships. This creates a systematic blind spot: your application is only as secure as the most vulnerable package in its dependency tree.</p>
+    <p>The deeper problem: Intruder.io's honeypot research found that Semgrep OSS and Gosec — both widely used SAST tools — failed entirely to detect a header injection vulnerability in vibe-coded infrastructure. The vulnerability required contextual reasoning about HTTP header trust that static pattern matching cannot provide.</p>
 
-    <h2>Why Automated Code Review Is Not Enough</h2>
+    <blockquote>
+      "When automation appears to 'just work,' it's much easier to fall into a false sense of security and overlook vulnerabilities during code review."
+      <cite>— Intruder.io Research Team, vibe coding security honeypot study (2025)</cite>
+    </blockquote>
 
-    <p>The instinctive response to "AI-generated code has security bugs" is "use an AI security tool to find them." This is understandable — but the numbers do not support it.</p>
-
-    <div class="stat-box">
-      <strong>CodeRabbit detects 46% of bugs</strong> — meaning roughly one in two bugs, including security-critical ones, reach production undetected. This figure comes from independent benchmarking of AI-assisted code review tools (2025).
-    </div>
-
-    <p>The problem is structural. AI code review tools, including CodeRabbit, scan for syntactic patterns. They can flag `eval()`, warn about missing input sanitization on obvious routes, and detect common anti-patterns. What they cannot do is reason about your application's specific authorization model, understand whether this particular IAM role is too permissive for your threat model, or recognize that this API key embedded on line 47 will be exposed when you push to GitHub.</p>
-
-    <p>According to Databricks' 2025 blog post "Passing the Security Vibe Check," the challenge with AI-generated code is not that it looks wrong — it often looks right. The vulnerabilities are in the semantics, not the syntax. Automated tools optimized for syntax cannot close this gap.</p>
+    <p>The SusVibes academic benchmark made this gap quantitative. Testing ten AI coding agents across 200 real-world tasks, researchers found that even when security-focused prompts were added, the fix backfired: self-selection strategies reduced functional correctness by 8.5 percentage points without reliably closing the security gap.</p>
 
     <div class="table-wrap">
       <table>
@@ -290,18 +287,28 @@
           <tr>
             <th>Review Method</th>
             <th>Bug Detection Rate</th>
-            <th>Context-Aware</th>
-            <th>Auth Logic</th>
-            <th>Secrets Detection</th>
+            <th>Context-Aware?</th>
+            <th>Auth Logic?</th>
+            <th>Secrets Detection?</th>
+            <th>IAM Review?</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>CodeRabbit (AI)</td>
+            <td>CodeRabbit (AI review)</td>
             <td>~46%</td>
             <td>Limited</td>
             <td>Pattern-only</td>
             <td>Partial</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Semgrep OSS / Gosec (SAST)</td>
+            <td>~35–55%</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Partial</td>
+            <td>No</td>
           </tr>
           <tr>
             <td>GitHub Advanced Security</td>
@@ -309,17 +316,12 @@
             <td>No</td>
             <td>No</td>
             <td>Yes (secret scanning)</td>
-          </tr>
-          <tr>
-            <td>Automated SAST (Semgrep)</td>
-            <td>~35–55%</td>
             <td>No</td>
-            <td>No</td>
-            <td>Partial</td>
           </tr>
           <tr>
             <td>Human code review</td>
             <td>~80–90%</td>
+            <td>Yes</td>
             <td>Yes</td>
             <td>Yes</td>
             <td>Yes</td>
@@ -328,24 +330,42 @@
       </table>
     </div>
 
-    <p>The table above makes the gap concrete. Automated tools are useful as a first pass. They are not a substitute for human review of security-critical logic.</p>
+    <p>Automated tools are a useful first pass. They are not a substitute for human review of security-critical logic — and for vibe-coded apps, nearly all logic is security-critical in some way.</p>
 
-    <h2>The Automation Bias Problem in Practice</h2>
+    <h2>The Supply Chain Problem No One Audits</h2>
+
+    <p>Every dependency your AI tool adds to your project is a potential attack surface you did not choose consciously.</p>
+
+    <p>AI coding tools suggest packages from training data that has a cutoff date. A library standard in 2023 may carry a critical CVE in 2025. Intruder.io's scanning found 42,000+ tokens exposed in JavaScript bundles across 5 million scanned applications — many originating from AI-suggested packages that had not been audited. The typical vibe coder never opens <code>package.json</code> or <code>requirements.txt</code> to check what was added.</p>
+
+    <div class="stat-box">
+      <strong>42,000+ tokens</strong> were found exposed in JavaScript bundles across 5 million scanned applications — including code repository tokens and project management API keys. Many traced back to AI-suggested dependencies. <em>(Intruder.io scanning data, 2025)</em>
+    </div>
+
+    <p>Veracode's 2025 research found that approximately 45% of AI code generation tasks introduce a known security flaw — described as "nearly a coin flip on whether any given AI code generation produces insecure output." That coin flip gets worse with every unreviewed dependency added by the AI.</p>
+
+    <h2>Automation Bias: The Cognitive Risk Multiplier</h2>
+
+    <p>All of the above is amplified by a documented cognitive effect. Daniel Kang, a professor at the University of Illinois, warns that AI systems give novice coders "a false sense of safety." His prediction: security vulnerabilities will "go up dramatically" as security-unaware developers deploy more AI-generated applications at scale.</p>
 
     <blockquote>
-      "Developers who use AI-generated code are more likely to introduce security vulnerabilities, and less likely to fix them when presented with the code."
-      <cite>— Georgia Tech Security Research, 2025</cite>
+      "With increased complexity comes increased attack surface and vulnerability. Even if AI writes superior code line-by-line, producing 20 times more code creates exponentially more review burden."
+      <cite>— Jack Cable, CEO of Corridor, NBC News interview (2026)</cite>
     </blockquote>
 
-    <p>This finding from Georgia Tech is the core problem. Vibe coding changes the psychological relationship between a developer and their code. You did not write line 247 — the AI did. You reviewed it briefly, it seemed fine, you moved on.</p>
+    <p>The automation bias problem is structural, not individual. Vibe coding changes the psychological relationship between a developer and their code. You did not write line 247 — the AI did. You reviewed it briefly, it passed tests, you shipped. When a security researcher later flags line 247 as an injection vector, the instinctive reaction is disbelief.</p>
 
-    <p>When a security researcher later flags line 247 as a SQL injection vector, the instinctive reaction is surprise. The code looks correct. The AI generated it. It must be fine. This resistance to accepting that AI-generated code can be wrong makes fixing vulnerabilities harder, not just finding them.</p>
+    <p>This resistance to accepting that AI-generated code can be wrong makes fixing vulnerabilities harder, not just finding them. Databricks' "Passing the Security Vibe Check" (2025) argues that teams using AI-generated code need explicit processes to counteract automation bias — not just better tooling.</p>
 
-    <p>According to Databricks' "Passing the Security Vibe Check" (2025), teams deploying AI-generated code need explicit processes to counteract automation bias — not just better tools. The answer is humans who are specifically tasked with security skepticism, not AI tools that share the same blindspots as the tools that generated the code.</p>
+    <div class="cta-block">
+      <h3>We Audit AI-Generated Code for Security Issues Before Launch</h3>
+      <p>Every push to your repo gets reviewed by a human who is specifically looking for what automated tools miss: broken authorization, over-permissive IAM, hardcoded secrets in git history, and injection vectors in AI-generated data access code.</p>
+      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install GitHub App — It's Free to Start</a>
+    </div>
 
     <h2>A Pre-Launch Security Checklist for Vibe-Coded Apps</h2>
 
-    <p>Before you ship, run through this checklist. Each item corresponds to a vulnerability class that Georgia Tech (2025) and Databricks (2025) identified as high-frequency in AI-generated codebases.</p>
+    <p>Before you ship, run through this checklist. Each item maps to a vulnerability class documented in the Georgia Tech (2025–2026) and SusVibes (December 2025) research.</p>
 
     <div class="table-wrap">
       <table>
@@ -358,132 +378,105 @@
         </thead>
         <tbody>
           <tr>
-            <td>No secrets in source files</td>
+            <td>No secrets in source files or git history</td>
             <td>Hardcoded credentials</td>
-            <td><code>git grep -E "(secret|api_key|password)\s*=" .</code></td>
+            <td><code>git log -p | grep -E "(secret|api_key|password)\s*="</code></td>
           </tr>
           <tr>
-            <td>All inputs validated + sanitized</td>
-            <td>Improper input validation</td>
-            <td>Trace each user input from request to storage/render</td>
+            <td>All user inputs validated and sanitized</td>
+            <td>Improper input validation / Injection</td>
+            <td>Trace each user input from request to storage or render</td>
           </tr>
           <tr>
-            <td>Parameterized queries everywhere</td>
+            <td>Parameterized queries in all DB calls</td>
             <td>SQL injection</td>
-            <td>Search for string concatenation in DB calls</td>
+            <td>Search for string concatenation in database access code</td>
           </tr>
           <tr>
-            <td>IAM roles follow least privilege</td>
+            <td>IAM roles follow least-privilege principle</td>
             <td>Over-permissive IAM</td>
-            <td>Review each policy: replace <code>*</code> with specific actions</td>
+            <td>Replace every <code>*</code> wildcard with specific actions and resources</td>
           </tr>
           <tr>
-            <td>Resource-level authorization checks</td>
+            <td>Resource-level ownership checks on every endpoint</td>
             <td>Broken authorization</td>
-            <td>Every data endpoint: verify ownership, not just auth</td>
+            <td>Verify each data endpoint checks ownership, not just authentication</td>
           </tr>
           <tr>
             <td>No <code>pickle</code>, <code>eval()</code>, <code>unserialize()</code> on user data</td>
-            <td>Unsafe deserialization</td>
-            <td>Grep for these functions + trace data source</td>
+            <td>Unsafe deserialization / RCE</td>
+            <td>Grep for these functions and trace the data source</td>
           </tr>
           <tr>
-            <td>Dependencies audited for CVEs</td>
+            <td>Dependencies audited for known CVEs</td>
             <td>Supply chain</td>
-            <td><code>npm audit</code> / <code>pip-audit</code> with no high/critical</td>
+            <td>Run <code>npm audit</code> or <code>pip-audit</code> — zero high/critical findings</td>
+          </tr>
+          <tr>
+            <td>HTTP headers validated before trusting (X-Forwarded-For etc.)</td>
+            <td>Header injection / SSRF</td>
+            <td>Check all reverse-proxy header handling — do not trust client-provided IPs</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <p>This checklist will not catch everything — no checklist does. But running through it systematically addresses the most common failure modes that Georgia Tech (2025) documented in AI-generated codebases.</p>
+    <p>This checklist addresses the highest-frequency failure modes documented in AI-generated codebases. For a <a href="/vibers/blog/review-vibe-coded-app-before-launch/">complete pre-launch review checklist</a> covering architecture and performance, see our companion guide. For a deeper look at why <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">AI bots miss 50% of bugs</a>, we've written a separate analysis of the structural limitations.</p>
 
-    <div class="cta-block">
-      <h3>Get a Human to Review Your Vibe-Coded App</h3>
-      <p>We audit AI-generated code for security issues. Every push gets reviewed by humans — not another AI tool.</p>
-      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install GitHub App — It's Free</a>
-    </div>
+    <h2>What Passing the "Security Vibe Check" Actually Means</h2>
 
-    <h2>What "Passing the Security Vibe Check" Actually Means</h2>
+    <p>Databricks' 2025 blog post "Passing the Security Vibe Check" introduced a useful distinction. AI-generated code often passes a superficial security scan: the obvious anti-patterns are absent, automated tools do not flag it, and it looks secure on first read. But it fails a real security review because the vulnerabilities are semantic — they live in application logic, not syntax.</p>
 
-    <p>Databricks' 2025 blog post "Passing the Security Vibe Check" introduced a useful framing: AI-generated code often passes a superficial security scan — it looks secure, the obvious patterns are absent, automated tools do not flag it. But it fails a real security review because the vulnerabilities are semantic, not syntactic.</p>
-
-    <p>Passing the security vibe check means your code does not look vulnerable on a surface scan. It does not mean your code is secure. For founders launching products with real users and real data, this distinction matters enormously.</p>
-
-    <p>The three most common ways vibe-coded apps fail a real security review, according to Databricks (2025):</p>
+    <p>The three ways vibe-coded apps most commonly fail real security review, per Databricks (2025):</p>
 
     <ol>
-      <li><strong>Authorization logic that handles the common case but not edge cases</strong> — for example, ownership checks on GET but not on PATCH/DELETE.</li>
-      <li><strong>Cloud configurations that are functional but massively over-permissioned</strong> — IAM policies that pass integration tests because the tests do not check permissions.</li>
-      <li><strong>Dependency trees that include packages with known CVEs</strong> — because the AI recommended them and nobody ran an audit.</li>
+      <li><strong>Authorization logic that handles the common case but not edge cases</strong> — ownership checks on GET requests but not on PATCH or DELETE.</li>
+      <li><strong>Cloud configurations that are functional but massively over-permissioned</strong> — IAM policies that pass integration tests because the tests do not assert on permission scope.</li>
+      <li><strong>Dependency trees containing packages with known CVEs</strong> — because the AI recommended them from outdated training data and nobody ran an audit before shipping.</li>
     </ol>
 
-    <h2>The Human Review Advantage</h2>
-
-    <p>Human code review brings something no automated tool currently offers: contextual reasoning about your specific application's threat model.</p>
-
-    <p>A human reviewer reading your authorization middleware does not just ask "does this call `authenticate()`?" They ask: "What happens if `user_id` in the JWT does not match the resource owner? What happens if the token is expired but the request is replayed? What happens if this endpoint is called with a different HTTP method?"</p>
-
-    <p>According to independent benchmarking of review methods (2025), human reviewers catch approximately 80–90% of bugs when reviewing AI-generated code specifically — compared to CodeRabbit's 46%. The gap is widest for logic-level vulnerabilities: authorization bypass, business logic flaws, and configuration mistakes.</p>
-
-    <div class="stat-box">
-      <strong>Human reviewers catch ~80–90% of bugs</strong> in AI-generated codebases, compared to ~46% for AI-assisted review tools — a gap that is most pronounced for security-critical authorization and configuration issues (2025 benchmarking data).
-    </div>
-
-    <p>For a vibe-coded app launching to its first real users, that gap represents the difference between shipping a product and shipping a liability.</p>
-
-    <h2>Summary: The Vibe Coding Security Risk Stack</h2>
-
-    <p>Vibe coding is not inherently insecure — but it creates a specific risk profile that is different from traditional development. According to the research summarized in this article (Georgia Tech 2025, Databricks 2025), the risk profile looks like this:</p>
-
-    <ul>
-      <li>AI tools generate working code that contains latent security vulnerabilities at a measurable rate (70+ per codebase in Georgia Tech's audit).</li>
-      <li>Developers apply less scrutiny to AI-generated code, so those vulnerabilities are less likely to be caught in normal review.</li>
-      <li>Automated AI review tools (CodeRabbit: 46% detection rate) cannot close the gap — they share the same blindspots as the generation tools.</li>
-      <li>Supply chain risk is compounded because AI tools choose dependencies without awareness of current CVE databases.</li>
-      <li>The solution is not more automation — it is human review specifically tasked with security skepticism before launch.</li>
-    </ul>
+    <p>If you are wondering whether your vibe-coded app would pass a real security review — not a vibe check, but a thorough human audit — the research suggests the answer is probably not without intentional intervention. That intervention does not have to be expensive. It does have to involve a human who is specifically skeptical of AI output. If you want to understand <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit alternatives that use human review</a>, we have compared the options.</p>
 
     <!-- Author Bio -->
     <div class="author-bio">
       <div class="author-info">
-        <h4>Sergey Noxon</h4>
-        <p>Founder of Vibers and Noxon Digital Factory. Has reviewed 50+ AI-generated codebases for production readiness. Previously built and shipped crypto infrastructure products used by thousands of users across onout.org. Writes about the gap between vibe coding and production security. <a href="https://github.com/noxonsu">GitHub</a> · <a href="https://t.me/onoutnoxon">Telegram</a></p>
+        <h4>Sergey Noxon — Vibers Team</h4>
+        <p>Founder of Vibers and Noxon Digital Factory. Has reviewed 50+ AI-generated codebases for production security. Previously built and shipped crypto infrastructure products at onout.org used by thousands of users. Writes about the gap between vibe coding speed and production security standards. <a href="https://github.com/noxonsu">GitHub</a> · <a href="https://t.me/onoutnoxon">Telegram</a></p>
       </div>
     </div>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section>
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
         <div class="faq-q">What are the most common security risks in vibe-coded apps?</div>
-        <div class="faq-a">According to Georgia Tech researchers (2025), the most common vulnerabilities in AI-generated code include improper input validation, hardcoded credentials, over-permissive IAM roles, injection flaws (SQL, command, prompt), broken authorization, and arbitrary code execution via unsafe deserialization. These issues appear across codebases built with Cursor, Claude Code, and Windsurf.</div>
+        <div class="faq-a">According to Georgia Tech's Vibe Security Radar (2025–2026), the most common vulnerabilities confirmed in real CVEs are command injection, authentication bypass, and server-side request forgery. Wiz's broader scan of 5,600 vibe-coded apps found 2,000+ total vulnerabilities and 400 exposed secrets — with hardcoded credentials and over-permissive IAM configurations appearing most frequently in production applications.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Is vibe coding safe to use for production apps?</div>
-        <div class="faq-a">Vibe coding can produce production-ready code, but it carries measurable security risk if unreviewed. Georgia Tech identified 70+ critical vulnerabilities in a single AI-generated codebase audit (2025). Tools like Cursor and Windsurf can also introduce vulnerable dependencies, creating supply chain risk. Human review before launch is strongly recommended.</div>
+        <div class="faq-a">Vibe coding can produce functional code quickly, but research consistently shows serious security risk if unreviewed. The SusVibes benchmark (arXiv, December 2025) found over 80% of functionally correct AI-generated solutions contain exploitable vulnerabilities. Georgia Tech has confirmed 74 real-world CVEs traceable to AI coding tools. Human security review before launch is strongly recommended for any app handling user data.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Can AI code review tools like CodeRabbit catch vibe coding security bugs?</div>
-        <div class="faq-a">CodeRabbit has a 46% bug detection accuracy, meaning it misses approximately half of all bugs — including security-critical ones. Automated AI reviewers lack the contextual understanding needed to catch logic-level authorization flaws, secret leakage patterns, and over-permissive cloud configurations.</div>
+        <div class="faq-a">CodeRabbit has approximately 46% bug detection accuracy, meaning it misses roughly half of all bugs including security-critical ones. Research by Intruder.io found that Semgrep OSS and Gosec — standard SAST tools — also failed to detect a header injection vulnerability in vibe-coded honeypot infrastructure, because the detection required contextual reasoning that static analysis cannot provide.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Why do developers trust AI-generated code too much?</div>
-        <div class="faq-a">Research shows developers apply less scrutiny to AI-generated code than to manually written code, a cognitive bias sometimes called "automation bias." The fluent, well-structured appearance of AI output signals competence — even when the underlying logic contains security flaws. Databricks' 2025 blog post "Passing the Security Vibe Check" describes this dynamic in production deployments.</div>
+        <div class="faq-a">Developers apply less scrutiny to AI-generated code than to manually written code — a cognitive effect called automation bias. The fluent, well-structured appearance of AI output signals competence even when the underlying logic is flawed. University of Illinois professor Daniel Kang warns that this gives novice coders "a false sense of safety," and predicts security vulnerabilities will "go up dramatically" as non-security-aware developers deploy AI-generated apps to production.</div>
       </div>
 
       <div class="faq-item">
-        <div class="faq-q">What is a supply chain risk in vibe coding?</div>
-        <div class="faq-a">AI coding tools like Cursor and Claude Code suggest dependencies from their training data, which may include outdated or vulnerable packages. Because vibe coders rarely audit <code>package.json</code> or <code>requirements.txt</code> manually, vulnerable third-party libraries ship silently. This is a supply chain risk: your app's attack surface extends to every dependency your AI chose.</div>
+        <div class="faq-q">What real-world incidents have exposed vibe coding security failures?</div>
+        <div class="faq-a">Two notable 2025–2026 cases: Quittr, a vibe-coded habit app that hit $1M revenue in 10 days and received an Oprah mention, had its Firebase database publicly readable — exposing all 39,000+ users' data. Moltbook, an AI-powered social network built entirely with AI coding tools, was found to have critical vulnerabilities exposing user credentials within weeks of launch. Both incidents were covered widely on Reddit and security news outlets.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">How should I audit a vibe-coded app for security before launch?</div>
-        <div class="faq-a">A pre-launch security audit of a vibe-coded app should cover: (1) scan all environment files and config for hardcoded secrets, (2) review IAM roles and cloud permission scopes, (3) check every user input path for validation and sanitization, (4) audit authentication and authorization logic for broken access control, (5) run dependency vulnerability scans (<code>npm audit</code>, <code>pip-audit</code>), and (6) have a human reviewer read the actual code — not just run automated tools.</div>
+        <div class="faq-a">A pre-launch security audit should cover: (1) scan all source files and git history for hardcoded secrets, (2) review IAM roles and cloud permission scopes for wildcard permissions, (3) trace every user input path for validation and sanitization, (4) verify resource-level ownership checks on every API endpoint, (5) run dependency vulnerability scans (npm audit, pip-audit), and (6) have a human reviewer read the actual code — specifically for logic flaws that automated tools cannot detect.</div>
       </div>
     </section>
 
@@ -493,7 +486,7 @@
       <div class="related-grid">
         <div class="related-card">
           <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>
-          <p>A step-by-step audit process for founders shipping AI-generated MVPs.</p>
+          <p>A complete pre-launch audit process for solo founders shipping AI-generated MVPs.</p>
         </div>
         <div class="related-card">
           <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">Why AI Code Review Bots Miss 50% of Bugs</a>
@@ -509,8 +502,8 @@
   </article>
 
   <footer class="site-footer">
-    <span>© 2026 Vibers · <a href="/">vibers.onout.org</a></span>
-    <span><a href="https://github.com/apps/vibers-review/installations/new">Install GitHub App</a> · <a href="/vibers/blog/">Blog</a></span>
+    <span>&copy; 2026 Vibers &middot; <a href="/vibers/">vibers.onout.org</a></span>
+    <span><a href="https://github.com/apps/vibers-review/installations/new">Install GitHub App</a> &middot; <a href="/vibers/blog/">Blog</a></span>
   </footer>
 
 </div>

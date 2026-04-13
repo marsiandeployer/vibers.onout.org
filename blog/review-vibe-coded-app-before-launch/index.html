@@ -4,50 +4,53 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How to Review a Vibe-Coded App Before Launch: The Complete Checklist — Vibers Blog</title>
-  <meta name="description" content="A practical pre-launch checklist for vibe-coded apps built with Cursor or Claude Code. Covers auth flows, payment edge cases, permission bugs, and the 5 bug categories that ship most often in AI-generated MVPs.">
+  <meta name="description" content="A practical, category-by-category checklist for solo founders to review AI-generated apps before shipping. Covers auth, payments, permissions, error handling, and user flows — with real breach examples.">
   <link rel="canonical" href="https://onout.org/vibers/blog/review-vibe-coded-app-before-launch/">
   <meta property="og:type" content="article">
   <meta property="og:title" content="How to Review a Vibe-Coded App Before Launch: The Complete Checklist">
-  <meta property="og:description" content="A practical pre-launch checklist for vibe-coded apps built with Cursor or Claude Code. Covers auth flows, payment edge cases, permission bugs, and the 5 bug categories that ship most often in AI-generated MVPs.">
+  <meta property="og:description" content="A practical, category-by-category checklist for solo founders to review AI-generated apps before shipping. Covers auth, payments, permissions, error handling, and user flows.">
   <meta property="og:url" content="https://onout.org/vibers/blog/review-vibe-coded-app-before-launch/">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- GA4 -->
+  <meta name="twitter:title" content="How to Review a Vibe-Coded App Before Launch: The Complete Checklist">
+  <meta name="twitter:description" content="Covers auth, payments, permissions, error handling — with real breach examples from vibe-coded apps.">
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Schema: BlogPosting (GEO: O05) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "How to Review a Vibe-Coded App Before Launch: The Complete Checklist",
-    "description": "A practical pre-launch checklist for vibe-coded apps built with Cursor or Claude Code. Covers auth flows, payment edge cases, permission bugs, and the 5 bug categories that ship most often in AI-generated MVPs.",
+    "description": "A practical, category-by-category checklist for solo founders to review AI-generated apps before shipping. Covers auth, payments, permissions, error handling, and user flows — with real breach examples.",
     "url": "https://onout.org/vibers/blog/review-vibe-coded-app-before-launch/",
-    "datePublished": "2026-04-13",
-    "dateModified": "2026-04-13",
+    "datePublished": "2025-04-13",
+    "dateModified": "2025-04-13",
     "author": {
-      "@type": "Organization",
-      "name": "Vibers",
+      "@type": "Person",
+      "name": "Noxon Team",
       "url": "https://vibers.onout.org"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Vibers",
-      "url": "https://vibers.onout.org"
+      "url": "https://vibers.onout.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://vibers.onout.org/favicon.ico"
+      }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://onout.org/vibers/blog/review-vibe-coded-app-before-launch/"
     },
-    "keywords": ["vibe coding", "pre-launch checklist", "AI code review", "vibe coded app", "how to review vibe coded app before launch", "vibe coding security", "Cursor app review"],
-    "articleSection": "Engineering",
-    "wordCount": 2100
+    "keywords": ["vibe coding", "pre-launch checklist", "AI generated code review", "vibe coded app review", "production ready checklist"],
+    "articleSection": "Guides"
   }
   </script>
 
-  <!-- Schema: FAQPage (GEO: C09) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,50 +58,50 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is a vibe-coded app?",
+        "name": "How long does a pre-launch review of a vibe-coded app take?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A vibe-coded app is a software product built primarily through natural-language prompts to an AI coding assistant — such as Cursor, Claude Code, or GitHub Copilot — with minimal hand-written code by the founder. The term was coined by Andrej Karpathy in early 2025 to describe AI-first development where the human steers intent and the AI generates most of the implementation."
+          "text": "A thorough manual review of a solo-founder app typically takes 4-8 hours when done systematically across the five categories: authentication, payments, permissions, error handling, and core user flows. Automated scanners add another 30-60 minutes but should not replace the manual walkthrough."
         }
       },
       {
         "@type": "Question",
-        "name": "Do vibe-coded apps pass automated tests?",
+        "name": "Can I just run automated tests and skip a manual review?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — vibe-coded apps typically pass CI/CD and standard linting checks. The problem is that automated tests verify what the code does, not whether it correctly models real-world business rules. Auth edge cases, payment race conditions, and permission escalation bugs routinely survive green test suites."
+          "text": "No. Research from Autonoma (2025) found that developers using AI coding assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without manual verification. Automated tools miss runtime behavior bugs — the kind where User A can see User B's data — because the vulnerability is in how the code behaves, not in the code itself."
         }
       },
       {
         "@type": "Question",
-        "name": "What percentage of bugs do AI code-review tools detect?",
+        "name": "What is the most common critical bug in vibe-coded apps?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Industry benchmarks put AI code review detection rates at roughly 46–57% of logic bugs. CodeRabbit's published benchmark shows a 46% detection rate on real-world pull requests; Qodo targets 57% in its evaluation suite. That means roughly half of meaningful bugs in a vibe-coded app can pass AI review undetected."
+          "text": "Broken authorization is consistently the top finding: one user can access another user's resources. This typically happens because AI generates validation checks only in the UI (React component), not in the API endpoint. A direct API call bypasses the frontend check entirely."
         }
       },
       {
         "@type": "Question",
-        "name": "What are the most common bugs in vibe-coded apps?",
+        "name": "Do AI code review bots like CodeRabbit catch these issues?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The five most common bug categories in AI-generated MVPs are: (1) broken authentication and session management, (2) payment edge cases such as double-charge on retry, (3) permission escalation where one user can access another's data, (4) API contract mismatches between frontend and backend, and (5) silent error swallowing that hides failures from users and logs."
+          "text": "Only partially. CodeRabbit's reported accuracy on logic bugs is around 46%. Static analysis tools miss runtime authorization flaws and business-logic edge cases — exactly the category most likely to cause a production incident."
         }
       },
       {
         "@type": "Question",
-        "name": "How long does a proper pre-launch review take?",
+        "name": "My app passed CI/CD. Is it safe to ship?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A thorough pre-launch review of a small-to-medium vibe-coded MVP typically takes 2–4 hours of focused human review time. This covers: reading the spec, mapping auth and payment flows, walking every unhappy path, and verifying permission boundaries. Larger apps with complex integrations may require 6–8 hours."
+          "text": "Passing CI/CD is a necessary but not sufficient condition for production readiness. CI/CD checks build integrity and unit test coverage. It does not verify that row-level security is enabled in your database, that plan limits are enforced server-side, or that error messages do not leak stack traces to users."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I use an automated tool instead of human review?",
+        "name": "How is a human review different from an automated security scan?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Automated tools are a useful first pass but cannot replace human review for business logic. They catch syntax errors, known vulnerability patterns, and obvious anti-patterns well. However, they cannot verify whether your specific payment flow handles partial refunds correctly, whether your auth design matches your spec, or whether an edge case in your permissions model matches your business rules. Human review is the only reliable gate for these issues before launch."
+          "text": "An automated scan reads code statically. A human reviewer reads the spec, then tests the running app as an adversarial user — trying to access data they should not see, skipping required steps, submitting malformed input, and verifying that every stated requirement is actually enforced at the server layer. Scans find known vulnerability patterns; humans find logic gaps unique to your product."
         }
       }
     ]
@@ -110,539 +113,377 @@
     body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
     .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
     @media(max-width:600px){.page{padding:24px 20px}}
-    a{color:#5b44e8;text-decoration:none}
-    a:hover{text-decoration:underline}
+    a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}
     .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
-    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
-    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
-    .site-nav .nav-links a{color:#555}
-    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
     .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
     h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
     @media(max-width:600px){h1{font-size:24px}}
     .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
     .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
     .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
-    .key-takeaways ul{padding-left:20px}
-    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    .key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
     h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
     h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
-    p{margin-bottom:16px;color:#333}
-    ul,ol{padding-left:24px;margin-bottom:16px}
-    li{margin-bottom:8px;color:#333}
+    p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}
     .table-wrap{overflow-x:auto;margin-bottom:24px}
     table{width:100%;border-collapse:collapse;font-size:14px}
     th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
-    td{padding:9px 14px;border-bottom:1px solid #eee}
-    tr:nth-child(even) td{background:#fafaf8}
-    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
-    .stat-box strong{color:#92400e}
+    td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}
     blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
     blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
     .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
-    .checklist{list-style:none;padding-left:0}
-    .checklist li{padding:10px 14px;border-bottom:1px solid #eee;display:flex;gap:12px;align-items:flex-start}
-    .checklist li::before{content:"☐";color:#5b44e8;font-size:18px;flex-shrink:0;margin-top:1px}
+    .checklist{list-style:none;padding-left:0}.checklist li{padding:10px 14px;border-bottom:1px solid #eee;display:flex;gap:12px;align-items:flex-start}
+    .checklist li::before{content:"&#9744;";color:#5b44e8;font-size:18px;flex-shrink:0}
     .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
-    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
-    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
-    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}
-    .cta-btn:hover{background:#4834c8;text-decoration:none}
-    .faq-section h2{border-top:none;padding-top:0}
-    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
-    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
-    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}
     .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
-    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
-    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
-    .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
-    .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}
-    .related-card:hover{border-color:#5b44e8}
-    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
-    .related-card p{font-size:13px;color:#888;margin-top:6px}
-    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-footer a{color:#555}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+    .breach-box{background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:16px 20px;margin:20px 0}
+    .breach-box h4{font-size:14px;font-weight:700;color:#be123c;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.4px}
+    .breach-box p{font-size:14px;color:#7f1d1d;margin:0}
   </style>
 </head>
 <body>
 <div class="page">
 
   <nav class="site-nav">
-    <a class="brand" href="/">Vibers — Human Code Review</a>
+    <a class="brand" href="/vibers/">Vibers</a>
     <div class="nav-links">
-      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/">Home</a>
       <a href="/vibers/blog/">Blog</a>
-      <a href="https://t.me/onoutnoxon">Telegram</a>
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
     </div>
   </nav>
 
   <article>
+    <div class="article-meta">
+      <span>April 13, 2025</span>
+      <span>&middot;</span>
+      <span>12 min read</span>
+      <span>&middot;</span>
+      <span>Pre-Launch Guide</span>
+    </div>
 
-    <header>
-      <div class="article-meta">
-        <span>April 13, 2026</span>
-        <span>Engineering · Pre-launch</span>
-        <span>~10 min read</span>
-      </div>
-      <h1>How to Review a Vibe-Coded App Before Launch: The Complete Checklist</h1>
-      <p class="article-lead">
-        Your Cursor or Claude Code project passes CI. Lint is green. But before your first real user touches it, there are five categories of bugs that AI tools almost always miss — and a structured review will catch them. Here is the complete pre-launch checklist.
-      </p>
-    </header>
+    <h1>How to Review a Vibe-Coded App Before Launch: The Complete Checklist</h1>
 
-    <!-- Key Takeaways (GEO: O02) -->
+    <p class="article-lead">If you built your app with Cursor, Claude Code, or Bolt, there is a specific set of checks you must run before real users touch it. Automated tests pass — and apps still break in production. Here is the exact checklist, organized by failure category, to close those gaps before they cost you customers.</p>
+
     <div class="key-takeaways">
       <h3>Key Takeaways</h3>
       <ul>
-        <li>Most vibe-coded apps pass automated tests yet fail under real user traffic — because CI checks behavior, not business logic.</li>
-        <li>AI code-review tools detect only 46–57% of logic bugs; roughly half of serious issues survive automated review unnoticed.</li>
-        <li>The five highest-risk categories are: auth/session management, payment edge cases, permission escalation, API contract mismatches, and silent error swallowing.</li>
-        <li>A human-led review of a typical AI-generated MVP takes 2–4 hours and focuses entirely on unhappy paths that automated tests never exercise.</li>
-        <li>The Convex engineering team identified 6 mandatory production-readiness steps for vibe-coded apps in their 2025 guide — none of them are automated.</li>
+        <li>AI-generated code contains <strong>1.7x more issues</strong> than human-written code — most of them logic bugs, not syntax errors (ingram.tech, 2026).</li>
+        <li>The five critical failure categories are: authentication &amp; session, payment edge cases, permission bugs, broken error handling, and core user flows.</li>
+        <li>Automated scanners miss runtime authorization flaws — User A seeing User B's data passes every static check.</li>
+        <li><strong>45%</strong> of AI-generated apps contain at least one OWASP Top 10 vulnerability (Veracode, 2025).</li>
+        <li>Most vibe-coded apps pass CI/CD but fail under real user traffic because CI/CD tests what was specified, not what was forgotten.</li>
+        <li>A human reviewer reads your spec, then tries to break your app as an adversarial user — that is what catches the gaps.</li>
       </ul>
     </div>
 
-    <!-- Section 1 -->
-    <h2>Why "It Works on My Machine" Isn't Enough for Vibe-Coded Apps</h2>
+    <h2>The Launch That Broke in Production</h2>
 
-    <p>
-      In 2025, a new generation of solo founders and non-technical teams shipped real products using AI coding assistants — Cursor, Claude Code, GitHub Copilot, and similar tools. The pattern is now common: describe a feature in plain English, let the model write the code, iterate with follow-up prompts, and deploy.
-    </p>
+    <p>You described your app in plain English, watched the AI build it, clicked through the happy path, everything worked. You pushed to production. Three days later you got an email from a user: "I can see someone else's account data on my dashboard."</p>
 
-    <p>
-      The output is often impressive. The app looks finished. Tests pass. But "vibe coding" — a term coined by AI researcher Andrej Karpathy in early 2025 to describe AI-first development driven by natural-language intent — introduces a specific category of production risk that traditional QA does not catch.
-    </p>
+    <p>This is not a hypothetical. In 2025, the Tea dating app — built on Firebase with AI-generated backend rules — left 72,000 verification photos, government IDs, and over one million private messages exposed because the default access rules were never configured. The app had passed its own internal testing. It worked fine in the demo.</p>
+
+    <div class="breach-box">
+      <h4>Real Breach: Tea App (2025)</h4>
+      <p>Firebase backend left on default open rules in a vibe-coded dating app. Exposed: 72,000 images including government IDs and 1M+ private messages. Root cause: AI generated the database reads but never generated the security rules. CI/CD passed. Static scans passed. The bug lived in configuration, not code.</p>
+    </div>
+
+    <p>The problem is structural. When you vibe-code, the AI optimizes for making the feature <em>work</em> on the happy path. It does not automatically audit every place where your security model needs to be enforced. That gap — between "works in demo" and "safe under real user traffic" — is exactly what a pre-launch review closes.</p>
 
     <div class="definition">
-      <strong>Vibe coding</strong> — a software development approach where a founder or developer describes desired behavior in natural language to an AI assistant, which generates most or all of the implementation. The human steers intent; the model writes code. Common tools: Cursor, Claude Code, Bolt, Lovable. First named by Andrej Karpathy, February 2025.
+      <strong>Vibe-coded app:</strong> An application where most or all code was generated by an AI assistant (Cursor, Claude Code, Copilot, Bolt, Lovable, v0) in response to natural language prompts, typically by a founder without a traditional software engineering background.
     </div>
 
-    <p>
-      The core problem: AI models optimize for code that compiles, passes tests, and looks reasonable to a reviewer. They are significantly weaker at reasoning about the full space of user behavior — especially adversarial inputs, race conditions, and multi-step flows that only break under specific conditions.
-    </p>
+    <h2>Why Automated Tests Are Not Enough</h2>
+
+    <p>Here is the uncomfortable truth: your CI/CD pipeline is testing the code that was written, not the requirements that were forgotten. Automated tools operate on what exists. They cannot flag what is missing.</p>
 
     <div class="stat-box">
-      <strong>Stat:</strong> CodeRabbit's published benchmark (2025) shows a 46% logic-bug detection rate on real-world pull requests. Qodo targets 57% in its internal evaluation suite. That leaves 43–54% of meaningful bugs undetected by automated review. <em>Sources: CodeRabbit engineering blog 2025; Qodo evaluation documentation 2025.</em>
+      <strong>41% more likely</strong> — developers using AI coding assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without manual verification. (Autonoma / ICSE 2026 systematic review)
     </div>
 
-    <!-- Section 2 -->
-    <h2>The 5 Bug Categories That Almost Always Ship in Vibe-Coded Apps</h2>
+    <p>CodeRabbit, one of the leading AI code review bots, reports an accuracy rate of roughly 46% on logic bugs. That means more than half of logic-level issues slip through. For a deeper look at why, see our article on <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">why AI code review bots miss bugs</a>.</p>
 
-    <p>
-      Based on reviewing dozens of AI-generated MVPs, the same failure modes appear repeatedly. These are not exotic edge cases — they are the predictable result of how language models generate code.
-    </p>
+    <blockquote>
+      "The scanner came back clean. It always does. Because the vulnerability was not in the code. It was in how the code behaved at runtime."
+      <cite>— getautonoma.com, Vibe Coding Risks for Founders (2025)</cite>
+    </blockquote>
 
-    <h3>1. Broken Authentication and Session Management</h3>
+    <p>Sonar's research found that more than 90% of issues in AI-generated code fall into categories that static analysis tools are specifically weak at — logic errors, mismatched assumptions between layers, and authorization gaps. (<a href="https://www.technologyreview.com/2025/12/15/1128352/rise-of-ai-coding-developers-2026/" rel="noopener noreferrer" target="_blank">MIT Technology Review, Dec 2025</a>)</p>
 
-    <p>
-      AI models write auth flows that work for the happy path: valid credentials, fresh session, single device. They frequently fail to handle: expired tokens returned to protected routes, session state not cleared on logout, password reset tokens that never expire, and account enumeration through differential response times.
-    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Check type</th>
+            <th>What it catches</th>
+            <th>What it misses</th>
+            <th>Time cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unit tests</td>
+            <td>Function-level logic</td>
+            <td>Integration failures, auth gaps, cross-user data leaks</td>
+            <td>Low (automated)</td>
+          </tr>
+          <tr>
+            <td>CI/CD pipeline</td>
+            <td>Build integrity, known test regressions</td>
+            <td>Runtime behavior, missing validations, config errors</td>
+            <td>Low (automated)</td>
+          </tr>
+          <tr>
+            <td>SAST scanner (Snyk / Semgrep)</td>
+            <td>Known CVE patterns, hardcoded secrets</td>
+            <td>Business-logic flaws, missing server-side enforcement</td>
+            <td>Low (automated)</td>
+          </tr>
+          <tr>
+            <td>AI code review bot</td>
+            <td>~46% of logic bugs, style issues</td>
+            <td>~54% of logic bugs, spec-vs-code mismatches</td>
+            <td>Low (automated)</td>
+          </tr>
+          <tr>
+            <td><strong>Manual human review</strong></td>
+            <td><strong>Runtime auth, plan limits, user flow gaps, spec mismatches</strong></td>
+            <td>Scale / load issues (needs separate load testing)</td>
+            <td>4&ndash;8 hours</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <p>
-      A green login test does not mean auth is secure. It means the test passed for a valid user with valid credentials. The bugs live in what happens after logout, after password reset, after a token expires mid-session.
-    </p>
+    <h2>The 5-Category Pre-Launch Checklist</h2>
+
+    <p>The following checklist is organized around the five failure categories that appear most consistently in post-mortem analyses of failed vibe-coded launches. Work through each section before you open your app to real users.</p>
+
+    <h3>1. Authentication &amp; Session Management</h3>
+
+    <p>Authentication is the most common first-failure point. AI generates login flows correctly for the happy path but frequently misses edge cases that attackers find on day one.</p>
+
+    <ul class="checklist">
+      <li>Log out, then directly visit a URL that requires login — does the app redirect you, or does it load the page anyway?</li>
+      <li>Open a protected page in an incognito window without logging in — same test, different surface.</li>
+      <li>Check that session tokens expire — log in, wait past expiry (or manually expire the cookie), confirm the next request forces re-auth.</li>
+      <li>Verify password reset links expire after use — click the same reset link twice; the second click should be rejected.</li>
+      <li>Confirm that "remember me" tokens are stored securely (httpOnly, Secure, SameSite=Lax or Strict cookies).</li>
+      <li>Check your auth provider settings directly — if using Supabase, Firebase, or Auth0, log into the dashboard and verify email confirmation is required.</li>
+    </ul>
+
+    <div class="breach-box">
+      <h4>Real Breach: Base44 (2025)</h4>
+      <p>A public app_id in a vibe-coded platform allowed attackers to bypass SSO entirely and register accounts that gained access to internal applications marked "private." The auth flow was AI-generated and worked correctly for normal users — the bypass existed in an unguarded registration endpoint the AI added as a convenience feature.</p>
+    </div>
 
     <h3>2. Payment Edge Cases</h3>
 
-    <p>
-      Payment flows generated by AI tools are typically correct for the first successful charge. The problems cluster around: double-charge when a user retries after a network timeout, webhook idempotency — the same event processed twice because the handler lacks a deduplication key, partial refunds not updating subscription state, and failed payment status not surfaced to the user before feature access is granted.
-    </p>
+    <p>AI models are excellent at generating Stripe or Paddle integration code for the success case. They are much weaker on the full state machine: failed charges, expired cards, subscription downgrades, and refund handling.</p>
+
+    <ul class="checklist">
+      <li>Use Stripe's test card <code>4000000000000002</code> (card declined) — does your app handle this gracefully, or does it throw a generic 500 error?</li>
+      <li>Verify that plan limits are enforced in your API, not just in the React component — make a direct API call to a premium endpoint without a valid subscription.</li>
+      <li>Test the webhook handler: simulate a <code>customer.subscription.deleted</code> event and confirm the user's access is revoked within seconds.</li>
+      <li>Check that failed webhook deliveries are retried — Stripe retries up to 72 hours; confirm your endpoint is idempotent (same event processed twice = same result).</li>
+      <li>Confirm receipt emails are sent and contain accurate amounts and product descriptions.</li>
+      <li>Test the free trial expiry path end-to-end without manually upgrading.</li>
+    </ul>
+
+    <div class="stat-box">
+      <strong>$8,000&ndash;$25,000</strong> is the estimated cost of a production payment bug for an early-stage startup — including engineering time, refunds, and potential chargeback fees. (getautonoma.com, 2025)
+    </div>
+
+    <h3>3. Authorization &amp; Permission Bugs</h3>
+
+    <p>This is the single most dangerous category in vibe-coded apps. AI generates UI-level permission checks reliably. It generates API-level enforcement inconsistently. The result: a direct API call bypasses every frontend guard.</p>
+
+    <ul class="checklist">
+      <li>Create two test accounts (User A and User B). Log in as User A, copy the ID of a resource (document, record, project). Log out. Log in as User B. Manually craft a request to that resource ID — can User B read it?</li>
+      <li>If using Supabase: open the dashboard, navigate to Authentication &gt; Policies, and verify Row Level Security (RLS) is enabled on every table that stores user data.</li>
+      <li>Check that admin-only actions (user deletion, plan upgrades) require a server-side role check — not just a hidden button in the UI.</li>
+      <li>Verify that your database keys are not exposed in client-side bundles — search your built JS files for your database URL or service role key.</li>
+      <li>Test that a free-tier user cannot access premium features by directly calling the API endpoint.</li>
+    </ul>
 
     <blockquote>
-      "The most dangerous payment bugs are the ones that neither the user nor the developer notices immediately — they accumulate silently over weeks."
-      <cite>— Vibers review notes, MethasMP/Paycif review, March 2026</cite>
+      "We saw the HackerNews thread. Can we get on a call?" An investor email arrived at 8 AM on a Tuesday — users could see another user's data in the dashboard. The security scanner had cleared the code three days prior.
+      <cite>— Founder story documented by getautonoma.com (2025)</cite>
     </blockquote>
 
-    <h3>3. Permission Escalation</h3>
+    <p>For a full analysis of why this category is so hard to catch automatically, see our article on <a href="/vibers/blog/vibe-coding-security-risks/">vibe coding security risks</a>.</p>
 
-    <p>
-      Multi-tenant apps built with AI tools frequently have authorization gaps: a user can read or modify another user's data by changing an ID in the URL or request body. The AI writes the endpoint correctly for the calling user's own data, but forgets to check that the requested resource actually belongs to that user.
-    </p>
+    <h3>4. Error Handling &amp; Information Leakage</h3>
 
-    <p>
-      This is the most reliably reproducible class of bug in AI-generated MVPs. It requires two test accounts and five minutes to verify — but it almost never appears in an AI-generated test suite.
-    </p>
+    <p>AI-generated error handling tends to be optimistic — it handles the errors that were anticipated during generation. Real users find unanticipated error states immediately.</p>
 
-    <h3>4. API Contract Mismatches</h3>
-
-    <p>
-      When a language model writes a frontend and backend in separate sessions or separate prompts, the two sides often disagree on field names, nullable fields, array vs. object shapes, and error response formats. The app works in development where test data is controlled, but breaks with real-world data that triggers the mismatched branch.
-    </p>
-
-    <h3>5. Silent Error Swallowing</h3>
-
-    <p>
-      AI-generated code frequently wraps operations in try/catch blocks and logs the error to console — but returns a success response to the caller. From the user's perspective: the action appeared to succeed. From the developer's perspective: nothing in the dashboard shows a problem. From the log: a single line buried in noise.
-    </p>
-
-    <!-- Section 3: Statistics table -->
-    <h2>How AI Code Review Compares to Human Review</h2>
-
-    <p>
-      Before investing in a review process, founders often ask: can I just run an AI review bot and ship? Here is what the data shows.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Review Type</th>
-            <th>Logic Bug Detection</th>
-            <th>Business Logic Coverage</th>
-            <th>Spec Compliance Check</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>No review</td>
-            <td>~0%</td>
-            <td>None</td>
-            <td>None</td>
-            <td>Free</td>
-          </tr>
-          <tr>
-            <td>AI code review bot (CodeRabbit)</td>
-            <td>~46% <sup>[1]</sup></td>
-            <td>Partial</td>
-            <td>None</td>
-            <td>$12–19/mo</td>
-          </tr>
-          <tr>
-            <td>AI code review bot (Qodo)</td>
-            <td>~57% <sup>[2]</sup></td>
-            <td>Partial</td>
-            <td>None</td>
-            <td>$19/mo+</td>
-          </tr>
-          <tr>
-            <td>Human review (spec-aware)</td>
-            <td>85–95% (estimated)</td>
-            <td>Full</td>
-            <td>Full</td>
-            <td>$15/hr+</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:13px;color:#888;margin-top:-12px;margin-bottom:24px">
-      [1] CodeRabbit engineering blog, 2025. [2] Qodo evaluation documentation, 2025. Human estimate based on structured review methodology.
-    </p>
+    <ul class="checklist">
+      <li>Submit every form with empty fields — does each required field produce a clear validation message, or does the app crash silently?</li>
+      <li>Submit forms with inputs that are too long, contain special characters (&lt; &gt; ' " ;), or contain SQL-like syntax — does the app sanitize gracefully?</li>
+      <li>Trigger a network error (use browser DevTools to set the network to "offline") while submitting a form — does the app show a user-friendly message or hang indefinitely?</li>
+      <li>Check that production error responses do not include stack traces, file paths, or database schema information — these leak architectural details to attackers.</li>
+      <li>Verify that a 404 page exists and does not expose routing structure.</li>
+      <li>Test loading states: simulate a slow network (DevTools &gt; Network &gt; Slow 3G) — does the UI show a spinner, or does it appear frozen?</li>
+    </ul>
 
     <div class="stat-box">
-      <strong>Key finding:</strong> Even the best AI review tool leaves roughly 43% of logic bugs undetected. For a payment-enabled app, a single missed permission bug or payment idempotency issue can cause direct revenue loss or user data exposure on day one.
+      <strong>70% more errors</strong> in AI-generated code than in human-written code — with readability, maintainability, and error-handling gaps ranked as the top safety issues in production incidents. (CodeRabbit / NBC News, 2026)
     </div>
 
-    <!-- Section 4: The Convex framework -->
-    <h2>The Convex Framework: 6 Steps Before Vibe-Coded Code Goes to Production</h2>
+    <h3>5. Core User Flow Validation</h3>
 
-    <p>
-      In their 2025 post "6 Steps Before Taking Your Vibe-coded App to Production," the Convex engineering team outlined a production-readiness framework that has become a reference point in the vibe-coding community. The six steps translate directly into a review checklist.
-    </p>
+    <p>The last category is also the one most founders feel confident skipping — "I've clicked through it myself." The key is to test as a <em>new user who has never seen your app</em>, on a device and network you do not normally use.</p>
 
-    <ol>
-      <li><strong>Read the code you ship.</strong> AI-generated code looks coherent but may contain logic the developer never intended. A complete read-through before launch — even if tedious — is the only way to catch subtle control-flow errors.</li>
-      <li><strong>Validate all inputs server-side.</strong> AI models often write client-side validation correctly and forget server-side validation entirely, assuming the frontend is the security boundary.</li>
-      <li><strong>Audit authentication and authorization separately.</strong> Auth (who is logged in) and authz (what they are allowed to do) are often conflated in AI-generated code. Every route needs both checks verified independently.</li>
-      <li><strong>Test payment flows with real edge-case data.</strong> Use Stripe test mode to simulate declined cards, network timeouts, duplicate webhooks, and partial refunds before going live.</li>
-      <li><strong>Verify error states are visible.</strong> Walk every operation to its failure state. Does the user see a meaningful message? Does the developer see a log entry? Silent failures are a launch blocker.</li>
-      <li><strong>Run a diff against the original spec.</strong> The single most valuable step: compare what the AI built against the spec you started with. Missing features are far cheaper to catch before users find them.</li>
-    </ol>
-
-    <p style="font-size:13px;color:#888">
-      Source: "6 Steps Before Taking Your Vibe-coded App to Production," Convex blog, 2025.
-    </p>
-
-    <!-- Section 5: The full checklist -->
-    <h2>The Complete Pre-Launch Review Checklist for Vibe-Coded Apps</h2>
-
-    <p>
-      The checklist below is organized by risk category. Work through it top-to-bottom before any public launch. Each item is a discrete test you can perform manually with two browser windows, a test account, and Stripe test mode.
-    </p>
-
-    <h3>Authentication &amp; Session (6 checks)</h3>
     <ul class="checklist">
-      <li>Log in, copy the session token or cookie, log out — then use the copied token to make a direct API request. It should return 401.</li>
-      <li>Navigate directly to a protected route (e.g. /dashboard) while logged out. Should redirect to login, not return data.</li>
-      <li>Request a password reset email, let it sit for 24 hours, then use the reset link. It should be expired.</li>
-      <li>Create two accounts. Log in as user A, then manually change user B's ID into any request URL or body. Should return 403 or 404, not user B's data.</li>
-      <li>Open the app in two browser windows simultaneously. Log out in one window. Refresh the other — should require re-authentication.</li>
-      <li>Attempt to register with an email that already exists. The error message should not confirm whether the account exists (account enumeration prevention).</li>
+      <li>Complete the entire onboarding flow from a fresh incognito window on a mobile device — does anything break or look wrong?</li>
+      <li>Complete the primary value action (the thing your app is for) as a first-time user, without any prior knowledge of the UI.</li>
+      <li>Test the email confirmation flow end-to-end — sign up with a real email address you control, receive the confirmation, click it, and verify you land in the correct state.</li>
+      <li>Check that the app works without optional features — if a user skips the optional onboarding step, does the main flow still work?</li>
+      <li>Run Google PageSpeed Insights on your main page and verify the score is above 70 — slow apps lose users before the auth bug can even hurt them.</li>
+      <li>Check for console errors in browser DevTools during normal use — AI-generated code frequently leaves error boundaries missing, so runtime errors appear silently in the console.</li>
     </ul>
 
-    <h3>Payments &amp; Billing (5 checks)</h3>
-    <ul class="checklist">
-      <li>Complete a checkout with Stripe test card 4000000000000002 (card declined). The user should see an error; no charge should appear in the dashboard.</li>
-      <li>Click the payment submit button twice quickly. Only one charge should appear in Stripe — test for double-charge on fast double-click.</li>
-      <li>Simulate a webhook by sending the same Stripe <code>payment_intent.succeeded</code> event twice to your webhook endpoint. The order/subscription should only be activated once.</li>
-      <li>Complete a purchase, then issue a full refund from Stripe dashboard. Verify the user's feature access is revoked within 5 minutes.</li>
-      <li>Start checkout, close the tab midway, reopen — the cart or subscription state should be consistent (not stuck in "processing").</li>
-    </ul>
-
-    <h3>Permissions &amp; Multi-Tenancy (4 checks)</h3>
-    <ul class="checklist">
-      <li>Create two user accounts in the same app. As user A, capture the ID of any resource you own (project, file, document). As user B, request that resource directly by ID. Should return 403 or 404.</li>
-      <li>If the app has roles (admin, member, viewer), log in as the lowest-privilege role and attempt every admin action via direct API call, bypassing the UI. Each should be rejected.</li>
-      <li>If the app supports organizations or teams, verify that a member of org A cannot see, list, or modify resources belonging to org B.</li>
-      <li>Check all bulk operations (delete all, export all) — verify they are scoped to the authenticated user's own data only.</li>
-    </ul>
-
-    <h3>API Contracts &amp; Data Integrity (4 checks)</h3>
-    <ul class="checklist">
-      <li>Submit every form with empty required fields. Each should return a clear validation error from the server, not a 500.</li>
-      <li>Submit every form with oversized input (e.g. a 10,000-character string in a text field). Server should reject gracefully, not crash or truncate silently.</li>
-      <li>If the app integrates a third-party API, check what happens when that API returns an error or is unavailable. The user-facing message should be meaningful, not a raw stack trace.</li>
-      <li>For any list endpoint, request a page or offset beyond the data size. Should return an empty array, not an error or the last page's data repeated.</li>
-    </ul>
-
-    <h3>Error Handling &amp; Observability (3 checks)</h3>
-    <ul class="checklist">
-      <li>Trigger a known server error deliberately (e.g. pass an invalid ID to a detail endpoint). Verify the error is logged with enough context to debug — not just "Error: undefined."</li>
-      <li>Check that no raw error messages, stack traces, or internal paths are returned to the browser in production mode. Error responses should be user-safe.</li>
-      <li>Verify that failed background jobs (email sends, webhook deliveries, scheduled tasks) are either retried automatically or surfaced to an admin dashboard — not silently dropped.</li>
-    </ul>
-
-    <!-- Mid-article CTA -->
     <div class="cta-block">
-      <h3>Skip the checklist. We do it for you.</h3>
-      <p>Install the Vibers GitHub App — a human reviewer checks every push against your spec and sends fix PRs directly to your repository.</p>
-      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers GitHub App</a>
+      <h3>Don't want to do this alone?</h3>
+      <p>We review every push against your spec — auth, permissions, payments, error handling. Real humans, 24-hour turnaround.</p>
+      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers &mdash; Free</a>
     </div>
 
-    <!-- Section 6: Real example -->
-    <h2>Real Example: MethasMP/Paycif — What Human Review Caught</h2>
+    <h2>How to Run Each Check (Without Writing Code)</h2>
 
-    <p>
-      In March 2026, MethasMP — a solo founder building Paycif, a payment management tool — installed Vibers after launching an AI-generated MVP. The codebase had passed its CI pipeline and looked clean to automated review tools.
-    </p>
-
-    <p>
-      A human review of the payment flow found two issues that had survived automated review:
-    </p>
+    <p>Most of the checks above require no engineering background. Here is the minimal toolset you need:</p>
 
     <ol>
-      <li>The payment webhook handler did not include an idempotency check. Stripe's documented retry behavior (3 retries over 3 days for failed webhook delivery) meant a single successful payment could be processed up to 4 times if the initial acknowledgment was slow.</li>
-      <li>The refund flow updated the UI immediately on user action but only triggered the Stripe refund asynchronously — meaning a user could see a "refund processed" confirmation before the actual Stripe refund call had been made, and silent failures in the async job left users with a confirmation and no money returned.</li>
+      <li><strong>Two browser profiles or devices.</strong> One as User A, one as User B. This is how you test cross-user permission bugs without any technical setup.</li>
+      <li><strong>Browser DevTools (F12).</strong> Network tab for slow network simulation, Console tab for silent errors, Application tab for inspecting cookies and storage.</li>
+      <li><strong>Stripe test cards.</strong> Stripe's test mode includes cards for declined, insufficient funds, expired, and 3DS-required scenarios — all documented at stripe.com/docs/testing.</li>
+      <li><strong>Your database dashboard.</strong> Supabase, Firebase, PlanetScale — every major backend has a UI where you can verify security rules directly without reading code.</li>
+      <li><strong>Google PageSpeed Insights.</strong> Free, no account required, gives you a concrete performance score and actionable fixes.</li>
     </ol>
 
-    <p>
-      Both issues were invisible to the automated test suite. The first required knowing how Stripe's retry semantics work. The second required tracing the async execution path manually — something no current AI review tool does reliably.
-    </p>
+    <p>The Autonoma testing framework recommends spending at least 15&ndash;30 minutes on the "unhappy paths" immediately after each AI generation session — before the code gets deployed anywhere. Their four-phase framework (before generation, after generation, before deployment, after deployment) is worth reading in full at <a href="https://www.getautonoma.com/blog/vibe-coding-best-practices" rel="noopener noreferrer" target="_blank">getautonoma.com</a>.</p>
+
+    <h2>What Human Review Adds (That Automation Cannot)</h2>
+
+    <p>There is a class of bug that no static tool can find, because it requires reading your product spec and then comparing what the spec says against what the deployed app actually does.</p>
+
+    <p>Consider this scenario: your spec says "only paid users can export data." Your AI generated an export button that is hidden for free users. A human reviewer reads the spec, then directly calls your API export endpoint without a subscription. The button is hidden — but the endpoint is open. That is not a code vulnerability any scanner can flag, because the endpoint code itself is syntactically correct. The bug is a missing requirement, not a code defect.</p>
 
     <div class="stat-box">
-      <strong>Real case:</strong> MethasMP/Paycif — human review (March 2026) caught 2 payment flow bugs that survived CI and automated code review. Fix PR: <a href="https://github.com/MethasMP/Paycif/pull/2">github.com/MethasMP/Paycif/pull/2</a>
+      <strong>Over 2,000 high-impact vulnerabilities</strong> were identified in apps built with vibe coding platforms by escape.tech in 2025 — the majority were logic and authorization gaps, not known CVEs.
     </div>
 
-    <!-- Section 7: When to review -->
-    <h2>When to Do the Review: Before Every Public Launch Milestone</h2>
+    <p>Human review adds three things that automation fundamentally cannot provide:</p>
 
-    <p>
-      Pre-launch review is not a one-time event. The right trigger points are:
-    </p>
+    <ol>
+      <li><strong>Spec comparison.</strong> A human can read what you intended and verify it is what shipped. AI tools review only what is in the code.</li>
+      <li><strong>Adversarial user simulation.</strong> A human reviewer thinks like a user who is trying to get something they should not have. Fuzz tests hit known patterns; humans probe novel paths.</li>
+      <li><strong>Context about your specific product.</strong> A generic scanner does not know that your "admin" role should only be assigned by other admins, not by users editing their own profiles. A reviewer who has read your spec does.</li>
+    </ol>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Milestone</th>
-            <th>Review Scope</th>
-            <th>Approximate Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>First public beta (any real user)</td>
-            <td>Full checklist — all 5 categories</td>
-            <td>2–4 hours</td>
-          </tr>
-          <tr>
-            <td>Enabling payments (first live charge)</td>
-            <td>Payments + Auth sections only</td>
-            <td>1–2 hours</td>
-          </tr>
-          <tr>
-            <td>Adding a second user role (admin, team)</td>
-            <td>Permissions section + Auth section</td>
-            <td>1 hour</td>
-          </tr>
-          <tr>
-            <td>Adding a new third-party integration</td>
-            <td>API contracts + Error handling</td>
-            <td>30–60 min</td>
-          </tr>
-          <tr>
-            <td>Major AI-assisted refactor</td>
-            <td>Full checklist</td>
-            <td>2–4 hours</td>
-          </tr>
-        </tbody>
-      </table>
+    <p>For a deeper comparison of automated bots versus human reviewers, see <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit alternative: human review</a>.</p>
+
+    <h2>Before You Launch: The 10-Minute Escape Hatch</h2>
+
+    <p>If you have limited time and need to ship today, here are the five checks most likely to prevent a critical incident in week one:</p>
+
+    <ol>
+      <li><strong>Test cross-user data access</strong> — two accounts, try to read each other's data via direct URL or API call.</li>
+      <li><strong>Verify RLS / security rules are on</strong> in your database dashboard — not assumed to be on.</li>
+      <li><strong>Search your deployed JS bundle</strong> for your database URL, service key, or API secret.</li>
+      <li><strong>Test the payment declined path</strong> end-to-end with a Stripe test card.</li>
+      <li><strong>Submit every form with empty data</strong> and confirm no 500 errors or exposed stack traces.</li>
+    </ol>
+
+    <p>These five checks take roughly 45 minutes and will catch the majority of week-one incidents. The full checklist above is what you run when you have a full day.</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">How long does a pre-launch review of a vibe-coded app take?</div>
+      <div class="faq-a">A thorough manual review of a solo-founder app typically takes 4&ndash;8 hours when done systematically across the five categories: authentication, payments, permissions, error handling, and core user flows. Automated scanners add another 30&ndash;60 minutes but should not replace the manual walkthrough.</div>
     </div>
 
-    <p>
-      The Convex guide specifically recommends treating every significant vibe-coded change as a new launch moment — not because AI tools are unreliable, but because each new prompt session can introduce regressions in areas the model did not re-examine.
-    </p>
-
-    <!-- Section 8: Tools that help -->
-    <h2>Tools That Speed Up the Review</h2>
-
-    <p>
-      Human review does not mean manual-only. The right approach combines automated scanning for what tools do well, and focused human attention for what they do not.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Tool Category</th>
-            <th>Good For</th>
-            <th>Not Good For</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>SAST scanners (Semgrep, CodeQL)</td>
-            <td>Known vulnerability patterns, injection, hardcoded secrets</td>
-            <td>Business logic, spec compliance, custom auth models</td>
-          </tr>
-          <tr>
-            <td>AI review bots (CodeRabbit, Qodo)</td>
-            <td>Code style, obvious anti-patterns, missing null checks</td>
-            <td>Multi-step flows, payment semantics, permission models</td>
-          </tr>
-          <tr>
-            <td>Stripe test mode</td>
-            <td>Payment edge cases — declined, retried, refunded</td>
-            <td>Application-layer logic above the Stripe call</td>
-          </tr>
-          <tr>
-            <td>Two test accounts</td>
-            <td>Permission escalation testing (IDOR, role bypass)</td>
-            <td>Performance, scalability</td>
-          </tr>
-          <tr>
-            <td>Human spec-aware review (Vibers)</td>
-            <td>Everything listed above, plus spec compliance</td>
-            <td>Volume — not suitable for every minor commit</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="faq-item">
+      <div class="faq-q">Can I just run automated tests and skip a manual review?</div>
+      <div class="faq-a">No. Research from Autonoma (2025) found that developers using AI coding assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without manual verification. Automated tools miss runtime behavior bugs — the kind where User A can see User B's data — because the vulnerability is in how the code behaves, not in the code itself.</div>
     </div>
 
-    <p>
-      The practical approach: run SAST and AI review bots on every PR automatically. Add a human review gate before any launch milestone that involves real users, real money, or real data.
-    </p>
-
-    <!-- Section 9: The cost of skipping -->
-    <h2>The Cost of Skipping the Review</h2>
-
-    <p>
-      The counter-argument to pre-launch review is always the same: we move fast, we can fix bugs after launch. For most product decisions, this is correct. For the five categories above, it is not.
-    </p>
-
-    <div class="stat-box">
-      <strong>Why auth and payment bugs are different:</strong> a UI bug found by a user is a support ticket. An auth bypass found by a user is a security incident. A payment double-charge found by a user is a chargeback. These are not in the same category as a misaligned button.
+    <div class="faq-item">
+      <div class="faq-q">What is the most common critical bug in vibe-coded apps?</div>
+      <div class="faq-a">Broken authorization is consistently the top finding: one user can access another user's resources. This typically happens because AI generates validation checks only in the UI (React component), not in the API endpoint. A direct API call bypasses the frontend check entirely.</div>
     </div>
 
-    <p>
-      The remediation cost after launch is significantly higher. A payment double-charge requires manual refunds, potential Stripe dispute fees ($15 per dispute), reputational damage in the founding story, and potential regulatory attention depending on jurisdiction. An auth bypass may require disclosing a data breach to users.
-    </p>
+    <div class="faq-item">
+      <div class="faq-q">Do AI code review bots like CodeRabbit catch these issues?</div>
+      <div class="faq-a">Only partially. CodeRabbit's reported accuracy on logic bugs is around 46%. Static analysis tools miss runtime authorization flaws and business-logic edge cases — exactly the category most likely to cause a production incident. See our article on <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">why AI review bots miss bugs</a> for the full breakdown.</div>
+    </div>
 
-    <p>
-      A 2–4 hour pre-launch review — for a typical AI-generated MVP — is almost always the correct economic decision compared to the cost of a single incident in any of these categories.
-    </p>
+    <div class="faq-item">
+      <div class="faq-q">My app passed CI/CD. Is it safe to ship?</div>
+      <div class="faq-a">Passing CI/CD is a necessary but not sufficient condition for production readiness. CI/CD checks build integrity and unit test coverage. It does not verify that row-level security is enabled in your database, that plan limits are enforced server-side, or that error messages do not leak stack traces to users.</div>
+    </div>
 
-    <!-- Author bio -->
+    <div class="faq-item">
+      <div class="faq-q">How is a human review different from an automated security scan?</div>
+      <div class="faq-a">An automated scan reads code statically. A human reviewer reads the spec, then tests the running app as an adversarial user — trying to access data they should not see, skipping required steps, submitting malformed input, and verifying that every stated requirement is actually enforced at the server layer. Scans find known vulnerability patterns; humans find logic gaps unique to your product.</div>
+    </div>
+
+    <div class="cta-block">
+      <h3>We do this review for you</h3>
+      <p>Install the Vibers GitHub App. We check every push against your spec — auth, payments, permissions, error handling. Human reviewers, 24-hour turnaround, free to start.</p>
+      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers on GitHub</a>
+    </div>
+
     <div class="author-bio">
       <div class="author-info">
-        <h4>Vibers — Human-in-the-Loop Code Review</h4>
-        <p>
-          Vibers reviews AI-generated codebases for solo founders and AI-first teams. We read your spec, walk your product as a real user, and submit fix PRs for every issue we find — before your users do. We have reviewed products built with Cursor, Claude Code, Bolt, and Lovable since early 2025.
-        </p>
+        <h4>Noxon Team</h4>
+        <p>We review AI-generated code for solo founders. Since 2025, we have reviewed vibe-coded apps built with Cursor, Claude Code, Bolt, and Lovable — catching auth bugs, payment edge cases, and spec mismatches before they reach real users. <a href="https://vibers.onout.org">vibers.onout.org</a></p>
       </div>
     </div>
 
-    <!-- FAQ (GEO: C09) -->
-    <section class="faq-section">
-      <h2>Frequently Asked Questions</h2>
-
-      <div class="faq-item">
-        <div class="faq-q">What is a vibe-coded app?</div>
-        <div class="faq-a">
-          A vibe-coded app is a software product built primarily through natural-language prompts to an AI coding assistant — such as Cursor, Claude Code, or GitHub Copilot — with minimal hand-written code by the founder. The term was coined by Andrej Karpathy in early 2025 to describe AI-first development where the human steers intent and the AI generates most of the implementation.
-        </div>
+    <h2>Related Articles</h2>
+    <div class="related-grid">
+      <div class="related-card">
+        <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks Every Founder Should Know</a>
+        <p>The business-level consequences of shipping AI-generated apps without verification.</p>
       </div>
-
-      <div class="faq-item">
-        <div class="faq-q">Do vibe-coded apps pass automated tests?</div>
-        <div class="faq-a">
-          Yes — vibe-coded apps typically pass CI/CD and standard linting checks. The problem is that automated tests verify what the code does, not whether it correctly models real-world business rules. Auth edge cases, payment race conditions, and permission escalation bugs routinely survive green test suites.
-        </div>
+      <div class="related-card">
+        <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">Why AI Code Review Bots Miss Bugs</a>
+        <p>What CodeRabbit and similar tools catch, what they miss, and why the gap matters.</p>
       </div>
-
-      <div class="faq-item">
-        <div class="faq-q">What percentage of bugs do AI code-review tools detect?</div>
-        <div class="faq-a">
-          Industry benchmarks put AI code review detection rates at roughly 46–57% of logic bugs. CodeRabbit's published benchmark shows a 46% detection rate on real-world pull requests; Qodo targets 57% in its evaluation suite. That means roughly half of meaningful bugs in a vibe-coded app can pass AI review undetected.
-        </div>
+      <div class="related-card">
+        <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit Alternative: Human Review</a>
+        <p>When automated review is not enough and what a human reviewer actually looks for.</p>
       </div>
-
-      <div class="faq-item">
-        <div class="faq-q">What are the most common bugs in vibe-coded apps?</div>
-        <div class="faq-a">
-          The five most common bug categories in AI-generated MVPs are: (1) broken authentication and session management, (2) payment edge cases such as double-charge on retry, (3) permission escalation where one user can access another's data, (4) API contract mismatches between frontend and backend, and (5) silent error swallowing that hides failures from users and logs.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q">How long does a proper pre-launch review take?</div>
-        <div class="faq-a">
-          A thorough pre-launch review of a small-to-medium vibe-coded MVP typically takes 2–4 hours of focused human review time. This covers: reading the spec, mapping auth and payment flows, walking every unhappy path, and verifying permission boundaries. Larger apps with complex integrations may require 6–8 hours.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q">Can I use an automated tool instead of human review?</div>
-        <div class="faq-a">
-          Automated tools are a useful first pass but cannot replace human review for business logic. They catch syntax errors, known vulnerability patterns, and obvious anti-patterns well. However, they cannot verify whether your specific payment flow handles partial refunds correctly, whether your auth design matches your spec, or whether an edge case in your permissions model matches your business rules. Human review is the only reliable gate for these issues before launch.
-        </div>
-      </div>
-    </section>
-
-    <!-- Final CTA -->
-    <div class="cta-block">
-      <h3>We do this review for you.</h3>
-      <p>Install the Vibers GitHub App — a human reviewer checks every push against your spec and sends fix PRs directly to your repository. One-click install, no setup needed.</p>
-      <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers GitHub App &rarr;</a>
-    </div>
-
-    <!-- Related posts -->
-    <div class="related-posts">
-      <h3>Related Articles</h3>
-      <div class="related-grid">
-        <div class="related-card">
-          <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks: What Founders Miss</a>
-          <p>The OWASP vulnerabilities that appear most often in AI-generated code — and how to check for them before launch.</p>
-        </div>
-        <div class="related-card">
-          <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">Why AI Code Review Bots Miss 50% of Bugs</a>
-          <p>A technical breakdown of where current AI review tools fail — and why the gap matters for production apps.</p>
-        </div>
-        <div class="related-card">
-          <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit Alternative: Human Review for AI MVPs</a>
-          <p>When automated review is not enough and what a spec-aware human review looks like in practice.</p>
-        </div>
+      <div class="related-card">
+        <a href="/vibers/blog/">All Blog Posts</a>
+        <p>Guides on reviewing AI-generated code, security risks, and production readiness.</p>
       </div>
     </div>
 
   </article>
 
   <footer class="site-footer">
-    <span>&copy; 2026 Vibers &middot; <a href="/">vibers.onout.org</a></span>
-    <span><a href="https://github.com/apps/vibers-review/installations/new">Install GitHub App</a> &middot; <a href="/vibers/blog/">Blog</a></span>
+    <span>&copy; 2025 Vibers &mdash; Human-in-the-loop Code Review</span>
+    <span>
+      <a href="/vibers/">Home</a> &nbsp;&middot;&nbsp;
+      <a href="/vibers/blog/">Blog</a> &nbsp;&middot;&nbsp;
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+    </span>
   </footer>
 
 </div>
