@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human-in-the-Loop Code Review for AI-First Teams: The Complete Workflow — Vibers Blog</title>
+  <meta name="description" content="How AI-first teams integrate human review without killing velocity. The 3-layer model (automated → AI bot → human), when to trigger human review, what humans catch that AI can't, and how to set up the workflow with a GitHub App.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/human-in-the-loop-code-review-teams/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Human-in-the-Loop Code Review for AI-First Teams: The Complete Workflow">
+  <meta property="og:description" content="The practical guide to human-in-the-loop code review for teams shipping AI-generated code. 3-layer model, trigger conditions, SLAs, and setup instructions.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/human-in-the-loop-code-review-teams/">
+  <meta property="og:site_name" content="Vibers — Human Code Review">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Human-in-the-Loop Code Review for AI-First Teams: The Complete Workflow">
+  <meta name="twitter:description" content="How to add human-in-the-loop review to an AI-first team without slowing velocity. 3-layer model, trigger points, and GitHub App setup.">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD: BlogPosting — GEO: O05 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Human-in-the-Loop Code Review for AI-First Teams: The Complete Workflow",
+    "description": "Practical workflow guide for teams shipping AI-generated code. How to integrate human review without slowing down velocity — the 3-layer model, trigger conditions, and GitHub App setup.",
+    "url": "https://onout.org/vibers/blog/human-in-the-loop-code-review-teams/",
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "author": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://vibers.onout.org"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers — Human Code Review",
+      "url": "https://vibers.onout.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://vibers.onout.org/favicon.svg"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/human-in-the-loop-code-review-teams/"
+    },
+    "keywords": [
+      "human-in-the-loop code review AI teams",
+      "human in the loop code review",
+      "AI code review workflow",
+      "AI-first team code review",
+      "human AI code review combination",
+      "code review automation workflow",
+      "GitHub App code review",
+      "vibe coding code review"
+    ],
+    "articleSection": "Engineering",
+    "wordCount": 2100,
+    "citation": [
+      {
+        "@type": "CreativeWork",
+        "name": "State of AI Code Review Tools in 2025",
+        "url": "https://www.devtoolsacademy.com/blog/state-of-ai-code-review-tools-2025/"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "Human-in-the-Loop AI — Complete Guide",
+        "url": "https://parseur.com/blog/human-in-the-loop-ai"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "My LLM Coding Workflow Going into 2026",
+        "url": "https://medium.com/@addyosmani/my-llm-coding-workflow-going-into-2026-52fe1681325e"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "DORA 2025 Report — AI Code Review Impact",
+        "url": "https://dora.dev/"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "Atlassian Rovo Dev: 30.8% Faster PRs",
+        "url": "https://www.atlassian.com/blog/artificial-intelligence/developer-productivity-improved-with-rovo-dev/amp"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage — GEO: Q&A -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is human-in-the-loop code review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Human-in-the-loop (HITL) code review is a workflow where automated tools and AI bots handle routine checks first, and a human reviewer is triggered for specific, high-stakes changes — such as authentication flows, payment logic, or security-critical paths. The human does not review every commit; they review only where AI confidence is low or the risk surface is high."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do AI-first teams still need human code review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. By early 2026, 41% of commits are AI-assisted, yet the best AI code review tools detect only 42–48% of real-world bugs (Macroscope 2025 benchmark). Human reviewers catch business logic errors, architecture drift, and security edge cases that AI tools consistently miss — especially in novel or domain-specific code."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you add human review without slowing velocity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The key is selective triggering, not blanket review. Define a critical-path list (auth, payments, infrastructure, public APIs) and only route those PRs to a human. Everything else is handled by automated checks and AI bots. With a defined SLA of 24 hours, teams report PR review time dropping from 18 hours average to 4 hours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What should human reviewers focus on that AI can't?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Human reviewers should focus on: (1) business logic correctness against real requirements, (2) architecture decisions and cross-system implications, (3) security edge cases that require domain knowledge, (4) data model changes and backward compatibility, and (5) whether the code actually solves the right problem. AI excels at pattern matching; humans excel at intent understanding."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you set up a human-in-the-loop code review workflow with GitHub?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install a GitHub App (like Vibers) that listens to push events. Configure path-based triggers: any change to /auth, /payments, /api, or infrastructure files routes to a human reviewer. The app notifies the reviewer via Telegram or email with a structured diff summary including 'How to test' notes. The human reviews within the agreed SLA and comments directly on the PR."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a realistic SLA for human code review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For AI-first teams, a 24-hour SLA for initial human feedback is standard. For critical security or payment code, some teams set a 4-hour SLA during business hours. The key is to publish the SLA explicitly so developers know when to expect feedback, preventing them from merging and moving on before the review arrives."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}.page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}@media(max-width:600px){.page{padding:24px 20px}}a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}.site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}.site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}.article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}@media(max-width:600px){h1{font-size:24px}}.article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}.key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}.key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}.key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}.table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}.stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}.definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}.workflow-step{display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #eee}.workflow-num{background:#5b44e8;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}.cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}.cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}.cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}.faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}.author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}.author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}.related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}.related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}.site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 13, 2026</span>
+    <span>Engineering</span>
+    <span>10 min read</span>
+  </div>
+
+  <h1>Human-in-the-Loop Code Review for AI-First Teams: The Complete Workflow</h1>
+
+  <p class="article-lead">Human-in-the-loop (HITL) code review is the practice of routing only high-risk changes to a human reviewer — while automated tools and AI bots handle the rest. For AI-first teams, this is not optional: by early 2026, the best AI review bots detect only 42–48% of real-world bugs, leaving more than half the risk surface unchecked. The answer is not reviewing every commit — it is reviewing the right commits, with a clear trigger model and a defined SLA.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>Top AI code review tools detect only 42–48% of real-world bugs (Macroscope 2025 benchmark) — human review fills the gap on critical paths.</li>
+      <li>The 3-layer model (automated linting → AI bot → human verification) keeps velocity high while catching what matters.</li>
+      <li>Not every commit needs a human. Define a critical-path list: auth, payments, public APIs, infrastructure, and data migrations.</li>
+      <li>Humans should focus on intent, architecture, business logic, and security edge cases — the four things AI consistently misses.</li>
+      <li>A 24-hour SLA for human review is standard; shorter for security-critical paths.</li>
+      <li>Gartner predicts 90% of enterprise generative AI applications will require formal HITL processes by 2026, driven by the EU AI Act.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>1. Why AI-First Teams Still Need Human Review</h2>
+
+  <p>The premise sounds contradictory: if your team uses AI to write code, why not use AI to review it too? The answer comes down to what AI is actually good at — and where its confidence score lies.</p>
+
+  <div class="stat-box">
+    <strong>The Review Gap:</strong> By early 2026, 41% of commits are AI-assisted. Yet AI code review tools detect only 42–48% of real-world bugs in automated reviews (Macroscope 2025 benchmark). That leaves over half the defect surface unchecked — and the gap is widening faster than review capacity can grow.
+  </div>
+
+  <p>Teams at scale face a concrete numbers problem. A 250-developer team merging one PR per developer per day generates 65,000 PRs annually — over 21,000 hours of manual review time. That is why AI review tools exploded from a $550 million to a $4 billion market in 2025: they genuinely handle the high-volume, pattern-based portion of review at machine speed.</p>
+
+  <p>But AI reviewers are pattern-matchers. They excel at things that have been seen before: missing null checks, insecure dependencies, style violations, obvious SQL injection vectors. They struggle — measurably — with novel code paths, domain-specific business logic, and architectural decisions that require understanding what the product is supposed to do.</p>
+
+  <blockquote>
+    "My ability to ship is no longer limited by how fast I can code. It's limited by my skill to review. And I think that's exactly how it should be."
+    <cite>— Developer quoted in devtoolsacademy.com, State of AI Code Review Tools 2025</cite>
+  </blockquote>
+
+  <p>The result: 46% of developers actively distrust AI output accuracy, even while 85% use AI tools daily. The distrust is warranted — not as a reason to abandon AI review, but as a reason to layer human judgment on top of it where the stakes are real.</p>
+
+  <div class="definition">
+    <strong>Definition: Human-in-the-Loop (HITL) Code Review</strong><br>
+    A workflow where automated tools and AI bots perform first-pass review on all commits, and a human reviewer is selectively triggered for changes that touch high-risk code paths, have low AI confidence, or require domain understanding. The human is not a bottleneck — they are a precision filter.
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>2. The 3-Layer Review Model</h2>
+
+  <p>The most effective teams in 2025–2026 do not choose between AI and human review. They stack three layers: each layer handles the cases it is best equipped for, and passes unresolved issues up the chain.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Tool Type</th>
+          <th>What It Catches</th>
+          <th>What It Misses</th>
+          <th>Time Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Layer 1 — Automated</strong></td>
+          <td>Linters, type checkers, SAST, test runners</td>
+          <td>Syntax errors, type mismatches, dependency CVEs, test failures, code style</td>
+          <td>Logic errors, intent drift, architecture issues</td>
+          <td>Seconds</td>
+        </tr>
+        <tr>
+          <td><strong>Layer 2 — AI Bot</strong></td>
+          <td>CodeRabbit, Cursor Bugbot, Qodo, Greptile</td>
+          <td>Logic patterns, missing error handling, security patterns, readability, duplicate code</td>
+          <td>Business logic correctness, novel attack surfaces, cross-system implications</td>
+          <td>1–5 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Layer 3 — Human</strong></td>
+          <td>Experienced developer or external reviewer</td>
+          <td>Intent vs. requirements, architecture decisions, security edge cases, data model risks, "is this the right solution"</td>
+          <td>Nothing in scope (by definition)</td>
+          <td>15–60 minutes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The architecture mirrors the confidence-based routing used in HITL AI systems generally: if AI confidence is high and the risk surface is low, the commit flows through Layers 1 and 2 automatically. Only when the path is critical — or when AI flags something it cannot resolve — does the commit escalate to Layer 3.</p>
+
+  <h3>The layered workflow in practice</h3>
+
+  <div class="workflow-step">
+    <div class="workflow-num">1</div>
+    <div><strong>Developer opens a PR.</strong> Branch naming and commit message format are validated by pre-commit hooks. CI/CD triggers immediately.</div>
+  </div>
+  <div class="workflow-step">
+    <div class="workflow-num">2</div>
+    <div><strong>Layer 1 runs in parallel.</strong> Linter, type checker, SAST scanner, and test suite all run. Any failure blocks merge and notifies the author — no human involved.</div>
+  </div>
+  <div class="workflow-step">
+    <div class="workflow-num">3</div>
+    <div><strong>Layer 2 runs on the diff.</strong> AI bot reads the PR description, changed files, and codebase context. It posts structured feedback: readability issues, potential bugs, missing tests, security patterns. Routine PRs stop here.</div>
+  </div>
+  <div class="workflow-step">
+    <div class="workflow-num">4</div>
+    <div><strong>Path-based trigger check.</strong> Does this PR touch auth, payments, public API, infrastructure, or a data migration? If yes → escalate to Layer 3. If no → auto-approve pending Layer 1+2 green.</div>
+  </div>
+  <div class="workflow-step">
+    <div class="workflow-num">5</div>
+    <div><strong>Human reviewer is notified.</strong> They receive a structured summary: what changed, AI bot findings, a "How to test" note, and a direct link to the diff. SLA clock starts.</div>
+  </div>
+  <div class="workflow-step" style="border-bottom:none">
+    <div class="workflow-num">6</div>
+    <div><strong>Human approves or requests changes.</strong> Their comments are scoped to what only a human can assess. They do not re-check what Layers 1 and 2 already validated.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>3. When to Trigger Human Review (Not Every Commit)</h2>
+
+  <p>The single biggest mistake teams make when implementing HITL review is triggering it on everything. That defeats the purpose — it creates the same review bottleneck as manual-only review, just with extra tooling overhead.</p>
+
+  <p>The correct model is a defined <strong>critical-path list</strong>: a set of file paths, module names, or change types that always require human sign-off. Everything outside this list flows through Layers 1 and 2 only.</p>
+
+  <h3>Default critical-path triggers</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Change Type</th>
+          <th>Why Human Review Is Required</th>
+          <th>Example Paths</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Authentication &amp; authorization</td>
+          <td>Logic bugs here are account takeovers. AI misses novel bypass patterns.</td>
+          <td><code>/auth/</code>, <code>/middleware/</code>, JWT handlers</td>
+        </tr>
+        <tr>
+          <td>Payment and billing logic</td>
+          <td>Race conditions, off-by-one in currency math, refund edge cases.</td>
+          <td><code>/payments/</code>, <code>/billing/</code>, webhook handlers</td>
+        </tr>
+        <tr>
+          <td>Public API contracts</td>
+          <td>Breaking changes affect external consumers. AI has no visibility into who depends on what.</td>
+          <td><code>/api/v*/</code>, OpenAPI spec files</td>
+        </tr>
+        <tr>
+          <td>Infrastructure as code</td>
+          <td>Misconfigured IAM policy or security group = data breach or outage.</td>
+          <td><code>*.tf</code>, <code>docker-compose.yml</code>, <code>k8s/</code></td>
+        </tr>
+        <tr>
+          <td>Database migrations</td>
+          <td>Irreversible changes. AI cannot evaluate backward compatibility in production.</td>
+          <td><code>/migrations/</code>, schema files</td>
+        </tr>
+        <tr>
+          <td>Security configuration</td>
+          <td>CSP headers, CORS rules, secrets handling, encryption keys.</td>
+          <td><code>security.py</code>, <code>cors.ts</code>, <code>.env.example</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stat-box">
+    <strong>Real-world impact:</strong> One mid-sized team with 25 developers reduced PR review time from 18 hours average to 4 hours by implementing selective human review. Production bugs dropped 62%. Senior developers now spend 70% less time on routine reviews, redirecting that time to architecture and mentoring.
+  </div>
+
+  <p>Beyond path-based triggers, consider adding <strong>confidence-based escalation</strong>: if your AI bot flags a change as high-risk or cannot explain its behavior, that is itself a signal to route to a human. The AI saying "I'm not sure about this" is useful information.</p>
+
+  <!-- ============================================================ -->
+  <h2>4. What Human Reviewers Focus On (That AI Can't)</h2>
+
+  <p>Human reviewers are expensive in time. The way to make HITL review sustainable is to be precise about what humans should — and should not — be doing when they look at a diff.</p>
+
+  <h3>What humans are uniquely good at</h3>
+
+  <ul>
+    <li><strong>Intent verification:</strong> Does this code actually do what the ticket asked for? AI can check that code is internally consistent; it cannot check that it satisfies the real business requirement.</li>
+    <li><strong>Architectural reasoning:</strong> Is this the right abstraction? Will this scale? Does this create coupling that will cause pain in six months? AI sees the diff; humans see the system.</li>
+    <li><strong>Novel security edge cases:</strong> AI detects known vulnerability patterns. A human reviewer asks "what happens if an attacker calls this endpoint in an unexpected sequence?" — a question that requires threat modeling, not pattern matching.</li>
+    <li><strong>Cross-system implications:</strong> A change to a shared library may break five downstream services that are not in the diff. A human who knows the codebase catches this. An AI bot analyzing a single PR does not.</li>
+    <li><strong>Data model backward compatibility:</strong> Renaming a database column or changing a JSON schema field can silently break existing user data. This requires domain knowledge about what is in production.</li>
+  </ul>
+
+  <h3>What humans should NOT spend time on</h3>
+
+  <ul>
+    <li>Formatting, indentation, or naming conventions (Layer 1's job)</li>
+    <li>Obvious null-pointer risks or missing error handling (Layer 2's job)</li>
+    <li>Dependency version checks or CVE scanning (automated)</li>
+    <li>Test coverage counts (CI/CD)</li>
+  </ul>
+
+  <blockquote>
+    "Without proper code review practices, teams accumulate technical debt faster than ever as AI-generated code becomes prevalent."
+    <cite>— devtoolsacademy.com, State of AI Code Review Tools 2025</cite>
+  </blockquote>
+
+  <p>The practical framing for human reviewers: <em>your job is to answer two questions AI cannot answer. First — does this code solve the right problem? Second — could a motivated attacker exploit this in a way that the AI did not consider?</em></p>
+
+  <!-- ============================================================ -->
+  <h2>5. Setting Up the Workflow (GitHub App, Triggers, SLA)</h2>
+
+  <p>A HITL code review workflow has three infrastructure requirements: a trigger mechanism, a notification channel, and a defined SLA. Here is how to set each one up.</p>
+
+  <h3>Step 1: Install a GitHub App for webhook-based triggering</h3>
+
+  <p>The cleanest way to implement path-based human review triggers on GitHub is via a GitHub App. Unlike GitHub Actions workflows, a GitHub App can receive push and pull request events, inspect the changed file list, and route selectively — without running a full CI pipeline for every commit.</p>
+
+  <p>The <a href="https://github.com/apps/vibers-review/installations/new">Vibers GitHub App</a> does exactly this: it listens for push events, checks changed paths against your critical-path list, and notifies a human reviewer via Telegram with a structured summary that includes the diff, AI bot findings, and a "How to test" block from the commit message.</p>
+
+  <h3>Step 2: Define your trigger configuration</h3>
+
+  <p>In your repository, create a <code>.vibers.yml</code> (or equivalent) that declares the critical paths:</p>
+
+  <div class="definition">
+    <strong>Example trigger configuration:</strong><br><br>
+    <code>critical_paths:</code><br>
+    <code>&nbsp;&nbsp;- src/auth/</code><br>
+    <code>&nbsp;&nbsp;- src/payments/</code><br>
+    <code>&nbsp;&nbsp;- migrations/</code><br>
+    <code>&nbsp;&nbsp;- infra/</code><br>
+    <code>&nbsp;&nbsp;- .github/workflows/</code><br><br>
+    <code>sla_hours: 24</code><br>
+    <code>notify: telegram</code>
+  </div>
+
+  <h3>Step 3: Set and publish your SLA</h3>
+
+  <p>An SLA (service level agreement) for human review is not bureaucracy — it is the mechanism that prevents HITL from becoming a black hole. Without a published SLA, developers do not know when to expect feedback, and they either wait (slowing velocity) or merge without waiting (defeating the purpose).</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Review Type</th>
+          <th>Recommended SLA</th>
+          <th>Escalation Path</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Standard critical-path PR</td>
+          <td>24 hours (business hours)</td>
+          <td>Ping reviewer on Telegram after 20 hours</td>
+        </tr>
+        <tr>
+          <td>Security-flagged change</td>
+          <td>4 hours (business hours)</td>
+          <td>Escalate to senior engineer after 3 hours</td>
+        </tr>
+        <tr>
+          <td>Hotfix to production</td>
+          <td>1 hour</td>
+          <td>Immediate notification to on-call reviewer</td>
+        </tr>
+        <tr>
+          <td>Dependency update (non-critical)</td>
+          <td>48 hours</td>
+          <td>Auto-merge if no human action after SLA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Step 4: Enforce "How to test" in commit messages</h3>
+
+  <p>A human reviewer can only do meaningful review if they can run the changed code. The most reliable way to ensure this is to make "How to test" a required field in commit messages — enforced by a webhook pre-check. If the push event does not include a "How to test" block, the human review notification is suppressed (not rejected with a 4xx — just silently held back).</p>
+
+  <p>This one requirement changes developer behavior: it forces the author to think through what they changed before the reviewer even looks at it. It also gives the reviewer a concrete starting point instead of having to reverse-engineer the intent from the diff.</p>
+
+  <div class="cta-block">
+    <h3>Add human-in-the-loop review to your AI workflow in one click</h3>
+    <p>Vibers connects to your GitHub repos, watches for critical-path changes, and routes them to a human reviewer — with a structured diff summary and "How to test" context included.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers on GitHub</a>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>6. The Regulatory and Compliance Case for HITL</h2>
+
+  <p>For teams that need to make the business case for HITL review to stakeholders, the regulatory landscape provides strong external pressure as of 2026.</p>
+
+  <div class="stat-box">
+    <strong>Gartner forecast:</strong> By 2026, 90% of enterprise generative AI applications will require formal human-in-the-loop processes — driven by the EU AI Act (first enforcement cycle underway in 2026), reputational risk, and the continued need for human judgment on ethical and contextual decisions.
+  </div>
+
+  <p>The EU AI Act explicitly requires documented human oversight for AI systems used in high-risk applications — including software that affects financial decisions, health, and critical infrastructure. Auditors will ask organizations to document <em>why</em> they chose a specific oversight pattern, <em>who</em> reviewed critical outputs, and <em>what</em> the audit trail looks like.</p>
+
+  <p>In practice, this means HITL review needs an audit log — not just a Slack message or Telegram notification. Every human review decision (approve, reject, request changes) should be recorded with a timestamp, the reviewer identity, and the specific change reviewed. A GitHub PR approval with required reviewers provides this by default.</p>
+
+  <p>Teams that implemented HITL early report that 42% of companies abandoned AI initiatives in 2025 (up from 17% in 2024) — often because they failed to implement appropriate oversight, leading to hallucinations, compliance failures, and loss of stakeholder trust. The cost of adding HITL is far lower than the cost of a compliance failure after the fact.</p>
+
+  <!-- ============================================================ -->
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What is human-in-the-loop code review?</div>
+    <div class="faq-a">Human-in-the-loop (HITL) code review is a workflow where automated tools and AI bots handle routine checks first, and a human reviewer is triggered for specific, high-stakes changes — such as authentication flows, payment logic, or security-critical paths. The human does not review every commit; they review only where AI confidence is low or the risk surface is high.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Do AI-first teams still need human code review?</div>
+    <div class="faq-a">Yes. By early 2026, 41% of commits are AI-assisted, yet the best AI code review tools detect only 42–48% of real-world bugs (Macroscope 2025 benchmark). Human reviewers catch business logic errors, architecture drift, and security edge cases that AI tools consistently miss — especially in novel or domain-specific code.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do you add human review without slowing velocity?</div>
+    <div class="faq-a">The key is selective triggering, not blanket review. Define a critical-path list (auth, payments, infrastructure, public APIs) and only route those PRs to a human. Everything else is handled by automated checks and AI bots. With a defined 24-hour SLA, teams report PR review time dropping from 18 hours average to 4 hours.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What should human reviewers focus on that AI can't?</div>
+    <div class="faq-a">Human reviewers should focus on: (1) business logic correctness against real requirements, (2) architecture decisions and cross-system implications, (3) security edge cases that require domain knowledge, (4) data model changes and backward compatibility, and (5) whether the code actually solves the right problem. AI excels at pattern matching; humans excel at intent understanding.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do you set up a human-in-the-loop code review workflow with GitHub?</div>
+    <div class="faq-a">Install a GitHub App (like Vibers) that listens to push events. Configure path-based triggers: any change to /auth, /payments, /api, or infrastructure files routes to a human reviewer. The app notifies the reviewer via Telegram or email with a structured diff summary including "How to test" notes. The human reviews within the agreed SLA and comments directly on the PR.</div>
+  </div>
+
+  <div class="faq-item" style="border-bottom:none">
+    <div class="faq-q">What is a realistic SLA for human code review?</div>
+    <div class="faq-a">For AI-first teams, a 24-hour SLA for initial human feedback is standard. For critical security or payment code, some teams set a 4-hour SLA during business hours. The key is to publish the SLA explicitly so developers know when to expect feedback, preventing them from merging and moving on before the review arrives.</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>Conclusion</h2>
+
+  <p>Human-in-the-loop code review is not a step backward from AI-first development — it is the architecture that makes AI-first development sustainable at scale. The goal is not to review less code; it is to review the right code, with the right reviewer, at the right time.</p>
+
+  <p>The 3-layer model (automated → AI bot → human) keeps velocity high for the 80–90% of commits that are routine, while ensuring that the 10–20% touching critical paths get the human judgment they require. Combined with a published SLA, a path-based trigger configuration, and a "How to test" requirement on commit messages, this workflow closes the review gap without creating a new bottleneck.</p>
+
+  <p>As Gartner and the EU AI Act both signal: formal HITL processes are becoming the standard, not the exception. Teams that build this infrastructure now will be ahead of both the compliance curve and the quality curve.</p>
+
+  <div class="cta-block">
+    <h3>Add human-in-the-loop review to your AI workflow in one click</h3>
+    <p>Install the Vibers GitHub App. It watches your critical paths, notifies a real developer, and keeps an audit trail — no config file required to start.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers Free on GitHub</a>
+  </div>
+
+  <!-- Author bio -->
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Vibers Team</h4>
+      <p>Vibers provides human-in-the-loop code review for AI-generated projects. We review real repositories — vibe-coded apps, Cursor projects, Claude Code output — and report on security, architecture, and correctness. Based on experience reviewing AI-first codebases since 2025.</p>
+    </div>
+  </div>
+
+  <!-- Related articles -->
+  <h2>Related Articles</h2>
+  <div class="related-grid">
+    <div class="related-card">
+      <a href="/vibers/blog/">Vibers Blog</a>
+      <p>All articles on human code review, AI workflows, and vibe coding</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">Why AI Code Review Bots Miss 50% of Bugs</a>
+      <p>Which bug categories slip through automated review — and why</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/coderabbit-vs-human-review/">CodeRabbit vs Human Review</a>
+      <p>Side-by-side comparison of AI bot review vs experienced developer review</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/review-vibe-coded-app-before-launch/">Review a Vibe-Coded App Before Launch</a>
+      <p>What to check when a human reviews AI-generated code before it ships</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers — Human Code Review</span>
+    <span>
+      <a href="/vibers/">Home</a> &middot;
+      <a href="/vibers/blog/">Blog</a> &middot;
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a> &middot;
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
