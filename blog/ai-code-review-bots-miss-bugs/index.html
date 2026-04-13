@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Why AI Code Review Bots Miss 50% of Bugs (And What Catches the Rest) — Vibers Blog</title>
-  <meta name="description" content="AI code review bots like CodeRabbit miss up to 54% of bugs. Learn which bug categories slip through, why pattern matching fails on business logic, and how human review catches what AI can't.">
+  <meta name="description" content="AI code review bots like CodeRabbit miss up to 54% of bugs. A real payment race condition cost $340K despite AI approval. Learn which 5 bug categories slip through, why pattern matching fails on business logic, and how human review catches what AI can't.">
   <link rel="canonical" href="https://onout.org/vibers/blog/ai-code-review-bots-miss-bugs/">
   <meta property="og:type" content="article">
   <meta property="og:title" content="Why AI Code Review Bots Miss 50% of Bugs (And What Catches the Rest)">
-  <meta property="og:description" content="AI code review bots like CodeRabbit miss up to 54% of bugs. Learn which bug categories slip through, why pattern matching fails on business logic, and how human review catches what AI can't.">
+  <meta property="og:description" content="AI code review bots miss up to 54% of bugs. A real payment race condition cost $340K despite AI approval. Learn which bug categories slip through and what human review catches differently.">
   <meta property="og:url" content="https://onout.org/vibers/blog/ai-code-review-bots-miss-bugs/">
   <meta property="og:site_name" content="Vibers — Human Code Review">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Why AI Code Review Bots Miss 50% of Bugs (And What Catches the Rest)">
-  <meta name="twitter:description" content="AI code review bots miss up to 54% of bugs. Learn the 5 bug categories AI consistently misses and what human review catches differently.">
+  <meta name="twitter:description" content="CodeRabbit misses 54% of bugs. A real race condition in payment processing cost $340K despite AI review approval. Here's why — and what catches the rest.">
   <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
@@ -26,7 +26,7 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "Why AI Code Review Bots Miss 50% of Bugs (And What Catches the Rest)",
-    "description": "AI code review bots like CodeRabbit miss up to 54% of bugs. Learn which bug categories slip through, why pattern matching fails on business logic, and how human review catches what AI can't.",
+    "description": "AI code review bots like CodeRabbit miss up to 54% of bugs. A real payment race condition cost $340K despite AI approval. Learn which bug categories slip through and why pattern matching fails on business logic.",
     "url": "https://onout.org/vibers/blog/ai-code-review-bots-miss-bugs/",
     "datePublished": "2026-04-13",
     "dateModified": "2026-04-13",
@@ -48,9 +48,26 @@
       "@type": "WebPage",
       "@id": "https://onout.org/vibers/blog/ai-code-review-bots-miss-bugs/"
     },
-    "keywords": ["AI code review bots miss bugs", "CodeRabbit accuracy", "automated code review limitations", "human code review", "AI code review vs human review"],
+    "keywords": ["AI code review bots miss bugs", "CodeRabbit accuracy", "automated code review limitations", "human code review", "AI code review vs human review", "race condition payment bug", "business logic bugs AI"],
     "articleSection": "Engineering",
-    "wordCount": 2050
+    "wordCount": 2200,
+    "citation": [
+      {
+        "@type": "CreativeWork",
+        "name": "Why Your AI Code Review Misses Logic Bugs (and a 4-Step Fix)",
+        "url": "https://dev.to/novaelvaris/why-your-ai-code-review-misses-logic-bugs-and-a-4-step-fix-2na2"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "AI Code Review Benchmark 2026: First Real Results",
+        "url": "https://byteiota.com/ai-code-review-benchmark-2026-first-real-results/"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "We benchmarked 7 AI code review tools on real-world PRs",
+        "url": "https://www.augmentcode.com/blog/we-benchmarked-7-ai-code-review-tools-on-real-world-prs-here-are-the-results"
+      }
+    ]
   }
   </script>
 
@@ -65,7 +82,7 @@
         "name": "What percentage of bugs do AI code review bots miss?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "According to a 2025 dev.to analysis, CodeRabbit detects approximately 46% of bugs, meaning it misses roughly 54%. Qodo targets 57% accuracy, which still leaves 43% of bugs undetected. The miss rate is highest for business logic errors, race conditions, and spec mismatches."
+          "text": "According to independent benchmarks, CodeRabbit detects approximately 46% of bugs — missing roughly 54%. Qodo achieves a 60.1% F1 score, which still leaves a significant portion of real bugs undetected. An Augment Code benchmark on 50 real PRs found that even the top tool (Augment) achieved only 59% F-score, while GitHub Copilot Review scored just 25%. The miss rate is highest for business logic errors, race conditions, and spec mismatches."
         }
       },
       {
@@ -73,7 +90,7 @@
         "name": "What kinds of bugs can AI code review tools detect reliably?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AI code review bots reliably catch syntax errors, style violations, obvious security patterns (like SQL injection templates, hardcoded secrets), and well-known anti-patterns. These are all cases where the bug has a consistent textual signature that pattern matching can recognize."
+          "text": "AI code review bots reliably catch syntax errors, style violations, obvious security patterns (like SQL injection templates, hardcoded secrets), and well-known anti-patterns. These are all cases where the bug has a consistent textual signature that pattern matching can recognize across codebases."
         }
       },
       {
@@ -89,7 +106,7 @@
         "name": "Can AI tools catch race conditions and timing bugs?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Rarely. Race conditions and timing bugs require scenario tracing — mentally running concurrent execution paths and tracking state across time. Current AI code review tools perform static pattern matching on individual files or diffs. They cannot reliably simulate concurrent execution or identify timing windows that only appear under specific load or ordering conditions."
+          "text": "Rarely. Race conditions and timing bugs require scenario tracing — mentally running concurrent execution paths and tracking state across time. In a documented case, a race condition in a payment processing system caused duplicate charges and $340K in losses, even though four AI tools (GitHub Copilot, CodeRabbit, SonarQube, and a custom GPT-4 bot) had reviewed the code and found no issues."
         }
       },
       {
@@ -105,7 +122,15 @@
         "name": "Is CodeRabbit worth using if it misses 54% of bugs?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes — for what it's designed for. CodeRabbit and similar tools provide fast, free-at-scale feedback on code style, obvious anti-patterns, and known security templates. The 54% miss rate applies specifically to the full universe of possible bugs. For the categories AI handles well, the detection rate is much higher. The problem arises when teams treat AI review as sufficient and skip human review entirely, leaving the 54% of logic, flow, and spec-mismatch bugs undetected."
+          "text": "Yes — for what it is designed for. CodeRabbit and similar tools provide fast, scalable feedback on code style, obvious anti-patterns, and known security templates. The 54% miss rate applies to the full universe of possible bugs. For the categories AI handles well, the detection rate is much higher. The problem arises when teams treat AI review as sufficient and skip human review entirely, leaving logic, flow, and spec-mismatch bugs undetected."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do AI code review tools get better with more context?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Partially. Providing the feature specification in the review prompt improves AI accuracy for business logic, as shown in a 2025 dev.to analysis that reported logic bug detection increasing from roughly 1 per week to 4 per week after adding structured context. However, this requires manual effort on every review and still does not close the gap for race conditions, cross-component flows, and domain-specific boundary conditions."
         }
       }
     ]
@@ -117,61 +142,46 @@
     body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
     .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
     @media(max-width:600px){.page{padding:24px 20px}}
-    a{color:#5b44e8;text-decoration:none}
-    a:hover{text-decoration:underline}
+    a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}
     .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
-    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
-    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
-    .site-nav .nav-links a{color:#555}
-    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
     .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
     h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
     @media(max-width:600px){h1{font-size:24px}}
     .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
     .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
     .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
-    .key-takeaways ul{padding-left:20px}
-    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    .key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
     h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
     h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
-    p{margin-bottom:16px;color:#333}
-    ul,ol{padding-left:24px;margin-bottom:16px}
-    li{margin-bottom:8px;color:#333}
+    p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}
     .table-wrap{overflow-x:auto;margin-bottom:24px}
     table{width:100%;border-collapse:collapse;font-size:14px}
     th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
-    td{padding:9px 14px;border-bottom:1px solid #eee}
-    tr:nth-child(even) td{background:#fafaf8}
-    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
-    .stat-box strong{color:#92400e}
+    td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}
     blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
     blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
     .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
     .bug-card{border:1px solid #fee2e2;border-radius:8px;padding:16px 20px;margin:12px 0;background:#fff}
-    .bug-card h4{color:#991b1b;font-size:15px;font-weight:600;margin-bottom:6px}
-    .bug-card p{font-size:14px;color:#444;margin:0}
+    .bug-card h4{color:#991b1b;font-size:15px;font-weight:600;margin-bottom:6px}.bug-card p{font-size:14px;color:#444;margin:0}
+    .incident-box{background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:20px 24px;margin:24px 0}
+    .incident-box .incident-title{font-size:13px;font-weight:700;color:#9f1239;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+    .incident-box p{font-size:14px;color:#333;margin-bottom:8px}.incident-box p:last-child{margin-bottom:0}
     .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
-    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
-    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
-    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}
-    .cta-btn:hover{background:#4834c8;text-decoration:none}
-    .faq-section h2{border-top:none;padding-top:0}
-    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
-    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
-    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}
     .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
-    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
-    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}
     .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
     .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
-    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}
-    .related-card:hover{border-color:#5b44e8}
-    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
-    .related-card p{font-size:13px;color:#888;margin-top:6px}
-    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
-    .site-footer a{color:#555}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}
+    .sources-list{font-size:13px;color:#888;margin-top:8px;padding-left:20px}.sources-list li{margin-bottom:4px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
   </style>
 </head>
 <body>
@@ -186,27 +196,27 @@
     </div>
   </nav>
 
-  <!-- Article header -->
   <article>
     <header>
       <div class="article-meta">
         <span>April 13, 2026</span>
         <span>Engineering</span>
-        <span>10 min read</span>
+        <span>11 min read</span>
       </div>
 
       <h1>Why AI Code Review Bots Miss 50% of Bugs (And What Catches the Rest)</h1>
 
       <!-- Direct answer in first 150 words — GEO: C02 -->
-      <p class="article-lead">AI code review bots miss roughly half of all bugs. CodeRabbit achieves approximately 46% bug detection accuracy, missing ~54% of defects. Qodo targets 57% accuracy — still leaving 43% undetected. The tools are genuinely useful for syntax errors, style violations, and known security patterns. But they fail consistently on business logic bugs, race conditions, timing errors, off-by-one errors in domain-specific contexts, and spec mismatches. The reason is structural: AI reviews code as text and matches patterns. Humans verify code against requirements. This article explains exactly where that gap appears, which five bug categories fall through it, and how to build a review process that catches both.</p>
+      <p class="article-lead">AI code review bots miss roughly half of all bugs. CodeRabbit achieves approximately 46% bug detection accuracy in real-world benchmarks — missing 54% of defects. Qodo's multi-agent approach reaches a 60.1% F1 score, still leaving a large share undetected. A team in 2025 had four AI tools review a payment PR and flag 47 issues — all style and formatting — while a race condition on line 156 slipped through undetected. Two weeks later: $340,127 in losses. This article explains exactly which five bug categories fall through the AI gap and why, plus how human review catches them differently.</p>
     </header>
 
     <!-- Key Takeaways — GEO: O02 -->
     <div class="key-takeaways">
       <h3>Key Takeaways</h3>
       <ul>
-        <li>CodeRabbit detects ~46% of bugs (2025 dev.to analysis) — missing more than half.</li>
-        <li>Qodo targets 57% accuracy — the best-in-class AI reviewer still misses 43%.</li>
+        <li>CodeRabbit detects ~46% of bugs in real-world PRs — missing more than half.</li>
+        <li>Qodo leads with 60.1% F1 score; Augment Code benchmarks show even the best tool reaches only 59% F-score on open-source PRs.</li>
+        <li>A 2025 incident: four AI tools approved a payment PR; a race condition cost $340K before anyone caught it.</li>
         <li>AI excels at: syntax, style, common security patterns, known anti-patterns.</li>
         <li>AI fails at: business logic, race conditions, timing bugs, spec mismatches, broken user flows.</li>
         <li>The core gap: AI reads code as text; humans read code against requirements.</li>
@@ -217,23 +227,32 @@
     <!-- Section 1 -->
     <h2>The 50% Miss Rate Problem</h2>
 
-    <p>When AI code review tools emerged, the promise was significant: automated feedback on every pull request, instant comments, no human bottleneck. Teams adopted CodeRabbit, Qodo, and similar tools quickly — particularly AI-first teams building with Cursor or Claude Code where code volume is high and iteration speed is the priority.</p>
+    <p>When AI code review tools emerged, the promise was significant: automated feedback on every pull request, instant inline comments, no human bottleneck. Teams adopted CodeRabbit, Qodo, GitHub Copilot Review, and similar tools quickly — particularly AI-first teams building with Cursor or Claude Code where code volume is high and iteration speed is the priority.</p>
 
     <p>The problem surfaced in post-mortems. Bugs slipped to production that reviewers had expected the bot to catch. When teams audited their incident histories against their review logs, a pattern appeared: the AI had reviewed the relevant code and said nothing.</p>
 
     <div class="stat-box">
-      <strong>46%</strong> — CodeRabbit's measured bug detection accuracy in a 2025 dev.to analysis. That means for every 100 bugs present in reviewed code, approximately 54 receive no comment at all.
-      <br><small>Source: dev.to/novaelvaris, "Why Your AI Code Review Misses Logic Bugs", 2025</small>
+      <strong>46%</strong> — CodeRabbit's measured bug detection accuracy in independent 2025 benchmarks. For every 100 real bugs in reviewed code, approximately 54 receive no comment at all.
+      <br><small>Source: <a href="https://byteiota.com/ai-code-review-benchmark-2026-first-real-results/">byteiota.com, AI Code Review Benchmark 2026</a></small>
     </div>
 
-    <p>Qodo, which positions itself as accuracy-focused, targets 57% detection — an improvement, but still a 43% miss rate. These numbers are not a criticism of engineering quality. They are a structural property of how current AI review tools work.</p>
+    <p>Qodo, which positions itself as accuracy-focused, achieves a 60.1% F1 score with 56.7% recall — an improvement, but still a substantial miss rate. An independent benchmark by Augment Code on 50 real pull requests across Sentry, Grafana, Cal.com, Discourse, and Keycloak found the top-performing tool scored only 59% F-score. GitHub Copilot Review scored 25%.</p>
 
     <div class="stat-box">
-      <strong>43%</strong> — bugs missed even by Qodo, which targets 57% detection accuracy as of 2025.
-      <br><small>Source: Qodo documentation and independent benchmarks, 2025</small>
+      <strong>25%–59% F-score</strong> — the range across 7 AI code review tools benchmarked on 50 real open-source PRs (2025). The benchmark used ground-truth issues that competent human reviewers would identify — architectural and correctness problems, not style violations.
+      <br><small>Source: <a href="https://www.augmentcode.com/blog/we-benchmarked-7-ai-code-review-tools-on-real-world-prs-here-are-the-results">Augment Code benchmark, 2025</a></small>
     </div>
 
     <p>Understanding <em>which</em> bugs are missed — and why — is the first step toward closing the gap.</p>
+
+    <!-- Real incident -->
+    <div class="incident-box">
+      <div class="incident-title">Real Incident: $340K Race Condition</div>
+      <p>In March 2025, a team deployed AI-first code review using GitHub Copilot, CodeRabbit, SonarQube, and a custom GPT-4 bot. On PR #847 (payment processing), the four tools collectively flagged 47 issues: an unused variable, a missing semicolon, inconsistent indentation. The team fixed all 47 and shipped.</p>
+      <p>Two weeks later, production failed. The cause: a race condition on line 156. Two concurrent requests both passed an existence check before either had created the payment record — both proceeded, both charged the customer. Revenue loss: $340,127.</p>
+      <p>Why did all four AI tools miss it? The syntax was correct. No type errors. No pattern in the text of the code signalled anything wrong. The bug existed only in the interaction between two concurrent execution paths — something static pattern matching cannot see.</p>
+      <p><small>Source: <a href="https://medium.com/lets-code-future/ai-code-review-found-47-bugs-manual-review-found-3-guess-which-3-mattered-1f658535f675">Medium / Let's Code Future, 2026</a></small></p>
+    </div>
 
     <!-- Section 2 -->
     <h2>What AI Code Review Bots Are Actually Good At</h2>
@@ -250,11 +269,11 @@
       <li><strong>Missing null checks on common patterns</strong> — reading a property from an object that could be undefined in a recognizable way.</li>
     </ul>
 
-    <p>For these categories, AI review is fast, consistent, and scales to high commit volume without reviewer fatigue. A team shipping ten pull requests a day genuinely benefits from automated coverage of this surface area.</p>
+    <p>For these categories, AI review is fast, consistent, and scales to high commit volume without reviewer fatigue. A team shipping ten pull requests a day genuinely benefits from automated coverage of this surface area. Traditional static analyzers catch less than 20% of bugs; AI review tools represent a meaningful step forward for this class of defects.</p>
 
     <blockquote>
-      "AI tools are very good at catching the bugs that a linter with extra steps would catch. The problem is that teams use them as a substitute for review, not a complement to it."
-      <cite>— Common observation in post-incident engineering retrospectives, 2025</cite>
+      "AI tools are excellent at catching the bugs a linter with extra steps would catch. The problem is that teams use them as a substitute for review, not a complement to it."
+      <cite>— Common pattern observed in post-incident engineering retrospectives, 2025</cite>
     </blockquote>
 
     <!-- Section 3 -->
@@ -264,32 +283,32 @@
 
     <div class="bug-card">
       <h4>1. Business Logic Bugs</h4>
-      <p>The code does exactly what it says — it just says the wrong thing. A payment flow where currency conversion happens after tax calculation instead of before is syntactically perfect. The AI sees valid arithmetic on valid variables. Only a reviewer who understands that tax must be computed in the base currency before conversion can identify the error. No pattern in the code itself marks it as wrong.</p>
+      <p>The code does exactly what it says — it just says the wrong thing. A payment flow where currency conversion happens after tax calculation instead of before is syntactically perfect. The AI sees valid arithmetic on valid variables. Only a reviewer who knows that tax must be computed in the base currency before conversion can identify the error. No pattern in the code text marks it as wrong — the bug lives in the relationship between the code and the requirement.</p>
     </div>
 
     <div class="bug-card">
       <h4>2. Race Conditions and Concurrency Bugs</h4>
-      <p>Race conditions require scenario tracing across execution paths. Two threads read-modify-write the same state variable. Whether this is a bug depends on whether those operations can interleave — which requires reasoning about scheduling, lock boundaries, and timing windows. AI code review tools analyze a static snapshot of a file or diff. They cannot simulate concurrent execution or identify windows that only appear under specific load or ordering.</p>
+      <p>Race conditions require scenario tracing across execution paths. Two threads read-modify-write the same state. Whether this is a bug depends on whether those operations can interleave — which requires reasoning about scheduling, lock boundaries, and timing windows. AI tools analyze a static snapshot of a file or diff. They cannot simulate concurrent execution. The $340K payment incident above is a direct example: "request A checks, request B checks, both pass, both create" is an execution scenario, not a pattern in the text of the code.</p>
     </div>
 
     <div class="bug-card">
-      <h4>3. Timing Bugs and Off-by-One Errors in Domain Context</h4>
-      <p>An off-by-one error in a loop index is visible. An off-by-one error in a billing cycle, a session expiry window, or a time-zone boundary calculation is not — unless the reviewer knows the domain rule. "Sessions expire after 30 minutes of inactivity" is a requirement. Whether <code>lastActive + 1800 &lt; now</code> vs <code>lastActive + 1800 &lt;= now</code> matters depends on the product specification, not on code patterns.</p>
+      <h4>3. Timing Bugs and Domain Off-by-One Errors</h4>
+      <p>An off-by-one error in a loop index is visible. An off-by-one in a billing cycle, a session expiry window, or a time-zone boundary calculation is not — unless the reviewer knows the domain rule. "Sessions expire after 30 minutes of inactivity" is a requirement. Whether <code>lastActive + 1800 &lt; now</code> vs <code>lastActive + 1800 &lt;= now</code> matters depends on the product spec, not on code patterns. One causes sessions to expire one second early. The other doesn't. AI has no way to tell which is correct.</p>
     </div>
 
     <div class="bug-card">
       <h4>4. Spec Mismatches and Broken User Flows</h4>
-      <p>The spec says: "after payment confirmation, redirect to the order summary page." The code redirects to the dashboard. Both are valid navigations. The AI has no access to the spec. It cannot tell that the requirement was violated. A human reviewer who has read the brief will catch this immediately — it is invisible to any tool that reviews code without the associated requirements document.</p>
+      <p>The spec says: after payment confirmation, redirect to the order summary page. The code redirects to the dashboard. Both are valid navigations. The AI has no access to the spec and cannot tell that the requirement was violated. A human reviewer who has read the brief catches this immediately — it is invisible to any tool that reviews code without the associated requirements document. This is a class of bug that grows as AI-generated code becomes more common: code that is internally correct but behaviorally wrong for the specific product.</p>
     </div>
 
     <div class="bug-card">
       <h4>5. Cross-Component Data Flow Errors</h4>
-      <p>A field is set to null in one service and consumed as non-null in another. Within each file, the code looks correct. The bug only appears when a reviewer traces the full data path across components — from API response, through state management, into the rendering logic. This requires holding the system model in working memory across multiple files. AI tools review diffs, not system behavior.</p>
+      <p>A field is set to null in one service and consumed as non-null in another. Within each file, the code looks correct. The bug only appears when a reviewer traces the full data path — from API response, through state management, into the rendering layer. The Augment Code benchmark identified this as a root cause for low tool recall: "most systems struggle to retrieve the context necessary to catch meaningful issues." Tools review diffs; bugs exist in system behavior.</p>
     </div>
 
     <div class="stat-box">
-      <strong>Scenario tracing</strong> — the technique human reviewers use to catch timing bugs and boundary conditions — requires mentally executing a sequence of user actions and tracking system state. This is fundamentally different from pattern matching on static text.
-      <br><small>Source: dev.to/novaelvaris, "Why Your AI Code Review Misses Logic Bugs", 2025</small>
+      <strong>Key finding from Augment Code benchmark (2025):</strong> "The fundamental problem isn't model capability — it's context retrieval. Tools failed to access dependent modules, type definitions, cross-file call chains, and historical context from prior changes."
+      <br><small>Source: <a href="https://www.augmentcode.com/blog/we-benchmarked-7-ai-code-review-tools-on-real-world-prs-here-are-the-results">Augment Code, 2025</a></small>
     </div>
 
     <!-- Section 4 -->
@@ -305,9 +324,14 @@
 
     <p>The architectural difference is fundamental. AI code review tools were trained on code. They learned to recognize patterns that correlate with bugs across millions of repositories. This is powerful for bugs that look similar across codebases. It is useless for bugs that are specific to your product's requirements.</p>
 
-    <p>Consider the real scenario: an AI reviewed a payment flow where currency conversion happened after tax calculation instead of before. The code was syntactically valid. The logic was internally consistent. The variable names were clear. No anti-pattern was present. The AI approved it. The bug caused incorrect tax amounts for all international transactions and went unnoticed until a user in Germany filed a support ticket.</p>
+    <p>A 2025 dev.to analysis by novaelvaris identified the core problem precisely: "Production bugs live in the gap between what the code does and what it <em>should</em> do." Providing feature specs in the review prompt — two or three sentences of expected behavior — increased logic bug detection from roughly 1 per week to 4 per week in one team's workflow. But this requires manual effort on every review and still cannot close the gap for concurrency, cross-component flows, and domain-specific boundary conditions.</p>
 
-    <p>The AI had no way to catch this. It had no access to the product spec stating that all amounts must be normalized to the base currency before any tax rate is applied. The code looked fine because, in isolation, it was fine. The bug existed in the relationship between the code and the requirement — a dimension AI review cannot currently measure.</p>
+    <blockquote>
+      "AI code review found 47 bugs. Manual review found 3. The 3 mattered. The 47 didn't."
+      <cite>— Medium / Let's Code Future, March 2026</cite>
+    </blockquote>
+
+    <p>AI-generated code makes this worse, not better. Data from a CodeRabbit analysis of 470 pull requests found that AI-authored changes produced 10.83 issues per PR versus 6.45 for human-only PRs — and logic errors in AI-generated code occur at 75% higher rates. More AI code means more logic bugs, and the tool reviewing it is precisely the category of tool that misses logic bugs.</p>
 
     <!-- Comparison table — GEO: O03 -->
     <h2>AI vs. Human Review: Capability Comparison</h2>
@@ -316,61 +340,61 @@
       <table>
         <thead>
           <tr>
-            <th>Review Dimension</th>
-            <th>AI Code Review Bots</th>
-            <th>Human Review</th>
+            <th>Bug Type / Review Dimension</th>
+            <th>AI Bot Detects</th>
+            <th>Human Detects</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Syntax errors</td>
-            <td>Excellent</td>
-            <td>Good (slower)</td>
-          </tr>
-          <tr>
-            <td>Style violations</td>
-            <td>Excellent</td>
-            <td>Inconsistent</td>
+            <td>Syntax / style errors</td>
+            <td>Yes</td>
+            <td>Yes (slower)</td>
           </tr>
           <tr>
             <td>Known security patterns</td>
-            <td>Good</td>
-            <td>Good</td>
+            <td>Yes</td>
+            <td>Yes</td>
           </tr>
           <tr>
             <td>Novel security vulnerabilities</td>
-            <td>Poor</td>
-            <td>Good</td>
+            <td>Rarely</td>
+            <td>Yes</td>
           </tr>
           <tr>
-            <td>Business logic correctness</td>
-            <td>Poor (no spec access)</td>
-            <td>Excellent (reads spec)</td>
-          </tr>
-          <tr>
-            <td>Race conditions</td>
-            <td>Poor (static analysis only)</td>
-            <td>Good (scenario tracing)</td>
-          </tr>
-          <tr>
-            <td>Timing bugs</td>
-            <td>Poor</td>
-            <td>Good</td>
-          </tr>
-          <tr>
-            <td>User flow verification</td>
-            <td>None</td>
-            <td>Excellent</td>
+            <td>Business logic mismatches</td>
+            <td>No — no spec access</td>
+            <td>Yes — reads spec</td>
           </tr>
           <tr>
             <td>Spec compliance</td>
-            <td>None</td>
-            <td>Excellent</td>
+            <td>No</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>User flow breakage</td>
+            <td>No</td>
+            <td>Yes — traces flows</td>
+          </tr>
+          <tr>
+            <td>Payment / billing edge cases</td>
+            <td>No</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Race conditions</td>
+            <td>No — static analysis only</td>
+            <td>Yes — scenario tracing</td>
+          </tr>
+          <tr>
+            <td>Timing / domain off-by-one</td>
+            <td>No</td>
+            <td>Yes</td>
           </tr>
           <tr>
             <td>Cross-component data flow</td>
-            <td>Poor</td>
-            <td>Good</td>
+            <td>Rarely</td>
+            <td>Yes</td>
           </tr>
           <tr>
             <td>Review speed</td>
@@ -380,21 +404,82 @@
           <tr>
             <td>Cost at scale</td>
             <td>Low</td>
-            <td>High</td>
+            <td>Higher</td>
           </tr>
           <tr>
             <td>Overall bug detection rate</td>
-            <td>~46–57% (2025)</td>
+            <td>~46–60% (2025 benchmarks)</td>
             <td>Higher — spec-aware</td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <!-- Real benchmark comparison -->
+    <h3>2025 Tool Benchmark Results (Augment Code, 50 real PRs)</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F-score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Augment Code Review</td>
+            <td>65%</td>
+            <td>55%</td>
+            <td>59%</td>
+          </tr>
+          <tr>
+            <td>Cursor Bugbot</td>
+            <td>60%</td>
+            <td>41%</td>
+            <td>49%</td>
+          </tr>
+          <tr>
+            <td>Greptile</td>
+            <td>45%</td>
+            <td>45%</td>
+            <td>45%</td>
+          </tr>
+          <tr>
+            <td>Codex Code Review</td>
+            <td>68%</td>
+            <td>29%</td>
+            <td>41%</td>
+          </tr>
+          <tr>
+            <td>CodeRabbit</td>
+            <td>36%</td>
+            <td>43%</td>
+            <td>39%</td>
+          </tr>
+          <tr>
+            <td>Claude Code</td>
+            <td>23%</td>
+            <td>51%</td>
+            <td>31%</td>
+          </tr>
+          <tr>
+            <td>GitHub Copilot Review</td>
+            <td>20%</td>
+            <td>34%</td>
+            <td>25%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px;color:#888;margin-top:-12px;">Source: <a href="https://www.augmentcode.com/blog/we-benchmarked-7-ai-code-review-tools-on-real-world-prs-here-are-the-results">Augment Code benchmark</a>, 50 PRs across Sentry, Grafana, Cal.com, Discourse, Keycloak. Metrics measure comments on architectural/correctness problems, not style violations.</p>
+
     <!-- Section 5 -->
     <h2>What Human Review Catches Differently</h2>
 
-    <p>A human reviewer reading a pull request brings something no AI tool currently has: the product specification in their working memory. They know what the feature is supposed to do before they read a single line of code. This changes the review entirely.</p>
+    <p>A human reviewer reading a pull request brings something no AI tool currently has: the product specification in working memory. They know what the feature is supposed to do before they read a single line of code. This changes the review entirely.</p>
 
     <h3>Scenario tracing</h3>
 
@@ -402,45 +487,45 @@
 
     <h3>Boundary condition reasoning</h3>
 
-    <p>When a human reviewer sees a time window calculation, they ask: "What happens at exactly 30 minutes? What happens if the server clock drifts? What happens if the client and server are in different time zones?" These are reasoning questions, not pattern questions. The answers require understanding the domain, not recognizing code structure.</p>
+    <p>When a human reviewer sees a time window calculation, they ask: "What happens at exactly 30 minutes? What if the server clock drifts? What if client and server are in different time zones?" These are reasoning questions, not pattern questions. The answers require understanding the domain, not recognizing code structure. In the same way, when reviewing a 100% discount on a $0.30 item, a human notices that floating-point arithmetic might produce <code>0.00000000000000004</code> instead of <code>0</code> — and that the free-item check would then fail. The AI sees correct arithmetic.</p>
 
     <h3>Concurrency mental models</h3>
 
-    <p>Experienced engineers catch race conditions by maintaining a mental model of concurrent execution. They read a critical section and think: "If two requests hit this simultaneously, thread A reads the value, thread B reads the same value, thread A writes, thread B writes — and B's write overwrites A's without knowing A wrote first." This is scenario tracing applied to execution, not to user flows. It requires holding state across imaginary parallel timelines.</p>
+    <p>Experienced engineers catch race conditions by maintaining a mental model of concurrent execution. They read a critical section and think: "If two requests hit this simultaneously — thread A reads, thread B reads the same value, thread A writes, thread B writes and overwrites A's result without knowing A wrote." This is scenario tracing applied to execution paths. The $340K payment bug follows this exact pattern. It requires holding state across imaginary parallel timelines — something outside the capability of static diff analysis.</p>
 
     <h3>The spec as the ground truth</h3>
 
-    <p>The most important thing human reviewers do is verify against requirements. They check the Figma. They read the brief. They ask: "Does this match what was specified?" AI tools have no access to this information unless it is explicitly injected into every review prompt — which most teams do not do, and which still requires the AI to reason about semantic intent rather than syntactic patterns.</p>
+    <p>The most important thing human reviewers do is verify against requirements. They check the Figma. They read the brief. They ask: "Does this match what was specified?" AI tools have no access to this information unless it is explicitly injected into every review prompt. Even when it is, the AI must reason about semantic intent rather than syntactic patterns — which is precisely where current models are weakest.</p>
 
     <!-- CTA block mid-article -->
     <div class="cta-block">
       <h3>Vibers reviews what AI bots miss.</h3>
-      <p>We read your spec, trace your user flows, and catch the logic bugs that pattern matching can't see. Human review for AI-generated code.</p>
+      <p>We read your spec, trace your user flows, and catch the logic bugs that pattern matching can't see. Human review for AI-generated code — with fix PRs delivered.</p>
       <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers on GitHub</a>
     </div>
 
     <!-- Section 6 -->
-    <h2>How to Combine AI and Human Review Effectively</h2>
+    <h2>The Right Combination: AI First, Human for Logic and Flow</h2>
 
     <p>The answer is not to abandon AI code review tools. The answer is to use them for what they are genuinely good at and reserve human review for the categories they cannot cover. This is a layered approach — not a replacement in either direction.</p>
 
-    <h3>Layer 1: AI review as automated first pass</h3>
+    <h3>Layer 1: AI as automated first pass</h3>
 
-    <p>Configure your AI review bot to run on every pull request automatically. Let it catch style violations, common security patterns, obvious type errors, and known anti-patterns. Treat its output as mandatory-to-address before human review begins. This saves human reviewers from spending time on mechanical issues.</p>
+    <p>Configure your AI review bot to run on every pull request automatically. Let it catch style violations, common security patterns, obvious type errors, and known anti-patterns. Treat its output as mandatory-to-address before human review begins. This saves human reviewers from spending time on mechanical issues and frees them to focus on behavior and requirements.</p>
 
     <h3>Layer 2: Human review focused on what AI misses</h3>
 
-    <p>Human review should explicitly focus on the five categories AI misses. Before reading the diff, the reviewer should read the spec. During the review, they should trace the primary user flow end-to-end. They should explicitly ask: "Does this match the requirement?" for every changed behavior, not just "Is this code correct?"</p>
+    <p>Human review should explicitly focus on the five categories AI misses. Before reading the diff, the reviewer reads the spec. During the review, they trace the primary user flow end-to-end. They ask: "Does this match the requirement?" for every changed behavior — not just "Is this code correct in isolation?"</p>
 
     <h3>Practical checklist for spec-aware review</h3>
 
     <ol>
       <li>Read the ticket or brief before opening the diff.</li>
       <li>Trace the primary user flow from entry to exit — does each step match the spec?</li>
-      <li>Identify all state mutations and ask whether they happen in the correct order.</li>
+      <li>Identify all state mutations and verify they happen in the correct order.</li>
       <li>Check all boundary conditions against domain rules, not just code logic.</li>
       <li>Trace data flow across components for any new field or changed type.</li>
-      <li>Look for any concurrency surface (shared state, async operations) and trace simultaneous access scenarios.</li>
+      <li>Look for any concurrency surface (shared state, async operations) and mentally trace simultaneous access scenarios.</li>
     </ol>
 
     <h3>When to prioritize human review</h3>
@@ -448,41 +533,46 @@
     <p>Not all pull requests carry equal risk. Prioritize human review for: payment and billing logic, authentication and authorization changes, data migration scripts, user-facing flows with branching conditions, and any code touching shared mutable state. For style changes and documentation updates, AI review alone is often sufficient.</p>
 
     <div class="stat-box">
-      <strong>The combination effect:</strong> AI review catches the ~46% it handles well. Human review covers the spec-mismatch, logic, and concurrency bugs in the remaining 54%. Together, they approach comprehensive coverage — something neither achieves alone.
+      <strong>The combination effect:</strong> AI review catches the ~46–60% it handles well. Human review covers spec-mismatch, logic, and concurrency bugs in the remaining half. Together, they approach comprehensive coverage — something neither achieves alone. The senior engineer whose manual review caught the $340K race condition had a salary cost of $180K annually. That one catch was worth almost two years of their salary.
     </div>
 
     <!-- Section 7: FAQ -->
-    <section class="faq-section" id="faq">
+    <section id="faq">
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
         <div class="faq-q">What percentage of bugs do AI code review bots miss?</div>
-        <div class="faq-a">According to a 2025 dev.to analysis, CodeRabbit detects approximately 46% of bugs — meaning it misses roughly 54%. Qodo targets 57% accuracy, still leaving 43% of bugs undetected. The miss rate is highest for business logic errors, race conditions, and spec mismatches.</div>
+        <div class="faq-a">According to independent benchmarks, CodeRabbit detects approximately 46% of bugs in real-world PRs — missing roughly 54%. Qodo achieves a 60.1% F1 score (56.7% recall), which still leaves a large share undetected. Augment Code's benchmark on 50 real open-source PRs found the top-performing AI tool scored only 59% F-score; GitHub Copilot Review scored 25%. The miss rate is highest for business logic errors, race conditions, and spec mismatches.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">What kinds of bugs can AI code review tools detect reliably?</div>
-        <div class="faq-a">AI code review bots reliably catch syntax errors, style violations, obvious security patterns (like SQL injection templates and hardcoded secrets), and well-known anti-patterns. These are cases where the bug has a consistent textual signature that pattern matching can recognize across codebases.</div>
+        <div class="faq-a">AI code review bots reliably catch syntax errors, style violations, obvious security patterns (hardcoded secrets, SQL injection templates), and well-known anti-patterns. These are cases where the bug has a consistent textual signature that pattern matching can recognize across codebases. Traditional static analyzers catch less than 20% of bugs; AI tools are a meaningful improvement for this class of defect.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Why do AI code review bots miss business logic bugs?</div>
-        <div class="faq-a">AI tools review code as text and match it against learned patterns. Business logic bugs are syntactically correct — the code does exactly what it says. An AI cannot tell that currency conversion should happen before tax calculation unless it has access to the product specification. Only a reviewer who understands the requirements can spot this class of defect.</div>
+        <div class="faq-a">AI tools review code as text and match it against learned patterns. Business logic bugs are syntactically correct — the code does exactly what it says, just the wrong thing. An AI cannot tell that currency conversion should happen before tax calculation unless it has been given the product specification as context. Only a reviewer who understands the requirements can spot this class of defect.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Can AI tools catch race conditions and timing bugs?</div>
-        <div class="faq-a">Rarely. Race conditions and timing bugs require scenario tracing — mentally running concurrent execution paths and tracking state across time. Current AI code review tools perform static pattern matching on individual files or diffs. They cannot reliably simulate concurrent execution or identify timing windows that only appear under specific load or ordering conditions.</div>
+        <div class="faq-a">Rarely. Race conditions and timing bugs require scenario tracing — mentally running concurrent execution paths and tracking state across time. In a documented 2025 case, four AI tools (GitHub Copilot, CodeRabbit, SonarQube, and a custom GPT-4 bot) reviewed a payment processing PR and found 47 style issues. A race condition on line 156 went undetected. Two weeks after shipping, it caused $340,127 in duplicate charges.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">What is the best way to combine AI and human code review?</div>
-        <div class="faq-a">The most effective approach is layered: use AI bots first to catch style violations, common security patterns, and obvious errors automatically. Then apply human review focused specifically on business logic correctness, user-flow tracing, spec compliance, edge cases in domain context, and cross-component data flow. This combination catches both pattern-based and reasoning-based bugs without duplicating effort.</div>
+        <div class="faq-a">Use AI bots first to catch style violations, common security patterns, and obvious errors automatically. Then apply human review focused specifically on business logic correctness, user-flow tracing, spec compliance, edge cases in domain context, and cross-component data flow. The AI handles the ~50% of bugs it's good at; human review covers the spec-mismatch, logic, and concurrency bugs that pattern matching cannot see.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">Is CodeRabbit worth using if it misses 54% of bugs?</div>
-        <div class="faq-a">Yes — for what it is designed for. CodeRabbit and similar tools provide fast, scalable feedback on code style, obvious anti-patterns, and known security templates. The 54% miss rate applies to the full universe of possible bugs. For the categories AI handles well, the detection rate is much higher. The problem arises when teams treat AI review as sufficient and skip human review entirely, leaving logic, flow, and spec-mismatch bugs undetected.</div>
+        <div class="faq-a">Yes — for what it is designed for. CodeRabbit and similar tools provide fast, scalable feedback on code style, obvious anti-patterns, and known security templates. The 54% miss rate applies to the full universe of possible bugs. For the categories AI handles well, the detection rate is much higher. The problem arises when teams treat AI review as sufficient and skip human review entirely, leaving logic, flow, and spec-mismatch bugs undetected — which is precisely what happened in the $340K incident.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Do AI code review tools get better with more context?</div>
+        <div class="faq-a">Partially. Providing the feature specification in the review prompt improves AI accuracy for business logic. A 2025 dev.to analysis found that adding 2–3 sentences of expected behavior to each review prompt increased logic bug detection from roughly 1 per week to 4 per week. However, this requires manual effort on every review and still does not close the gap for race conditions, cross-component flows, and domain-specific boundary conditions.</div>
       </div>
     </section>
 
@@ -490,16 +580,28 @@
     <div class="author-bio">
       <div class="author-info">
         <h4>Vibers — Human-in-the-loop Code Review</h4>
-        <p>Vibers provides human code review for AI-generated projects. We read your spec, trace your user flows, and verify implementation against requirements — covering the bug categories that automated tools miss. <a href="https://vibers.onout.org">vibers.onout.org</a></p>
+        <p>Vibers provides human code review for AI-generated projects. We read your spec, trace your user flows, and verify implementation against requirements — covering the bug categories that automated tools miss. Fix PRs delivered on push. <a href="https://vibers.onout.org">vibers.onout.org</a></p>
       </div>
     </div>
 
     <!-- Final CTA -->
     <div class="cta-block">
       <h3>Stop shipping the bugs AI bots approve.</h3>
-      <p>Vibers reviews what AI bots miss. We read your spec, trace your user flows, and catch the logic bugs. One GitHub App install. Human reviewer assigned on push.</p>
+      <p>Vibers catches what AI bots miss — we review code against your spec and send fix PRs. One GitHub App install. Human reviewer assigned on push.</p>
       <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers on GitHub &rarr;</a>
     </div>
+
+    <!-- Sources -->
+    <h2>Sources</h2>
+    <ul class="sources-list">
+      <li><a href="https://dev.to/novaelvaris/why-your-ai-code-review-misses-logic-bugs-and-a-4-step-fix-2na2">novaelvaris, "Why Your AI Code Review Misses Logic Bugs (and a 4-Step Fix)"</a> — dev.to, 2025</li>
+      <li><a href="https://byteiota.com/ai-code-review-benchmark-2026-first-real-results/">byteiota.com, "AI Code Review Benchmark 2026: First Real Results"</a> — 200,000+ real PRs analyzed</li>
+      <li><a href="https://www.augmentcode.com/blog/we-benchmarked-7-ai-code-review-tools-on-real-world-prs-here-are-the-results">Augment Code, "We benchmarked 7 AI code review tools on real-world PRs"</a> — 50 PRs, 5 open-source codebases, 2025</li>
+      <li><a href="https://medium.com/lets-code-future/ai-code-review-found-47-bugs-manual-review-found-3-guess-which-3-mattered-1f658535f675">Medium / Let's Code Future, "AI Code Review Found 47 Bugs. Manual Review Found 3."</a> — 2026</li>
+      <li><a href="https://www.coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report">CodeRabbit, "State of AI vs Human Code Generation Report"</a> — 470 PRs analyzed, 2025</li>
+      <li><a href="https://www.qodo.ai/reports/state-of-ai-code-quality/">Qodo, "State of AI Code Quality 2025"</a></li>
+      <li><a href="https://www.devtoolsacademy.com/blog/state-of-ai-code-review-tools-2025/">DevTools Academy, "State of AI Code Review Tools in 2025"</a></li>
+    </ul>
 
     <!-- Related articles -->
     <div class="related-posts">
