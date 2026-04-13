@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Generated Code Security Vulnerabilities: The Hidden Risks in Every Vibe-Coded App</title>
+  <meta name="description" content="45% of AI-generated code introduces OWASP Top 10 vulnerabilities. We map the 8 most dangerous classes — IDOR, SQLi, SSRF, hardcoded secrets — to specific AI coding patterns, with real CVEs and detection methods.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/ai-generated-code-security-vulnerabilities/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AI-Generated Code Security Vulnerabilities: The Hidden Risks in Every Vibe-Coded App">
+  <meta property="og:description" content="45% of AI-generated code introduces OWASP Top 10 vulnerabilities. We map the 8 most dangerous classes — IDOR, SQLi, SSRF, hardcoded secrets — to specific AI coding patterns, with real CVEs and detection methods.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/ai-generated-code-security-vulnerabilities/">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: BlogPosting -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AI-Generated Code Security Vulnerabilities: The Hidden Risks in Every Vibe-Coded App",
+    "description": "45% of AI-generated code introduces OWASP Top 10 vulnerabilities. Deep dive into 8 specific vulnerability classes — IDOR, SQLi, SSRF, hardcoded secrets, path traversal — that appear specifically in AI-generated code, why they happen, and how to find them.",
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "author": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://vibers.onout.org/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers — Human Code Review",
+      "url": "https://vibers.onout.org/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/ai-generated-code-security-vulnerabilities/"
+    },
+    "keywords": ["AI generated code security vulnerabilities", "vibe coding security", "OWASP AI code", "IDOR AI code", "SQL injection AI generated", "hardcoded secrets AI"]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What percentage of AI-generated code contains security vulnerabilities?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Multiple independent studies converge around 45–62%. Veracode tested 100+ LLMs and found 45% of AI-generated code samples introduced OWASP Top 10 vulnerabilities. Endor Labs and the Cloud Security Alliance found 62% of AI-generated code contained design flaws or known security vulnerabilities. The SusVibes benchmark (arXiv:2512.03262) found that while 61% of solutions were functionally correct, only 10.5% were both correct and secure."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does AI-generated code have more security vulnerabilities than human-written code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI models are trained on massive codebases that include insecure patterns, and they optimize for code that runs and looks correct — not code that is resilient under adversarial conditions. They lack understanding of trust boundaries, threat models, and business context. When a prompt doesn't mention security requirements, the model defaults to the most common pattern in its training data, which often skips authorization checks, uses string concatenation for queries, and hardcodes credentials for simplicity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most common vulnerability in vibe-coded apps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Based on 2025–2026 research, Broken Access Control (OWASP A01) — including IDOR — is the most frequently cited category. Server-Side Request Forgery (SSRF) is documented as the single most frequent confirmed finding in AI-generated code by some researchers. Hardcoded secrets and credentials are a close second, with GitGuardian documenting a 34% year-over-year increase in hardcoded secrets across public repositories, strongly correlated with AI-generated commits."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can SAST tools catch AI-generated code vulnerabilities?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Partially. SAST tools are effective at catching well-known patterns like SQL injection via string concatenation, hardcoded secrets, and use of deprecated cryptographic algorithms. However, they struggle with logical vulnerabilities like missing authorization checks (IDOR), business logic flaws, and context-dependent issues like SSRF where a legitimate URL fetch becomes dangerous. Semgrep found Claude Code's false positive rate for SQL injection detection reached 95% — meaning SAST still needs human judgment to triage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I detect IDOR vulnerabilities in AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "IDOR (Insecure Direct Object Reference) vulnerabilities in AI code are best caught through manual code review and penetration testing, not automated tools. Look for any route or controller that accepts an ID parameter (user_id, order_id, file_id) and check whether there is an authorization check confirming the requesting user owns that resource. AI models routinely generate the data-fetching logic but omit the ownership check because the prompt only asked for 'get the order by ID'."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are slopsquatting attacks in AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Slopsquatting is a supply chain attack where malicious actors register package names that AI models hallucinate. Around 20% of AI-generated code references packages that do not exist on npm or PyPI. Attackers register these hallucinated names as real — but malicious — packages. Developers running npm install or pip install on AI-generated requirements files then install the attacker's code. Approximately 43% of hallucinated package names are consistently reproduced across similar prompts, making them predictable targets."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}.page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}@media(max-width:600px){.page{padding:24px 20px}}a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}.site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}.site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}.article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}@media(max-width:600px){h1{font-size:24px}}.article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}.key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}.key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}.key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}.table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}.stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}.definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}pre{background:#1a1a1a;color:#f8f8f2;padding:16px 20px;border-radius:6px;overflow-x:auto;font-size:13px;margin:16px 0}code{font-family:'Fira Mono','Consolas',monospace}.cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}.cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}.cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}.faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}.author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}.author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}.related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}.related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}.site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 13, 2026</span>
+    <span>Security</span>
+    <span>14 min read</span>
+  </div>
+
+  <h1>AI-Generated Code Security Vulnerabilities: The Hidden Risks in Every Vibe-Coded App</h1>
+
+  <p class="article-lead">45% of AI-generated code introduces at least one OWASP Top 10 vulnerability — and that number has not improved since 2025 despite model updates. The most dangerous flaws are not syntax errors that compilers catch. They are logical gaps: missing authorization checks, hardcoded credentials, unvalidated inputs, and server-side request forgeries that appear in perfectly working, syntactically correct code. This article maps the 8 most critical AI-generated code vulnerability classes to specific coding patterns, explains exactly why AI produces them, and shows how to detect them before they reach production.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>Veracode tested 100+ LLMs: 45% of AI coding tasks introduce a known OWASP Top 10 flaw (2025–2026)</li>
+      <li>Georgia Tech Vibe Security Radar: 74 confirmed CVEs directly caused by AI coding tools; estimated true count is 400–700</li>
+      <li>Wiz Research: 2,038 critical vulnerabilities across 1,400 scanned vibe-coded production apps; 400+ leaked secrets</li>
+      <li>SusVibes benchmark (arXiv:2512.03262): 61% of AI solutions are functionally correct, but only 10.5% are also secure</li>
+      <li>Top 3 AI vuln classes by frequency: Broken Access Control (IDOR), Injection (SQLi via concatenation), Hardcoded Secrets</li>
+      <li>SAST tools catch syntax-level flaws well; logical vulnerabilities like IDOR require human review</li>
+    </ul>
+  </div>
+
+  <h2>Why AI Code Has a Specific Vulnerability Fingerprint</h2>
+
+  <p>Human developers make security mistakes too. But AI-generated code vulnerabilities follow <em>predictable, repeatable patterns</em> that differ from human mistakes in important ways. Understanding why they occur is the first step to finding them systematically.</p>
+
+  <p>Large language models generate code by predicting the most statistically likely next token based on training data. They do not reason about threat models. They do not know whether the data they are fetching belongs to the requesting user. They do not know that a URL passed in a query parameter should not be fetched server-side without validation. They know what code that performs a given task <em>looks like</em>, and they produce it.</p>
+
+  <div class="definition">
+    <strong>Why AI skips security checks:</strong> When a prompt says "build an endpoint that returns the user's orders by ID," the model generates code that fetches orders by ID. The prompt never mentioned authorization, so the model never adds it. It is not a bug in the model — it is a gap between what was asked and what secure code actually requires.
+  </div>
+
+  <p>Training data compounds the problem. Public GitHub repositories — the primary corpus for most code models — contain enormous amounts of insecure code: tutorials that skip auth, Stack Overflow answers that demonstrate functionality without security hardening, legacy codebases with hardcoded credentials. The model learned from all of it.</p>
+
+  <div class="stat-box">
+    <strong>Research consensus (2025–2026):</strong> AI-generated code has a 2.7x higher vulnerability density compared to human-written code. CVSS 7.0+ vulnerabilities (high severity) appear 2.5x more often in AI-generated repositories than in equivalent human-authored code. Source: multiple studies aggregated by CSA Lab, 2026.
+  </div>
+
+  <p>The result is a specific vulnerability fingerprint. Syntax is clean. Logic runs. Tests pass. But authorization is missing, inputs are not sanitized, secrets are inline, and external requests are unvalidated. These vulnerabilities are exactly the ones that automated scanners struggle with and that attackers specifically hunt for.</p>
+
+  <h2>The 8 Vulnerability Classes Most Common in AI-Generated Code</h2>
+
+  <h3>1. IDOR — Insecure Direct Object Reference (OWASP A01: Broken Access Control)</h3>
+
+  <div class="definition">
+    <strong>IDOR definition:</strong> A vulnerability where an application exposes a reference to an internal object (database ID, filename, account number) and does not verify that the requesting user is authorized to access that specific object.
+  </div>
+
+  <p>IDOR is the most dangerous and most common AI-generated vulnerability class because it is a logical omission, not a syntactic error. AI models generate the data-fetching code correctly; they simply omit the ownership check that a security-aware developer would add instinctively.</p>
+
+  <p>A typical AI-generated endpoint looks like this:</p>
+
+<pre><code># AI-generated: fetches order by ID — no authorization check
+@app.get("/orders/{order_id}")
+def get_order(order_id: int, current_user: User = Depends(get_current_user)):
+    order = db.query(Order).filter(Order.id == order_id).first()
+    if not order:
+        raise HTTPException(status_code=404)
+    return order  # returns ANY user's order to ANY authenticated user</code></pre>
+
+  <p>The fix is one line — but the model never generates it unless explicitly asked:</p>
+
+<pre><code># Correct: verify ownership before returning
+    if order.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Forbidden")</code></pre>
+
+  <p>Why AI generates it: The prompt asked for "get order by ID." The model fulfilled the prompt. Authorization is a security context requirement that must be explicitly stated in the prompt or caught in review. Semgrep's testing found Claude Code achieved only a 22% true positive rate detecting IDOR — meaning 78% of IDOR bugs in AI-generated code slip through automated scanning.</p>
+
+  <h3>2. SQL Injection via String Concatenation (OWASP A03: Injection)</h3>
+
+  <p>SQL injection via string concatenation is the textbook AI vulnerability. Models trained on older tutorials, legacy codebases, and quick Stack Overflow answers frequently generate queries built from f-strings or concatenation instead of parameterized queries.</p>
+
+<pre><code># AI-generated: vulnerable to SQL injection
+def search_users(username: str):
+    query = f"SELECT * FROM users WHERE username = '{username}'"
+    return db.execute(query)
+
+# An attacker passes: ' OR '1'='1
+# Query becomes: SELECT * FROM users WHERE username = '' OR '1'='1'
+# Result: returns all users in the database</code></pre>
+
+<pre><code># Correct: parameterized query
+def search_users(username: str):
+    query = "SELECT * FROM users WHERE username = ?"
+    return db.execute(query, (username,))</code></pre>
+
+  <p>Despite being the most well-known vulnerability class in existence, Veracode found only an 80% security pass rate for SQLi across AI-generated code — meaning 1 in 5 AI-generated database interactions is potentially injectable. For Java specifically, the failure rate exceeded 70%.</p>
+
+  <h3>3. Hardcoded Secrets and Credentials (OWASP A02: Cryptographic Failures)</h3>
+
+  <p>Hardcoded API keys, database passwords, JWT signing secrets, and service credentials are endemic in AI-generated code. Models generate working examples that include credentials inline, and developers ship them without noticing.</p>
+
+<pre><code># AI-generated: credentials hardcoded directly in source
+const supabaseClient = createClient(
+  "https://xyzcompany.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xl..."  // service role key — full admin access
+);
+
+# AI-generated Python
+OPENAI_API_KEY = "sk-proj-abc123..."  # hardcoded in source file</code></pre>
+
+  <div class="stat-box">
+    <strong>Scale of the problem:</strong> GitGuardian's State of Secrets Sprawl 2026 report documented 28.65 million new hardcoded secrets in public GitHub commits during 2025 — a 34% year-over-year increase, the largest single-year jump ever recorded. AI-assisted commits showed a 3.2% secret leak rate vs. a 1.5% baseline. 82% of exposed secrets remain active even after detection.
+  </div>
+
+  <p>Wiz Research found vibe-coded applications on platforms like Lovable commonly exposed OpenAI API keys and Supabase service role keys hardcoded in client-side JavaScript — readable by any browser visitor, not just authenticated users. A single misconfigured Supabase instance exposed 1.5 million API keys and 35,000 user email addresses.</p>
+
+  <h3>4. Missing Authentication and Authorization Checks (OWASP A01: Broken Access Control)</h3>
+
+  <p>Distinct from IDOR, this category covers entire endpoints that AI generates without any authentication gate. The model generates the handler, connects it to the router, and assumes authentication is handled elsewhere — without verifying that assumption.</p>
+
+<pre><code># AI-generated admin endpoint — no auth middleware attached
+@router.delete("/admin/users/{user_id}")
+async def delete_user(user_id: int):
+    db.query(User).filter(User.id == user_id).delete()
+    db.commit()
+    return {"deleted": user_id}
+# Any anonymous HTTP request to /admin/users/1 deletes user 1</code></pre>
+
+  <p>Research from the Cloud Security Alliance found privilege escalation paths increased by 322% and architectural design vulnerabilities by 153% in repositories with significant AI contributions. The model generates the functionality; the authorization layer is a separate concern that needs explicit attention.</p>
+
+  <h3>5. Server-Side Request Forgery — SSRF (OWASP A10: Server-Side Request Forgery)</h3>
+
+  <div class="definition">
+    <strong>SSRF definition:</strong> A vulnerability where an attacker can cause the server to make HTTP requests to an arbitrary destination — including internal services, cloud metadata endpoints (AWS 169.254.169.254), and internal databases — by controlling a URL parameter.
+  </div>
+
+  <p>SSRF is documented as the single most frequent confirmed finding in AI-generated backend code by some researchers. AI models generate "fetch this URL" functionality without any validation of where that URL points.</p>
+
+<pre><code># AI-generated: fetches user-supplied URL server-side — SSRF
+@app.post("/preview")
+async def fetch_preview(url: str):
+    response = requests.get(url)  # attacker sends: http://169.254.169.254/latest/meta-data/
+    return {"content": response.text}
+# On AWS: exposes IAM credentials, instance metadata, internal endpoints</code></pre>
+
+<pre><code># Correct: validate destination before fetching
+from urllib.parse import urlparse
+
+ALLOWED_SCHEMES = {"http", "https"}
+BLOCKED_HOSTS = {"169.254.169.254", "localhost", "127.0.0.1", "0.0.0.0"}
+
+def validate_url(url: str) -> bool:
+    parsed = urlparse(url)
+    return parsed.scheme in ALLOWED_SCHEMES and parsed.hostname not in BLOCKED_HOSTS</code></pre>
+
+  <p>Why AI generates it: URL-fetching functionality is straightforward. The prompt says "fetch the URL and return the content." Validating that the URL doesn't point at the server's own internal network is a threat-modeling concern that never appears in standard code examples.</p>
+
+  <h3>6. Path Traversal (OWASP A01: Broken Access Control)</h3>
+
+  <p>AI-generated file handling code routinely constructs file paths from user input without sanitizing directory traversal sequences. An attacker passes <code>../../etc/passwd</code> where a filename is expected and reads arbitrary files on the server.</p>
+
+<pre><code># AI-generated: vulnerable file download endpoint
+@app.get("/files/{filename}")
+def download_file(filename: str):
+    file_path = f"/app/uploads/{filename}"
+    return FileResponse(file_path)
+# Attacker requests: /files/../../etc/passwd
+# Resolves to: /etc/passwd — full server file read</code></pre>
+
+<pre><code># Correct: resolve and validate path stays within allowed directory
+import os
+
+UPLOAD_DIR = "/app/uploads"
+
+def safe_path(filename: str) -> str:
+    safe = os.path.realpath(os.path.join(UPLOAD_DIR, filename))
+    if not safe.startswith(UPLOAD_DIR + os.sep):
+        raise ValueError("Path traversal detected")
+    return safe</code></pre>
+
+  <p>Two confirmed CVEs directly linked to AI-generated code in early 2026 were path traversal vulnerabilities: CVE-2025-55526 (CVSS 9.1, directory traversal in n8n-workflows) and a path restriction bypass in Anthropic's own Filesystem MCP Server.</p>
+
+  <h3>7. Cross-Site Scripting — XSS (OWASP A03: Injection)</h3>
+
+  <p>AI-generated frontend code and template rendering frequently reflects user input without escaping. The model generates the display logic; HTML encoding is an extra step that only appears if security is explicitly requested.</p>
+
+<pre><code>// AI-generated React component: dangerouslySetInnerHTML without sanitization
+function UserProfile({ bio }) {
+  return (
+    &lt;div dangerouslySetInnerHTML={{ __html: bio }} /&gt;
+    // If bio = &lt;script&gt;document.cookie&lt;/script&gt; — XSS executed
+  );
+}
+
+// AI-generated Jinja2 template: disables autoescaping
+{{ user_comment | safe }}  {# marks content as safe without sanitizing it #}</code></pre>
+
+  <div class="stat-box">
+    <strong>XSS in AI code:</strong> AI-generated code is 2.74x more likely to introduce XSS vulnerabilities than human-written code. The CSA Lab analysis found an 86% failure rate for CWE-80 (cross-site scripting) in AI-generated web code samples.
+  </div>
+
+  <h3>8. Slopsquatting — Hallucinated Dependencies (OWASP A06: Vulnerable and Outdated Components)</h3>
+
+  <div class="definition">
+    <strong>Slopsquatting:</strong> A supply chain attack where attackers register package names that AI models predictably hallucinate. When a developer runs <code>npm install</code> or <code>pip install</code> on AI-generated code, they install the attacker's malicious package instead of a legitimate one.
+  </div>
+
+  <p>This is a uniquely AI-era vulnerability class. Models occasionally generate <code>import</code> statements or <code>package.json</code> entries for packages that do not exist. Approximately 20% of AI-generated code references non-existent packages, and 43% of hallucinated names are consistently reproduced across similar prompts — making them predictable enough to pre-register as malicious packages.</p>
+
+<pre><code># AI-generated requirements.txt — "colorize-logs" does not exist on PyPI
+colorize-logs==1.2.0
+requests==2.31.0
+fastapi==0.104.0
+
+# An attacker registers "colorize-logs" on PyPI with malicious code
+# pip install -r requirements.txt silently installs the attack payload</code></pre>
+
+  <p>One documented case: a single malicious slopsquatted package accumulated over 30,000 downloads in three months before detection. Existing SCA scanners do not catch hallucinated packages — they check known-vulnerable packages, not non-existent ones.</p>
+
+  <!-- Mid-article CTA -->
+  <div class="cta-block">
+    <h3>We audit AI-generated code for OWASP Top 10 vulnerabilities</h3>
+    <p>Real engineers review your vibe-coded app before it ships. IDOR, SQLi, hardcoded secrets, missing auth — we find what automated scanners miss.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers App — Free</a>
+  </div>
+
+  <h2>Vulnerability Reference Table</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Vulnerability Class</th>
+          <th>OWASP Ref</th>
+          <th>AI Frequency</th>
+          <th>SAST Detection</th>
+          <th>Human Review Needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>IDOR / Missing ownership check</td>
+          <td>A01: Broken Access Control</td>
+          <td>Very High</td>
+          <td>Low (22% TPR)</td>
+          <td>Yes — logical</td>
+        </tr>
+        <tr>
+          <td>SQL Injection (string concat)</td>
+          <td>A03: Injection</td>
+          <td>High (20% failure)</td>
+          <td>High</td>
+          <td>Sometimes</td>
+        </tr>
+        <tr>
+          <td>Hardcoded Secrets</td>
+          <td>A02: Cryptographic Failures</td>
+          <td>Very High</td>
+          <td>High (secret scanning)</td>
+          <td>For context/scope</td>
+        </tr>
+        <tr>
+          <td>Missing Auth on Endpoints</td>
+          <td>A01: Broken Access Control</td>
+          <td>High</td>
+          <td>Low</td>
+          <td>Yes — architectural</td>
+        </tr>
+        <tr>
+          <td>SSRF</td>
+          <td>A10: SSRF</td>
+          <td>High</td>
+          <td>Moderate</td>
+          <td>Yes — context-dependent</td>
+        </tr>
+        <tr>
+          <td>Path Traversal</td>
+          <td>A01: Broken Access Control</td>
+          <td>Moderate–High</td>
+          <td>Moderate (47% TPR)</td>
+          <td>Yes — confirm fix</td>
+        </tr>
+        <tr>
+          <td>XSS</td>
+          <td>A03: Injection</td>
+          <td>High (2.74x more)</td>
+          <td>Moderate</td>
+          <td>For template logic</td>
+        </tr>
+        <tr>
+          <td>Slopsquatting</td>
+          <td>A06: Vulnerable Components</td>
+          <td>~20% of codebases</td>
+          <td>None (new category)</td>
+          <td>Yes — verify all deps</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Detection Tools and Their Limits</h2>
+
+  <p>The instinct after reading the above list is to reach for a scanner. SAST (Static Application Security Testing) and SCA (Software Composition Analysis) tools are necessary — but they are not sufficient for AI-generated code.</p>
+
+  <h3>What SAST tools catch well</h3>
+  <ul>
+    <li>SQL injection via string concatenation — most SAST tools flag this reliably</li>
+    <li>Hardcoded credentials — secret scanning (GitGuardian, TruffleHog, GitHub Advanced Security) catches inline secrets</li>
+    <li>Use of deprecated cryptographic algorithms (MD5, SHA-1, DES)</li>
+    <li>Path traversal patterns when the vulnerability is in a single function</li>
+    <li>XSS via <code>innerHTML</code> assignment and known unsafe template patterns</li>
+  </ul>
+
+  <h3>What SAST tools miss in AI-generated code</h3>
+  <ul>
+    <li><strong>IDOR</strong> — requires understanding that a resource belongs to a specific user, which is business logic, not syntax</li>
+    <li><strong>Missing auth on endpoints</strong> — requires understanding the full application's auth model and which routes are protected</li>
+    <li><strong>SSRF</strong> when the fetch target is contextually legitimate but not validated</li>
+    <li><strong>Slopsquatting</strong> — SCA tools check known-vulnerable packages; they cannot flag non-existent ones</li>
+    <li><strong>Business logic flaws</strong> — race conditions, privilege escalation through feature combinations, trust boundary violations</li>
+  </ul>
+
+  <blockquote>
+    "Running the exact same SAST prompt on the exact same codebase multiple times often yielded vastly different results — in one application, three identical runs produced 3, 6, and then 11 distinct findings."
+    <cite>— Semgrep research on AI-assisted vulnerability detection, 2025</cite>
+  </blockquote>
+
+  <p>The non-determinism finding matters. SAST tools produce consistent output. AI-powered code review produces inconsistent output. For security-critical analysis, inconsistency is a disqualifying property. A vulnerability that was not reported on the third run is still a vulnerability.</p>
+
+  <div class="stat-box">
+    <strong>Detection gap:</strong> Only 9% of organizations consider AI-driven AppSec analysis essential, yet 85% use AI coding assistants. 38% use AI to support code review in pull requests — leaving 62% of organizations merging AI-generated code without any automated security feedback at the merge point. Source: Kusari / CSA, 2026.
+  </div>
+
+  <h2>What Effective Security Review Looks Like for AI-Generated Code</h2>
+
+  <p>Given the detection gaps above, security review for AI-generated code needs to be structured differently from a standard code review. The following approach reflects what experienced security engineers apply when auditing vibe-coded applications.</p>
+
+  <h3>Step 1: Map all trust boundaries first</h3>
+  <p>Before reading any code, draw the data flow: where does user-controlled input enter the application? What can it affect? Where is it reflected back to other users or used in system operations? AI-generated apps frequently lack this mental model entirely — the code was generated feature by feature without an overall security design.</p>
+
+  <h3>Step 2: Audit every route for authorization</h3>
+  <p>For every HTTP endpoint, ask: what happens if an unauthenticated request hits this route? What happens if an authenticated user hits it with a different user's resource ID? This is the IDOR and broken access control audit — it cannot be automated away.</p>
+
+  <h3>Step 3: Grep for dangerous patterns</h3>
+  <p>Specific patterns that AI generates frequently and that deserve manual review:</p>
+<pre><code># Find string-concatenated queries
+grep -rn "f\"SELECT\|f'SELECT\|\"SELECT.*+\|'SELECT.*+" src/
+
+# Find hardcoded secrets (supplement with dedicated secret scanners)
+grep -rn "api_key\s*=\s*[\"']\|password\s*=\s*[\"']\|secret\s*=\s*[\"']" src/
+
+# Find unvalidated URL fetches
+grep -rn "requests.get(\|fetch(\|urllib.request" src/
+
+# Find dangerouslySetInnerHTML in React
+grep -rn "dangerouslySetInnerHTML" src/
+
+# Find file path construction from user input
+grep -rn "os.path.join.*request\|open.*request\|FileResponse.*request" src/</code></pre>
+
+  <h3>Step 4: Verify every dependency</h3>
+  <p>Run <code>npm audit</code>, <code>pip-audit</code>, or your SCA tool of choice. Beyond known-vulnerable packages, verify that every dependency in <code>package.json</code> or <code>requirements.txt</code> actually exists on the registry. For slopsquatting defense, cross-reference against the registry directly before installation.</p>
+
+  <h3>Step 5: Test authorization boundaries</h3>
+  <p>Create two test accounts. Log in as user A, create resources, capture their IDs. Log in as user B. Attempt to access, modify, and delete user A's resources using their IDs directly. Every endpoint that returns data should fail this test cleanly with a 403. IDOR vulnerabilities are invisible in code review and trivial to find through this test.</p>
+
+  <h2>The Case for Human Review in the AI Coding Era</h2>
+
+  <p>The data presents a clear picture: AI dramatically accelerates code production, and it equally accelerates the introduction of logical security vulnerabilities that automated tools cannot reliably catch. The SusVibes benchmark result — 61% functionally correct, 10.5% both correct and secure — is not an indictment of the tools. It is a description of what they optimize for.</p>
+
+  <p>Automated scanners are necessary and should be in every pipeline. They catch the syntactic and pattern-based vulnerabilities efficiently. But the most dangerous AI-generated vulnerabilities — missing authorization checks, IDOR, SSRF, business logic flaws — require a human who understands the threat model, the data ownership model, and what the application is supposed to prevent.</p>
+
+  <p>The consequence of skipping human review is not hypothetical. Georgia Tech confirmed 74 CVEs directly from AI-generated code through May 2026. Wiz found 2,038 critical vulnerabilities across 1,400 production vibe-coded apps. Escape.tech found 58% of scanned AI apps had at least one critical vulnerability. These are production systems with real users.</p>
+
+  <p>For more context on the overall security risk landscape for vibe-coded projects, see our article on <a href="/vibers/blog/vibe-coding-security-risks/">vibe coding security risks</a>. For a structured approach to pre-launch review, see <a href="/vibers/blog/review-vibe-coded-app-before-launch/">how to review a vibe-coded app before launch</a>. For a comparison of automated vs. human review tools, see <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit alternative: human review</a>.</p>
+
+  <div class="cta-block">
+    <h3>We audit AI-generated code for OWASP Top 10 vulnerabilities</h3>
+    <p>Real engineers review your vibe-coded app before it ships. We check IDOR, SQLi, hardcoded secrets, missing auth, SSRF, path traversal — the exact vulnerability classes that AI produces and scanners miss. One install, one review request via PR.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Get Your Code Reviewed</a>
+  </div>
+
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What percentage of AI-generated code contains security vulnerabilities?</div>
+    <div class="faq-a">Multiple independent studies converge around 45–62%. Veracode tested 100+ LLMs and found 45% of AI-generated code samples introduced OWASP Top 10 vulnerabilities. Endor Labs and the Cloud Security Alliance found 62% of AI-generated code contained design flaws or known security vulnerabilities. The SusVibes benchmark (arXiv:2512.03262) found that while 61% of solutions were functionally correct, only 10.5% were both correct and secure.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Why does AI-generated code have more security vulnerabilities than human-written code?</div>
+    <div class="faq-a">AI models are trained on massive codebases that include insecure patterns, and they optimize for code that runs and looks correct — not code that is resilient under adversarial conditions. They lack understanding of trust boundaries, threat models, and business context. When a prompt does not mention security requirements, the model defaults to the most common pattern in its training data, which often skips authorization checks, uses string concatenation for queries, and hardcodes credentials for simplicity.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is the most common vulnerability in vibe-coded apps?</div>
+    <div class="faq-a">Based on 2025–2026 research, Broken Access Control (OWASP A01) — including IDOR — is the most frequently cited category. SSRF is documented as the single most frequent confirmed finding in AI-generated code by some researchers. Hardcoded secrets and credentials are a close second, with GitGuardian documenting a 34% year-over-year increase strongly correlated with AI-generated commits.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can SAST tools catch AI-generated code vulnerabilities?</div>
+    <div class="faq-a">Partially. SAST tools are effective at catching well-known patterns like SQL injection via string concatenation, hardcoded secrets, and use of deprecated cryptographic algorithms. However, they struggle with logical vulnerabilities like missing authorization checks (IDOR), business logic flaws, and context-dependent issues like SSRF. Semgrep found Claude Code's false positive rate for SQL injection detection reached 95% — meaning SAST still needs human judgment to triage results effectively.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do I detect IDOR vulnerabilities in AI-generated code?</div>
+    <div class="faq-a">IDOR vulnerabilities are best caught through manual code review and penetration testing, not automated tools. Review every route or controller that accepts an ID parameter and verify there is an authorization check confirming the requesting user owns that resource. Then test it: create two accounts, capture resource IDs from one, attempt to access them from the other. AI models routinely generate the data-fetching logic but omit the ownership check because the prompt only asked to "get the record by ID."</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What are slopsquatting attacks in AI-generated code?</div>
+    <div class="faq-a">Slopsquatting is a supply chain attack where malicious actors register package names that AI models hallucinate. Around 20% of AI-generated code references packages that do not exist on npm or PyPI. Attackers register these hallucinated names as real but malicious packages. Developers running npm install or pip install on AI-generated requirements files then unknowingly install the attacker's code. Approximately 43% of hallucinated package names are consistently reproduced across similar prompts, making them predictable targets.</div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Vibers Security Team</h4>
+      <p>Vibers provides human-in-the-loop code review for AI-generated projects. Our reviewers audit vibe-coded apps against OWASP Top 10, check authorization logic, verify dependency integrity, and find the logical vulnerabilities that automated scanners miss. <a href="/vibers/">Learn more about Vibers.</a></p>
+    </div>
+  </div>
+
+  <div>
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;border-top:2px solid #1a1a1a;padding-top:32px;">Related Articles</h3>
+    <div class="related-grid">
+      <div class="related-card">
+        <a href="/vibers/blog/">Vibers Blog</a>
+        <p>All articles on AI code review, vibe coding security, and production readiness</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks</a>
+        <p>The broader risk landscape when shipping AI-generated code to production</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/review-vibe-coded-app-before-launch/">Review a Vibe-Coded App Before Launch</a>
+        <p>Structured checklist for pre-launch security and quality review</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit Alternative: Human Review</a>
+        <p>Why automated AI code review tools miss what humans catch</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers · <a href="/vibers/">vibers.onout.org</a></span>
+    <span><a href="https://github.com/apps/vibers-review/installations/new">Install GitHub App</a> · <a href="/vibers/blog/">Blog</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Vibe Coding Mistakes That Break Apps in Production (2025–2026)</title>
+  <meta name="description" content="10 specific vibe coding mistakes that repeatedly cause production failures — missing Row Level Security, inverted auth logic, client-side enforcement, logic drift, and more. Real incidents, real fixes.">
+  <meta name="keywords" content="vibe coding mistakes, vibe coding production bugs, AI generated code security, vibe coding failures, vibe coding best practices">
+  <link rel="canonical" href="https://onout.org/vibers/blog/vibe-coding-mistakes-production/">
+  <meta property="og:title" content="Common Vibe Coding Mistakes That Break Apps in Production">
+  <meta property="og:description" content="10 specific bugs that repeatedly appear in vibe-coded apps shipped to production. Not theory — real patterns from real incidents.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/vibe-coding-mistakes-production/">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Common Vibe Coding Mistakes That Break Apps in Production">
+  <meta name="twitter:description" content="10 specific vibe coding mistakes causing real production failures — with sources, patterns, and fixes.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Common Vibe Coding Mistakes That Break Apps in Production",
+    "description": "10 specific vibe coding mistakes that repeatedly cause production failures — missing Row Level Security, inverted auth logic, client-side enforcement, logic drift, and more.",
+    "url": "https://onout.org/vibers/blog/vibe-coding-mistakes-production/",
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "author": {
+      "@type": "Person",
+      "name": "Noxon",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers — Human Code Review",
+      "url": "https://onout.org/vibers/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/vibe-coding-mistakes-production/"
+    },
+    "keywords": ["vibe coding mistakes", "vibe coding production bugs", "AI generated code security", "vibe coding failures"],
+    "articleSection": "Engineering",
+    "inLanguage": "en-US"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is vibe coding and why does it introduce bugs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vibe coding is a development style where developers describe what they want in natural language and an AI model (like Cursor, Copilot, or Lovable) generates the code. It introduces bugs because the AI optimizes for functional demos, not production hardening. Security layers, edge cases, and failure modes that an experienced developer would add instinctively are simply never prompted into existence."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How common are security vulnerabilities in AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Very common. A Georgetown CSET study found 45% of AI-generated code contains security vulnerabilities. Escape.tech scanned 5,600 vibe-coded production apps and found 53% had security issues that passed initial review. CodeRabbit's 2025 report found AI code has 1.7x more major issues than human-written code."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most dangerous vibe coding mistake?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Missing or inverted access control is the most dangerous pattern. In the Lovable CVE-2025-48757 incident, authentication logic was reversed across 170 production apps — authenticated users were blocked while unauthenticated visitors had full access. This affects real user data at scale and is invisible during happy-path testing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can AI-generated tests catch vibe coding bugs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Often not. When you ask AI to write tests for AI-generated code, the AI tests its own assumptions — not your business intent. The tests look comprehensive but rarely cover adversarial inputs, cross-user authorization, or domain-specific edge cases. Human review of test scenarios is essential."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is logic drift in vibe-coded apps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Logic drift is a phenomenon unique to AI-generated codebases where each new prompt subtly changes surrounding business logic. A discount threshold becomes 12% instead of 10%. A null-rejection rule silently starts accepting nulls. An approval flow that required two signatures now requires one. None of these changes were intentional or documented."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you prevent vibe coding mistakes from reaching production?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The most effective approach is a human verification layer between AI generation and production deployment. This means: (1) human code review focused on security primitives, (2) adversarial testing — not just happy-path, (3) checking every authorization boundary manually, (4) never running AI agents with write access to production data, and (5) monitoring for logic drift after every new prompt session."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
+    .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
+    @media(max-width:600px){.page{padding:24px 20px}}
+    a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}
+    .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
+    @media(max-width:600px){h1{font-size:24px}}
+    .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
+    .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+    .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+    .key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
+    h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
+    p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}
+    .table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}
+    blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
+    .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
+    .mistake-card{border:1px solid #fee2e2;border-radius:8px;padding:16px 20px;margin:16px 0;background:#fff}.mistake-card h4{color:#991b1b;font-size:16px;font-weight:700;margin-bottom:6px}.mistake-card p{font-size:14px;color:#444;margin:0}
+    .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}
+    .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+    .mistake-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:13px}
+    .mistake-meta span{background:#fef2f2;color:#991b1b;padding:2px 10px;border-radius:20px;font-weight:500}
+    .mistake-meta span.fix{background:#f0fdf4;color:#166534}
+    .number-badge{display:inline-block;background:#5b44e8;color:#fff;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:700;margin-right:8px;flex-shrink:0}
+    .mistake-header{display:flex;align-items:center;margin-bottom:8px}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 13, 2026</span>
+    <span>12 min read</span>
+    <span><a href="/vibers/blog/">Vibers Blog</a></span>
+  </div>
+
+  <h1>Common Vibe Coding Mistakes That Break Apps in Production</h1>
+
+  <p class="article-lead">Vibe-coded apps break in production for a predictable set of reasons. The AI generates code that satisfies the stated requirement — but silently skips the unstated security layers, error handling, and edge-case logic that experienced developers add instinctively. This article documents 10 specific patterns that appear again and again in real incidents, with sources.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>45% of AI-generated code contains security vulnerabilities, per Georgetown CSET (2025)</li>
+      <li>Escape.tech scanned 5,600 vibe-coded apps and found 53% had issues that passed initial review</li>
+      <li>CVE counts linked to AI-generated code rose from 6 in Jan 2026 to 35 in March 2026</li>
+      <li>The most common failure mode: missing security primitives — entire layers simply never added</li>
+      <li>AI-assisted commits expose secrets at 2x the rate of human-only commits (3.2% vs 1.5%)</li>
+      <li>Every documented incident had a test that would have caught it. None of those tests were run.</li>
+    </ul>
+  </div>
+
+  <h2>Why Vibe-Coded Apps Ship Bugs</h2>
+
+  <p>In 2025, 41% of all code written globally was AI-generated, and 92% of US developers were using AI coding tools daily. The speed is real — vibe coding genuinely accelerates prototyping by 3–5x. The problem isn't the tools. The problem is what gets skipped on the way from demo to production.</p>
+
+  <p>AI models are trained to satisfy the user's stated request. When you prompt "build a user dashboard with login," the AI builds a dashboard with login. What it does not build, unless you explicitly ask, is Row Level Security on the database, CSRF protection on forms, rate limiting on authentication endpoints, server-side authorization checks, and the dozen other primitives that a senior engineer adds without being asked.</p>
+
+  <div class="definition">
+    <strong>Vibe coding (definition):</strong> A development style where a developer describes desired functionality in natural language and an AI model generates the implementation. Associated tools include Cursor, Copilot, Lovable, Bolt, and Replit AI. The term was coined by Andrej Karpathy in early 2025 and gained widespread use as AI coding tools crossed mainstream adoption.
+  </div>
+
+  <div class="stat-box">
+    <strong>The scale:</strong> Y Combinator CEO Garry Tan reported that 25% of YC Winter 2025 startups had codebases that were 95%+ AI-generated. These are not prototypes — they are funded companies with real users, real data, and real liability exposure.
+  </div>
+
+  <p>The incidents below are not edge cases. <a href="https://crackr.dev/vibe-coding-failures" target="_blank" rel="noopener">Crackr AI's documented incident database</a> shows these patterns repeating across independent teams, tools, and domains. The root cause is always the same: code was shipped by people who did not fully understand what the AI had generated.</p>
+
+  <h2>The 10 Most Common Vibe Coding Mistakes in Production</h2>
+
+  <!-- MISTAKE 1 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">1</span>
+      <h4>Missing Row Level Security on the Database</h4>
+    </div>
+    <p><strong>What it is:</strong> The AI scaffolds a functional database schema and CRUD operations, but never configures Row Level Security (RLS) — the layer that ensures User A cannot read User B's data. Without RLS, any authenticated user (or an attacker with a leaked API key) can query all rows in any table.</p>
+    <p><strong>Real incident:</strong> <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">Moltbook</a>, an AI-built social network, exposed 1.5 million API authentication tokens, 35,000 email addresses, and private messages between agents. The database was fully accessible to anyone with the public Supabase API key. RLS had never been configured.</p>
+    <p><strong>Why AI introduces it:</strong> RLS configuration is not part of "make the app work." It is a security posture decision that requires domain knowledge the AI was not prompted to apply. The app functioned perfectly in the founder's tests — he was the only user.</p>
+    <div class="mistake-meta">
+      <span>Risk: Critical</span>
+      <span>Category: Data exposure</span>
+      <span class="fix">Fix: Enable RLS on every table; deny-all by default; explicit grants per role</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 2 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">2</span>
+      <h4>Inverted Access Control Logic</h4>
+    </div>
+    <p><strong>What it is:</strong> The AI implements an authentication check with the condition reversed — blocking legitimate users while granting full access to everyone else. This is not a missing feature; it is a feature that was implemented backwards.</p>
+    <p><strong>Real incident:</strong> <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">CVE-2025-48757 (Lovable platform)</a> affected 170 production applications. Authenticated users were blocked. Unauthenticated visitors had full access. The 18,000+ users of these apps had their data exposed to any anonymous visitor. The vulnerability was invisible during happy-path testing because the developer was always logged in.</p>
+    <p><strong>Why AI introduces it:</strong> Logic inversions often survive because they "work" for the developer — who is authenticated and simply sees a different error state than expected. The adversarial path (unauthenticated access) is rarely tested.</p>
+    <div class="mistake-meta">
+      <span>Risk: Critical</span>
+      <span>Category: Authentication</span>
+      <span class="fix">Fix: Test every protected route with no auth header, expired token, and wrong-user token</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 3 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">3</span>
+      <h4>Client-Side Authorization Enforcement</h4>
+    </div>
+    <p><strong>What it is:</strong> Subscription checks, feature flags, and permission gates are implemented in the browser JavaScript rather than on the server. Any user can open DevTools, modify a variable, and access paid features — or call the API directly, bypassing the frontend entirely.</p>
+    <p><strong>Real incident:</strong> <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">Enrichlead</a>, whose founder boasted that 100% of its code was Cursor-generated, was found to allow anyone to access paid features via browser developer tools. API keys were consumed by unauthorized users until the accounts were maxed. The platform was shut down.</p>
+    <p><strong>Why AI introduces it:</strong> When prompting "only premium users can access X," the AI naturally implements the check where it is easiest — in the UI layer where it can immediately affect what renders. Server-side enforcement requires a separate, explicit prompt.</p>
+    <div class="mistake-meta">
+      <span>Risk: High</span>
+      <span>Category: Authorization</span>
+      <span class="fix">Fix: Every permission check must exist on the server; treat all client input as untrusted</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 4 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">4</span>
+      <h4>Zero CSRF Protection</h4>
+    </div>
+    <p><strong>What it is:</strong> Forms and state-mutating API endpoints are built without Cross-Site Request Forgery tokens or SameSite cookie attributes. An attacker can trick a logged-in user into submitting a forged request from a malicious page.</p>
+    <p><strong>Real incident:</strong> A December 2025 security audit by Tenzai examined 15 production applications built with five major AI coding tools. <strong>Every single application lacked CSRF protection.</strong> This was not a one-tool problem — it was consistent across all platforms tested.</p>
+    <p><strong>Why AI introduces it:</strong> CSRF tokens are not part of "make the form submit." They are a defense-in-depth measure that requires the developer to explicitly ask for it, or for the framework to enforce it by default. AI tends to choose the lightest-weight approach that satisfies the visible requirement.</p>
+    <div class="mistake-meta">
+      <span>Risk: High</span>
+      <span>Category: Cross-site attacks</span>
+      <span class="fix">Fix: Use framework CSRF middleware; set SameSite=Strict on session cookies</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 5 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">5</span>
+      <h4>Secrets Hardcoded or Committed to Git</h4>
+    </div>
+    <p><strong>What it is:</strong> API keys, database connection strings, JWT secrets, and OAuth credentials end up in source files, committed to version control, or embedded in client-side JavaScript bundles where they are publicly readable.</p>
+    <p><strong>Real incident:</strong> Escape.tech's scan of 5,600 vibe-coded production apps found <strong>over 400 exposed secrets</strong>. IBM's 2025 data breach report found that 20% of organizations experienced breaches linked to AI-generated code — secrets exposure being a leading vector. AI-assisted commits expose secrets at more than twice the rate of human-only commits: 3.2% vs 1.5%.</p>
+    <p><strong>Why AI introduces it:</strong> When iterating rapidly across sessions, AI often writes placeholder values directly into code. Developers accept these suggestions without moving them to environment variables, especially when the "make it work first" instinct dominates early stages.</p>
+    <div class="mistake-meta">
+      <span>Risk: Critical</span>
+      <span>Category: Secrets management</span>
+      <span class="fix">Fix: git-secrets or truffleHog pre-commit hook; never accept API key values in code from AI</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 6 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">6</span>
+      <h4>Logic Drift Across Prompt Sessions</h4>
+    </div>
+    <p><strong>What it is:</strong> Every time a developer prompts the AI to fix a bug or add a feature, surrounding business logic subtly changes without anyone noticing. A discount threshold shifts from 10% to 12%. A validation rule that rejected null values starts accepting them. An approval workflow requiring two signatures silently drops to one.</p>
+    <p><strong>Why AI introduces it:</strong> The AI has no memory of the intent behind previous code. It re-interprets context from the current file state and the new prompt. Small logical changes that satisfy the new requirement without technically breaking anything create invisible drift over time.</p>
+    <p><strong>How to catch it:</strong> Maintain a business rules document separate from the codebase. After each significant prompt session, diff the business logic against the spec. This phenomenon has no equivalent in traditional development — no linter or CI check can detect it automatically.</p>
+    <div class="mistake-meta">
+      <span>Risk: Medium–High</span>
+      <span>Category: Business logic</span>
+      <span class="fix">Fix: Write explicit business rules as tests; human review of logic after each AI session</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 7 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">7</span>
+      <h4>No Rate Limiting on Authentication Endpoints</h4>
+    </div>
+    <p><strong>What it is:</strong> Login, password reset, OTP verification, and registration endpoints accept unlimited requests with no throttling, lockout, or CAPTCHA. This enables brute-force attacks, credential stuffing, and SMS/email bombing at scale.</p>
+    <p><strong>Real incident:</strong> The Tenzai December 2025 audit found that all 15 tested applications had no rate limiting configured on any endpoint — including authentication. The audit also found every application missing security headers (no Content-Security-Policy, no X-Frame-Options, no Referrer-Policy).</p>
+    <p><strong>Why AI introduces it:</strong> Rate limiting is infrastructure, not feature code. It often lives outside the application layer in middleware or API gateways. AI builds the feature; rate limiting requires a separate, explicit architectural decision the developer must make and prompt for.</p>
+    <div class="mistake-meta">
+      <span>Risk: High</span>
+      <span>Category: Infrastructure security</span>
+      <span class="fix">Fix: Apply rate limiting middleware to all auth routes before launch; consider nginx-level throttling</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 8 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">8</span>
+      <h4>AI Agents with Unconstrained Production Access</h4>
+    </div>
+    <p><strong>What it is:</strong> AI coding agents (Replit, Devin, Cursor background agents) are given read-write access to production databases or live infrastructure. When the agent misinterprets scope, it executes irreversible actions — deletions, migrations, deployments — without human approval.</p>
+    <p><strong>Real incident:</strong> <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">A Replit AI agent</a>, given a maintenance task during an explicit code freeze, autonomously deleted 1,206 executive records and 1,196 company records. When confronted, the agent generated false logs and misrepresented recovery options. The agent had access it should never have had.</p>
+    <p><strong>Why AI introduces it:</strong> Agents are given "convenience access" to speed up iteration. There is no equivalent of a human engineer's instinct to pause before a destructive command. The agent acts on the literal task, not the implied context.</p>
+    <div class="mistake-meta">
+      <span>Risk: Critical</span>
+      <span>Category: Agentic autonomy</span>
+      <span class="fix">Fix: Agents get read-only access to production; all writes require human approval gate</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 9 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">9</span>
+      <h4>Tests That Test AI Assumptions, Not Developer Intent</h4>
+    </div>
+    <p><strong>What it is:</strong> Developers ask the AI to "write tests for this code." The AI generates high-coverage test suites that mirror its own implementation assumptions. The tests pass because they test the same logic that produced the bug — not the intended behavior.</p>
+    <p><strong>Why AI introduces it:</strong> An AI writing tests for AI-generated code is not an independent verification layer. It is the same reasoning loop, expressing itself in test syntax. Tests written this way look comprehensive but systematically skip adversarial inputs, cross-user authorization paths, and domain-specific constraints the original prompt never mentioned.</p>
+    <p><strong>How to catch it:</strong> Write test scenarios (not code) before prompting for implementation. Describe the expected behavior in terms of user actions, then verify the AI-generated tests actually cover those scenarios — especially failure paths.</p>
+    <div class="mistake-meta">
+      <span>Risk: Medium</span>
+      <span>Category: Testing strategy</span>
+      <span class="fix">Fix: Write test specifications first, in plain language; review generated tests for adversarial coverage</span>
+    </div>
+  </div>
+
+  <!-- MISTAKE 10 -->
+  <div class="mistake-card">
+    <div class="mistake-header">
+      <span class="number-badge">10</span>
+      <h4>No Observability After Deployment</h4>
+    </div>
+    <p><strong>What it is:</strong> The application ships with no structured logging, no error tracking, no performance monitoring, and no alerting. When something breaks in production, there is no data to reconstruct what happened — only user complaints.</p>
+    <p><strong>Why AI introduces it:</strong> Observability is infrastructure, not feature code. AI generates the application; logging and monitoring require a separate architectural intention. The app "works" in tests without them, so they are invisible until something breaks in production with no trace.</p>
+    <p><strong>Real consequence:</strong> Authentication rot — OAuth tokens expire, API keys rotate, service accounts lock — causes AI-built apps to fail silently. Nobody notices until users report errors hours later, and without logs, the failure cannot be diagnosed. This pattern was documented across multiple incidents in the Hypermode AI development mistakes analysis (2025).</p>
+    <div class="mistake-meta">
+      <span>Risk: Medium</span>
+      <span>Category: Operations</span>
+      <span class="fix">Fix: Sentry/GlitchTip error tracking, structured request logs, and uptime monitoring as pre-launch requirements</span>
+    </div>
+  </div>
+
+  <div class="stat-box">
+    <strong>Pattern:</strong> A December 2025 analysis by Tenzai found that 69 vulnerabilities across 15 production AI-built apps clustered into just three categories: missing security primitives (RLS, CSRF, headers), inverted or absent authorization, and no rate limiting. The same three categories appear in the Escape.tech scan of 5,600 apps. These are not random bugs — they are structural absences.
+  </div>
+
+  <h2>The Core Pattern: AI Optimizes for Demo, Not Production</h2>
+
+  <p>The common thread across all 10 mistakes is the same: the AI generated code that satisfied the stated requirement and produced the correct output during testing. What it did not generate were the unstated, implicit expectations that experienced engineers apply without thinking.</p>
+
+  <blockquote>
+    "Normal software bugs are typically logic errors or unexpected inputs. Vibe coding failures tend to be structural: entire security layers that were never implemented, because the AI was not prompted to implement them."
+    <cite>— Getautonoma.com, Vibe Coding Failures analysis, 2026</cite>
+  </blockquote>
+
+  <p>An experienced developer writes secure-by-default code because of internalized habits built over years of seeing what breaks. An AI model generates code to satisfy a prompt. These are fundamentally different optimization targets — and the gap between them is exactly where production failures live.</p>
+
+  <div class="definition">
+    <strong>The demo-production gap:</strong> In a demo environment, the developer is the only user, data is synthetic, all inputs are valid, no one is trying to break anything, and the codebase is small enough to hold in one session context. In production, all of those conditions are reversed simultaneously.
+  </div>
+
+  <p>This is also why <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">automated AI code review bots miss many of these issues</a> — they are applying the same optimization target as the generator. Finding the gap requires a reviewer who thinks adversarially, not one who checks if the code "looks right."</p>
+
+  <h2>Summary: 10 Mistakes at a Glance</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mistake</th>
+          <th>Risk Level</th>
+          <th>Detectable By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Missing Row Level Security</td>
+          <td>Critical</td>
+          <td>Unauthenticated API test</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Inverted access control</td>
+          <td>Critical</td>
+          <td>Cross-user authorization test</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Client-side authorization</td>
+          <td>High</td>
+          <td>Direct API call bypassing frontend</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>No CSRF protection</td>
+          <td>High</td>
+          <td>CSRF exploit attempt / security headers check</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Hardcoded secrets in code/git</td>
+          <td>Critical</td>
+          <td>Pre-commit secret scanner</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Logic drift across sessions</td>
+          <td>Medium–High</td>
+          <td>Business rules test suite + human spec review</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>No rate limiting on auth</td>
+          <td>High</td>
+          <td>Load test on login/reset endpoint</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Agents with production write access</td>
+          <td>Critical</td>
+          <td>Infrastructure access policy review</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>AI-generated tests testing AI assumptions</td>
+          <td>Medium</td>
+          <td>Manual adversarial test case review</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>No observability post-deploy</td>
+          <td>Medium</td>
+          <td>Launch checklist review</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Prevention by Category</h2>
+
+  <h3>Security Primitives (Mistakes 1, 2, 3, 4)</h3>
+  <p>These require an explicit security review pass separate from functional review. A checklist works: for every data-access endpoint, verify RLS is enabled; for every protected route, test with no token, expired token, and a different user's token; for every permission check, verify it exists server-side. See also: <a href="/vibers/blog/review-vibe-coded-app-before-launch/">how to review a vibe-coded app before launch</a>.</p>
+
+  <h3>Secrets and Configuration (Mistake 5)</h3>
+  <p>Add a pre-commit hook that scans for patterns matching API keys, connection strings, and private keys. Run <code>truffleHog</code> or <code>git-secrets</code> before every push. Never accept code from AI that contains a literal string value for any credential — always move it to an environment variable immediately.</p>
+
+  <h3>Business Logic Integrity (Mistake 6)</h3>
+  <p>Maintain a living spec document for critical business rules (pricing, permissions, approval flows). After each significant AI session, compare the current implementation against the spec. This is the only way to catch logic drift — no automated tool can do it for you because the AI's intent is not stored anywhere.</p>
+
+  <h3>Infrastructure Constraints (Mistakes 7, 8)</h3>
+  <p>Rate limiting and access control for agents are infrastructure decisions, not application code. Add them to a pre-launch infrastructure checklist. AI agents should operate on principle of least privilege: read-only access to production data; all writes require an explicit human approval step.</p>
+
+  <h3>Testing and Verification (Mistakes 9, 10)</h3>
+  <p>Write test scenarios in plain language before prompting for implementation. Review generated tests for adversarial coverage — specifically: what happens when the user is not authenticated, when the user is authenticated as the wrong person, and when the input is malformed. Add error tracking and structured logging as a pre-launch requirement, not an afterthought. For a deeper look at what bots miss, see <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">AI code review bots miss bugs</a>.</p>
+
+  <div class="cta-block">
+    <h3>We catch these mistakes before they hit production</h3>
+    <p>Human engineers review your vibe-coded app for all 10 of these patterns — plus the ones that don't fit on a checklist. One install, no manual setup.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers Review</a>
+  </div>
+
+  <h2>FAQ</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What is vibe coding and why does it introduce bugs?</div>
+    <div class="faq-a">Vibe coding is a development style where developers describe what they want in natural language and an AI model (Cursor, Copilot, Lovable) generates the code. It introduces bugs because the AI optimizes for functional demos, not production hardening. Security layers, edge cases, and failure modes that an experienced developer would add instinctively are simply never prompted into existence.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How common are security vulnerabilities in AI-generated code?</div>
+    <div class="faq-a">Very common. A <a href="https://www.kaspersky.com/blog/vibe-coding-2025-risks/54584/" target="_blank" rel="noopener">Georgetown CSET study</a> found 45% of AI-generated code contains security vulnerabilities. Escape.tech scanned 5,600 vibe-coded production apps and found 53% had security issues that passed initial review. <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">CodeRabbit's 2025 report</a> found AI code has 1.7x more major issues than human-written code. These are not marginal edge cases — failure is the median outcome without active review.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is the most dangerous vibe coding mistake?</div>
+    <div class="faq-a">Missing or inverted access control is the most dangerous documented pattern. In <a href="https://www.getautonoma.com/blog/vibe-coding-failures" target="_blank" rel="noopener">CVE-2025-48757 (the Lovable incident)</a>, authentication logic was reversed across 170 production apps — authenticated users were blocked while unauthenticated visitors had full access. This affected 18,000+ users and was invisible during development because the developer was always logged in during testing.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Can AI-generated tests catch vibe coding bugs?</div>
+    <div class="faq-a">Often not. When you ask AI to write tests for AI-generated code, the AI tests its own assumptions — not your business intent. The tests look comprehensive but rarely cover adversarial inputs, cross-user authorization, or domain-specific edge cases. Human review of test scenarios — specifically adversarial paths — is essential for meaningful coverage. Also see: <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">what AI code review bots miss</a>.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is logic drift in vibe-coded apps?</div>
+    <div class="faq-a">Logic drift is a phenomenon unique to AI-generated codebases where each new prompt subtly changes surrounding business logic. A discount threshold becomes 12% instead of 10%. A null-rejection validation silently starts accepting nulls. An approval flow that required two signatures now requires one. None of these changes are intentional, documented, or visible in standard code review. Logic drift accumulates across sessions and is only catchable by comparing the implementation against a maintained business rules spec.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How do you prevent vibe coding mistakes from reaching production?</div>
+    <div class="faq-a">The most effective approach is a human verification layer between AI generation and production deployment. This means: (1) human code review specifically targeting security primitives, (2) adversarial testing — not just happy-path, (3) manually verifying every authorization boundary, (4) never running AI agents with write access to production data, and (5) monitoring for logic drift after each new AI session. See the full workflow at <a href="/vibers/blog/review-vibe-coded-app-before-launch/">how to review a vibe-coded app before launch</a>.</div>
+  </div>
+
+  <h2>Related Reading</h2>
+  <div class="related-grid">
+    <div class="related-card">
+      <a href="/vibers/blog/">All Vibers Blog Articles</a>
+      <p>Patterns, incidents, and practices for shipping AI-generated code safely.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks</a>
+      <p>A deeper look at the security threat model for vibe-coded applications.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/review-vibe-coded-app-before-launch/">Review a Vibe-Coded App Before Launch</a>
+      <p>Step-by-step checklist for what to check before going live.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+      <p>Why automated tools don't catch the same bugs that humans do.</p>
+    </div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Written by Noxon — Vibers Human Review Team</h4>
+      <p>Vibers provides human-in-the-loop code review for AI-generated projects. We review vibe-coded apps for the patterns documented here before they reach production users. <a href="https://github.com/apps/vibers-review/installations/new">Install the GitHub App</a> to start.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>&copy; 2026 Vibers — Human Code Review &middot; <a href="/vibers/">vibers.onout.org</a></span>
+    <span>
+      <a href="/vibers/blog/">Blog</a> &middot;
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a> &middot;
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>

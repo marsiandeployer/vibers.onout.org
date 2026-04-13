@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Make a Vibe-Coded App Production-Ready: The Complete Guide — Vibers Blog</title>
+  <meta name="description" content="Your vibe-coded app works in demo — but is it ready for real users? This guide covers the 6 production readiness pillars: error handling, auth, data validation, logging, rate limiting, and scalability.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/vibe-coded-app-production-ready/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Make a Vibe-Coded App Production-Ready: The Complete Guide">
+  <meta property="og:description" content="From demo to real users: the 6 pillars of production readiness for AI-generated apps — with a pre-launch checklist and FAQ.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/vibe-coded-app-production-ready/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Make a Vibe-Coded App Production-Ready: The Complete Guide">
+  <meta name="twitter:description" content="Your vibe-coded app works in demo. Here's what changes when real users show up — and how to close the gap.">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How to Make a Vibe-Coded App Production-Ready: The Complete Guide",
+    "description": "A practical guide for founders and developers on closing the gap between a working demo and a production-ready vibe-coded app. Covers the 6 pillars: error handling, authentication, data validation, logging/monitoring, rate limiting, and scalability.",
+    "url": "https://onout.org/vibers/blog/vibe-coded-app-production-ready/",
+    "datePublished": "2026-04-13",
+    "dateModified": "2026-04-13",
+    "author": {
+      "@type": "Person",
+      "name": "Noxon Team",
+      "url": "https://vibers.onout.org"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://vibers.onout.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://vibers.onout.org/favicon.ico"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://onout.org/vibers/blog/vibe-coded-app-production-ready/"
+    },
+    "keywords": ["vibe coded app production ready", "vibe coding production checklist", "AI generated app deployment", "vibe coding security", "production readiness pillars"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does 'production-ready' mean for a vibe-coded app?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A production-ready vibe-coded app handles real user load without crashing, protects user data with enforced authentication and authorization, validates all inputs server-side, logs errors so you know when something breaks, limits request rates to prevent abuse, and scales beyond a single server when demand grows. The difference from a demo is not the feature list — it is the presence of guardrails around every external interaction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to make a vibe-coded app production-ready?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "According to Autonoma (2026), most founders who work through the six core production pillars systematically complete the process in 8–12 hours of focused work over a weekend. The biggest time sinks are cleaning up hardcoded secrets from git history, adding server-side validation that AI skipped, and setting up an E2E test suite for critical user flows."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the most common security flaw in vibe-coded apps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Broken access control — specifically, authentication checks placed only in the frontend (a React component or UI guard) and not in the API endpoint. A direct HTTP request to the endpoint bypasses the UI check entirely. A 2025 Cloud Security Alliance study found that 62% of AI-generated code contains design flaws or known security vulnerabilities, with privilege escalation paths rising 322% year-over-year in AI-assisted codebases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does adding rate limiting require rewriting AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Rate limiting can almost always be layered on top of existing AI-generated code without rewriting it. For Express/Node apps, the express-rate-limit package adds per-IP limiting in under 10 lines. For Python/FastAPI, slowapi covers the same case. If your app sits behind nginx, you can add rate limiting at the reverse-proxy level with no code changes at all — two lines in the server block."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What monitoring should a vibe-coded app have on day one?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "On day one you need three things: error tracking (Sentry integrates in roughly 20 minutes and catches unhandled exceptions automatically), uptime monitoring (a free service like Better Uptime or UptimeRobot pings your /health endpoint every minute), and structured server logs so you can trace a user-reported bug to a specific request. Session recording tools like PostHog or LogRocket are valuable but can wait until week two."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use AI to help fix production-readiness gaps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, with one important caveat: AI is very effective at adding boilerplate guardrails — rate limiting, input validation schemas, error boundaries — when given specific instructions. It is much less reliable at catching architectural problems it created itself. A Stanford study found developers using AI assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without a structured verification step. Always have a human verify security-critical changes."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}.page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}@media(max-width:600px){.page{padding:24px 20px}}a{color:#5b44e8;text-decoration:none}a:hover{text-decoration:underline}.site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}.site-nav .brand:hover{color:#5b44e8;text-decoration:none}.site-nav .nav-links{display:flex;gap:20px;font-size:14px}.site-nav .nav-links a{color:#555}.site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}.article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}@media(max-width:600px){h1{font-size:24px}}.article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}.key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}.key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}.key-takeaways ul{padding-left:20px}.key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}p{margin-bottom:16px;color:#333}ul,ol{padding-left:24px;margin-bottom:16px}li{margin-bottom:8px;color:#333}.table-wrap{overflow-x:auto;margin-bottom:24px}table{width:100%;border-collapse:collapse;font-size:14px}th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}td{padding:9px 14px;border-bottom:1px solid #eee}tr:nth-child(even) td{background:#fafaf8}.stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}.stat-box strong{color:#92400e}blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}.definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}.cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}.cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}.cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}.cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}.cta-btn:hover{background:#4834c8;text-decoration:none}.faq-item{border-bottom:1px solid #eee;padding:16px 0}.faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}.faq-a{color:#444;font-size:15px;line-height:1.6}.author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}.author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}.author-bio .author-info p{font-size:13px;color:#666;margin:0}.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}.related-card{border:1px solid #eee;border-radius:8px;padding:16px}.related-card:hover{border-color:#5b44e8}.related-card a{color:#1a1a1a;font-weight:600;font-size:14px}.related-card p{font-size:13px;color:#888;margin-top:6px}.site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.site-footer a{color:#555}
+    .checklist-section { background: #fafaf8; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+    .checklist-section h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; }
+    .checklist-section ul { padding-left: 0; list-style: none; }
+    .checklist-section li { padding: 4px 0 4px 28px; position: relative; font-size: 14px; color: #333; margin-bottom: 4px; }
+    .checklist-section li::before { content: "☐"; position: absolute; left: 0; color: #5b44e8; font-size: 16px; line-height: 1.4; }
+    .pillar-badge { display: inline-block; background: #5b44e8; color: #fff; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 13, 2026</span>
+    <span>By Noxon Team</span>
+    <span>12 min read</span>
+    <span><a href="/vibers/blog/">← All articles</a></span>
+  </div>
+
+  <h1>How to Make a Vibe-Coded App Production-Ready: The Complete Guide</h1>
+
+  <p class="article-lead">A vibe-coded app production ready for real users is fundamentally different from one that passes a demo. This guide covers exactly what changes — across six concrete pillars — and gives you a checklist to close the gap before your first paying customer shows up.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>62% of AI-generated code contains design flaws or known security vulnerabilities, even with security-focused prompts (Cloud Security Alliance, 2025)</li>
+      <li>The six pillars: error handling, authentication/authorization, data validation, logging/monitoring, rate limiting, and scalability basics</li>
+      <li>AI tools optimize for "happy path" speed — they skip the boring, critical 20% that makes apps reliable</li>
+      <li>Most founders complete production hardening in 8–12 hours of focused work (Autonoma, 2026)</li>
+      <li>Auth checks in the frontend only are the #1 exploitable flaw in vibe-coded apps</li>
+      <li>Four E2E tests that run on every push are worth more than forty unit tests that never run</li>
+    </ul>
+  </div>
+
+  <h2>Why "It Works in Demo" Does Not Mean Production-Ready</h2>
+
+  <p>Andrej Karpathy coined the term "vibe coding" in February 2025, describing a workflow where the developer's role shifts from writing code line-by-line to guiding an AI through a conversational process. By 2026, 92% of US developers use AI coding tools, and 60% of all new code is AI-generated. The global AI coding market hit $8.5 billion.</p>
+
+  <p>The productivity gains are real. The production gap is also real, and it is where most vibe-coded projects quietly fail.</p>
+
+  <p>AI coding tools are optimized for getting to a working demo fast. They handle the happy path — the scenario where inputs are valid, users do what you expect, the database responds in time, and no one tries to break anything. What they consistently skip is the infrastructure of reliability: the error boundaries, the validation at every layer, the auth checks that survive a direct API call, the rate limits that prevent a single bad actor from taking down your app for everyone else.</p>
+
+  <div class="stat-box">
+    <strong>The numbers are blunt:</strong> A 2025 research scan of 5,600 vibe-coded apps found over 2,000 vulnerabilities, 400+ exposed secrets, and 175 instances of exposed PII. In one documented case, a startup had all security logic on the client side. Within 72 hours of launch, users found they could change a single browser value to access all paid features for free. The company shut down entirely.
+  </div>
+
+  <p>The difference between a prototype and a production-ready app is not the quality of the code — it is the quality of the guardrails around it. Here is how to build those guardrails.</p>
+
+  <div class="definition">
+    <strong>Production-ready definition:</strong> A vibe-coded app is production-ready when it handles unexpected inputs without crashing, enforces access control at the API layer (not just the UI), exposes no secrets in the codebase or git history, tells you immediately when something breaks, and degrades gracefully under load rather than going down entirely.
+  </div>
+
+  <h2>The 6 Production Readiness Pillars</h2>
+
+  <p>Each section below covers what AI typically generates, what production actually needs, and the minimum viable fix. The comparison table at the end of this section lets you assess where your app currently sits.</p>
+
+  <!-- PILLAR 1 -->
+  <h3><span class="pillar-badge">Pillar 1</span> Error Handling</h3>
+
+  <p><strong>What AI generates:</strong> AI code handles the success case. When an external API returns an error, when a database query times out, or when a user submits unexpected data, AI-generated code often lets the exception bubble up uncaught — producing a raw stack trace in the UI, a silent failure, or a crash that takes down the entire process.</p>
+
+  <p><strong>What production needs:</strong> Every external call — database queries, third-party APIs, file system reads — needs a try/catch (or equivalent) with a typed error response. Users should see a friendly message. Your monitoring system should receive the full error context. The rest of the app should keep running.</p>
+
+  <p><strong>Minimum viable fix:</strong> Add a global error boundary at your app's outermost layer (React's <code>ErrorBoundary</code> component, Express's error-handling middleware, or FastAPI's exception handlers). This catches everything you missed locally. Then work inward to add specific handling for your highest-traffic paths.</p>
+
+  <blockquote>
+    "AI coding agents don't add rate limiting, they don't set up monitoring, and they don't think about what happens when two users hit the same endpoint at the same time."
+    <cite>— Autonoma Blog, 2026</cite>
+  </blockquote>
+
+  <!-- PILLAR 2 -->
+  <h3><span class="pillar-badge">Pillar 2</span> Authentication &amp; Authorization</h3>
+
+  <p><strong>What AI generates:</strong> Auth in AI-generated code is typically implemented in the frontend. A React component checks <code>if (user.role === 'admin')</code> and conditionally renders the admin panel. The API endpoint behind that panel has no equivalent check — it trusts that only the UI can call it.</p>
+
+  <p><strong>What production needs:</strong> Every API endpoint that returns sensitive data or performs a state-changing operation must enforce auth independently of the UI. A direct <code>curl</code> request to <code>/api/admin/users</code> should return 401 if the caller is not authenticated — regardless of what the frontend does.</p>
+
+  <p><strong>Minimum viable fix:</strong> For every protected route, add a server-side middleware check before the handler runs. In Express: <code>router.get('/admin/users', requireAuth, requireRole('admin'), handler)</code>. In FastAPI: <code>Depends(get_current_admin_user)</code>. Two minutes per endpoint. Test each one with a raw HTTP request, not through the UI.</p>
+
+  <div class="stat-box">
+    <strong>Why this matters:</strong> A Stanford study found developers using AI assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without structured verification. Privilege escalation paths in AI-assisted codebases rose by 322% year-over-year in 2025 (Cloud Security Alliance, 2026).
+  </div>
+
+  <!-- PILLAR 3 -->
+  <h3><span class="pillar-badge">Pillar 3</span> Data Validation</h3>
+
+  <p><strong>What AI generates:</strong> Input validation, when it exists at all, lives in the frontend form. The API endpoint receives whatever the form sends and passes it directly to the database query. SQL injection, oversized payloads, and malformed data are all possible.</p>
+
+  <p><strong>What production needs:</strong> Server-side schema validation on every endpoint that accepts user input. The schema should define allowed types, lengths, and formats. Anything that does not match the schema should be rejected with a 400 before it touches your database.</p>
+
+  <p><strong>Minimum viable fix:</strong> Add Zod (Node/TypeScript), Pydantic (Python), or Joi (Node/JavaScript) to your API layer. Define a schema for each request body. Add one line to call <code>schema.parse(req.body)</code> before your handler logic. Invalid input throws, which your error handler converts to a clean 400 response. Approximately 15 minutes per endpoint group.</p>
+
+  <!-- PILLAR 4 -->
+  <h3><span class="pillar-badge">Pillar 4</span> Logging &amp; Monitoring</h3>
+
+  <p><strong>What AI generates:</strong> <code>console.log</code> statements placed during development, usually around the happy path. No structured logging. No error aggregation. No alerting. When something breaks in production, you find out from a user DM, not a Slack alert.</p>
+
+  <p><strong>What production needs:</strong> Three layers of observability from day one. First, structured server logs that include request ID, user ID, endpoint, status code, and duration — so you can trace a complaint to a specific request. Second, error tracking that captures unhandled exceptions automatically and groups them by root cause. Third, uptime monitoring that pings your <code>/health</code> endpoint and alerts you within minutes of downtime.</p>
+
+  <p><strong>Minimum viable fix:</strong> Sentry integrates in approximately 20 minutes with a single import and two lines of initialization. It auto-captures unhandled exceptions, source maps, and basic user context. Pair it with a free UptimeRobot monitor on your <code>/health</code> endpoint. That covers the critical failure cases on day one.</p>
+
+  <div class="stat-box">
+    <strong>A common vibe-coding trap:</strong> If your app calls OpenAI or Anthropic APIs, set strict budget alerts immediately. AI-generated loop logic can accidentally trigger infinite API calls. Without alerts, the first sign of the bug is a $2,000 invoice.
+  </div>
+
+  <!-- PILLAR 5 -->
+  <h3><span class="pillar-badge">Pillar 5</span> Rate Limiting</h3>
+
+  <p><strong>What AI generates:</strong> No rate limiting. Every endpoint accepts unlimited requests from any source. A single automated script — a competitor, a bot, a misconfigured client — can overwhelm your server or exhaust your third-party API credits in minutes.</p>
+
+  <p><strong>What production needs:</strong> Per-IP rate limiting on all public endpoints, stricter limits on auth endpoints (login, password reset, registration) to prevent brute-force and enumeration attacks, and per-user limits on any endpoint that makes downstream API calls.</p>
+
+  <p><strong>Minimum viable fix:</strong> Rate limiting can almost always be added without touching existing code. For Express: <code>express-rate-limit</code> in 8 lines. For FastAPI: <code>slowapi</code>. For apps behind nginx: two lines in the server block. A reasonable starting point is 100 requests per 15-minute window per IP for general endpoints, and 5 requests per 15-minute window for auth endpoints.</p>
+
+  <!-- PILLAR 6 -->
+  <h3><span class="pillar-badge">Pillar 6</span> Scalability Basics</h3>
+
+  <p><strong>What AI generates:</strong> Code that assumes one server, one database connection, and sequential requests. In-memory session storage that disappears on restart. No database connection pooling. Synchronous operations that block the event loop. Files saved to local disk that do not survive a container redeploy.</p>
+
+  <p><strong>What production needs:</strong> You do not need to solve horizontal scaling on day one. You need to avoid architectural decisions that make scaling impossible later: store sessions in Redis or a database (not memory), use a connection pool for database access, offload file storage to S3 or equivalent object storage, and make any background jobs idempotent so they survive restarts.</p>
+
+  <p><strong>Minimum viable fix:</strong> Audit three things before launch: where are sessions stored? where are files saved? what happens if two users submit the same form simultaneously? Fix those three, and you have covered the most common failure modes at early scale. The Convex blog (2026) recommends specifically checking which functions take longer than 400ms in your dev environment — this latency will be worse in production on a remote database.</p>
+
+  <h2>Demo Quality vs. Production Ready: Comparison Table</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Typical AI-Generated (Demo Quality)</th>
+          <th>Production-Ready</th>
+          <th>Time to Fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Error handling</strong></td>
+          <td>Unhandled exceptions, raw stack traces in UI</td>
+          <td>Global error boundary, typed errors, user-friendly messages</td>
+          <td>2–4 hours</td>
+        </tr>
+        <tr>
+          <td><strong>Auth checks</strong></td>
+          <td>Frontend-only UI guards (React components)</td>
+          <td>Server-side middleware on every protected endpoint</td>
+          <td>30 min per endpoint</td>
+        </tr>
+        <tr>
+          <td><strong>Input validation</strong></td>
+          <td>Frontend form validation only, or none</td>
+          <td>Server-side schema validation (Zod/Pydantic) before DB</td>
+          <td>15 min per endpoint group</td>
+        </tr>
+        <tr>
+          <td><strong>Secrets</strong></td>
+          <td>Hardcoded in source files or committed to git</td>
+          <td>Environment variables only, git history cleaned</td>
+          <td>1–3 hours incl. history rewrite</td>
+        </tr>
+        <tr>
+          <td><strong>Logging</strong></td>
+          <td>console.log on happy path only</td>
+          <td>Structured logs + Sentry error tracking + uptime monitor</td>
+          <td>20–40 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Rate limiting</strong></td>
+          <td>None</td>
+          <td>Per-IP limits on all routes, stricter on auth endpoints</td>
+          <td>30 minutes</td>
+        </tr>
+        <tr>
+          <td><strong>Session storage</strong></td>
+          <td>In-memory (lost on restart)</td>
+          <td>Redis or database-backed sessions</td>
+          <td>1–2 hours</td>
+        </tr>
+        <tr>
+          <td><strong>File storage</strong></td>
+          <td>Local disk (lost on redeploy)</td>
+          <td>Object storage (S3, Cloudflare R2, etc.)</td>
+          <td>2–4 hours</td>
+        </tr>
+        <tr>
+          <td><strong>Tests</strong></td>
+          <td>None, or a few unit tests</td>
+          <td>3–5 E2E tests covering critical user flows in CI</td>
+          <td>2–4 hours</td>
+        </tr>
+        <tr>
+          <td><strong>Dependency packages</strong></td>
+          <td>May include hallucinated package names</td>
+          <td>All packages verified, audited with npm audit / pip-audit</td>
+          <td>30 minutes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cta-block">
+    <h3>Not sure which column your app is in?</h3>
+    <p>We verify your app is production-ready before launch. A real engineer reviews your code against all six pillars and gives you a prioritized fix list — before real users find the gaps.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Get Your App Reviewed</a>
+  </div>
+
+  <h2>Pre-Launch Checklist</h2>
+
+  <p>Work through this checklist in order. The items at the top are the ones most likely to cause a public incident in the first 48 hours after launch. The items further down are important but rarely cause immediate catastrophic failure.</p>
+
+  <div class="checklist-section">
+    <h4>Secrets &amp; Credentials (do this first)</h4>
+    <ul>
+      <li>Run <code>git log --all --full-history -- "**/*.env"</code> — confirm no .env files were ever committed</li>
+      <li>Search codebase for hardcoded API keys, passwords, and connection strings</li>
+      <li>Use <code>trufflehog</code> or <code>git-secrets</code> to scan full commit history</li>
+      <li>All sensitive values moved to environment variables or a secrets manager</li>
+      <li>Production credentials are different from development credentials</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Authentication &amp; Authorization</h4>
+    <ul>
+      <li>Every protected API endpoint has a server-side auth check</li>
+      <li>Verify with a raw curl/Postman request (not through the UI) — confirm 401 for unauthenticated calls</li>
+      <li>User A cannot access User B's data (test this explicitly with two test accounts)</li>
+      <li>Admin routes reject non-admin users at the API layer</li>
+      <li>Password reset flow does not leak user existence (returns same message for known/unknown email)</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Input Validation &amp; Error Handling</h4>
+    <ul>
+      <li>All API endpoints that accept user input validate server-side before touching the database</li>
+      <li>Test with empty strings, very long strings, negative numbers, SQL injection attempts</li>
+      <li>Global error handler returns clean error messages (no raw stack traces to users)</li>
+      <li>App does not crash on unexpected input — returns 400/422, not 500</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Monitoring &amp; Observability</h4>
+    <ul>
+      <li>Sentry (or equivalent) installed and capturing unhandled exceptions</li>
+      <li><code>/health</code> endpoint exists and returns 200</li>
+      <li>Uptime monitor configured on <code>/health</code> with alert to email/Slack/Telegram</li>
+      <li>API budget alerts set on any OpenAI/Anthropic API usage</li>
+      <li>Structured server logs include request ID, user ID, status, and duration</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Rate Limiting &amp; Resilience</h4>
+    <ul>
+      <li>Rate limiting active on all public endpoints (100 req/15 min per IP is a reasonable start)</li>
+      <li>Auth endpoints have stricter limits (5–10 req/15 min per IP)</li>
+      <li>External API calls have timeouts set (never wait indefinitely)</li>
+      <li>Database queries have timeouts — a slow query should not block all users</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Data &amp; Dependencies</h4>
+    <ul>
+      <li>Sessions stored in Redis or database, not in-memory</li>
+      <li>File uploads go to object storage, not local disk</li>
+      <li>Run <code>npm audit</code> or <code>pip-audit</code> — resolve critical/high vulnerabilities</li>
+      <li>All package names verified as real (check npm/PyPI — approximately 20% of AI-hallucinated packages do not exist)</li>
+      <li>Database has at least one backup configured</li>
+    </ul>
+  </div>
+
+  <div class="checklist-section">
+    <h4>Tests &amp; CI</h4>
+    <ul>
+      <li>3–5 E2E tests cover critical user paths (signup, core feature, payment if applicable)</li>
+      <li>Tests run automatically on every push (GitHub Actions or equivalent)</li>
+      <li>Linter passes with no errors (ESLint, Biome, or Ruff)</li>
+      <li>All features manually tested in the production environment after deploy, not just local</li>
+    </ul>
+  </div>
+
+  <h2>Where AI Can Help (and Where It Cannot)</h2>
+
+  <p>AI is genuinely effective at adding boilerplate production guardrails once you know exactly what to ask for. "Add rate limiting to all Express routes using express-rate-limit, 100 requests per 15 minutes per IP, stricter 5 requests for /auth routes" produces correct, usable code. "Add Sentry error tracking to this FastAPI app" works in one prompt.</p>
+
+  <p>What AI cannot reliably do is audit itself. A Stanford study (2025) found developers using AI assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without structured verification. The pattern is consistent: the AI builds a feature, the developer tests that the feature works, and neither notices the auth check is only in the UI component.</p>
+
+  <p>The most effective two-step approach: use AI to add the boilerplate (rate limiting, error boundaries, validation schemas), then use a human reviewer to verify the architecture-level decisions (is auth really enforced everywhere? are there any paths from the internet to the database that bypass auth entirely?).</p>
+
+  <blockquote>
+    "Four E2E tests that run on every push are worth more than forty unit tests that run never."
+    <cite>— Autonoma Blog, 2026</cite>
+  </blockquote>
+
+  <p>See also our deeper dive into <a href="/vibers/blog/vibe-coding-security-risks/">vibe coding security risks</a> and the specific patterns that appear most often in production incidents.</p>
+
+  <h2>The Real Timeline</h2>
+
+  <p>Autonoma (2026) surveyed founders who worked through a structured production-hardening process and found that completing all six pillars took 8–12 hours of focused work — typically a weekend. The breakdown was roughly: secrets cleanup and git history rewrite (1–3 hours, depending on how bad it is), auth verification across all endpoints (2–3 hours), adding validation and error handling (2–3 hours), setting up monitoring and CI (1–2 hours).</p>
+
+  <p>That is not a large investment relative to the risk of skipping it. A single public incident — exposed user data, a payment bypass, a day of downtime — costs orders of magnitude more in user trust than the weekend it takes to harden the app.</p>
+
+  <p>For a more detailed walkthrough of the review process itself, see <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>. For the specific mistakes that cause production incidents most often, see <a href="/vibers/blog/vibe-coding-mistakes-production/">Vibe Coding Mistakes That Break in Production</a>.</p>
+
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What does "production-ready" mean for a vibe-coded app?</div>
+    <div class="faq-a">A production-ready vibe-coded app handles real user load without crashing, protects user data with enforced authentication and authorization, validates all inputs server-side, logs errors so you know when something breaks, limits request rates to prevent abuse, and scales beyond a single server when demand grows. The difference from a demo is not the feature list — it is the presence of guardrails around every external interaction.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">How long does it take to make a vibe-coded app production-ready?</div>
+    <div class="faq-a">According to Autonoma (2026), most founders who work through the six core production pillars systematically complete the process in 8–12 hours of focused work over a weekend. The biggest time sinks are cleaning up hardcoded secrets from git history, adding server-side validation that AI skipped, and setting up an E2E test suite for critical user flows.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What is the most common security flaw in vibe-coded apps?</div>
+    <div class="faq-a">Broken access control — specifically, authentication checks placed only in the frontend (a React component or UI guard) and not in the API endpoint. A direct HTTP request to the endpoint bypasses the UI check entirely. A 2025 Cloud Security Alliance study found that 62% of AI-generated code contains design flaws or known security vulnerabilities, with privilege escalation paths rising 322% year-over-year in AI-assisted codebases.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">Does adding rate limiting require rewriting AI-generated code?</div>
+    <div class="faq-a">No. Rate limiting can almost always be layered on top of existing AI-generated code without rewriting it. For Express/Node apps, the <code>express-rate-limit</code> package adds per-IP limiting in under 10 lines. For Python/FastAPI, <code>slowapi</code> covers the same case. If your app sits behind nginx, you can add rate limiting at the reverse-proxy level with no code changes at all — two lines in the server block.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">What monitoring should a vibe-coded app have on day one?</div>
+    <div class="faq-a">On day one you need three things: error tracking (Sentry integrates in roughly 20 minutes and catches unhandled exceptions automatically), uptime monitoring (a free service like Better Uptime or UptimeRobot pings your /health endpoint every minute), and structured server logs so you can trace a user-reported bug to a specific request. Session recording tools like PostHog or LogRocket are valuable but can wait until week two.</div>
+  </div>
+
+  <div class="faq-item" style="border-bottom:none;">
+    <div class="faq-q">Can I use AI to help fix production-readiness gaps?</div>
+    <div class="faq-a">Yes, with one important caveat: AI is very effective at adding boilerplate guardrails — rate limiting, input validation schemas, error boundaries — when given specific instructions. It is much less reliable at catching architectural problems it created itself. A Stanford study found developers using AI assistants were 41% more likely to introduce security vulnerabilities when they trusted generated code without a structured verification step. Always have a human verify security-critical changes. See our guide on <a href="/vibers/blog/vibe-coding-security-risks/">vibe coding security risks</a> for the full breakdown.</div>
+  </div>
+
+  <div class="cta-block">
+    <h3>We verify your app is production-ready before launch</h3>
+    <p>A real engineer audits your vibe-coded app against all six pillars — error handling, auth, validation, monitoring, rate limiting, and scalability. You get a prioritized fix list with exact file locations, not a generic checklist.</p>
+    <a class="cta-btn" href="https://github.com/apps/vibers-review/installations/new">Install Vibers Review App</a>
+  </div>
+
+  <h2>Related Reading</h2>
+
+  <div class="related-grid">
+    <div class="related-card">
+      <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks: What AI Doesn't Tell You</a>
+      <p>The specific vulnerability patterns that appear most often in AI-generated apps — and how to eliminate them.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>
+      <p>A category-by-category review checklist for solo founders. Auth, payments, permissions, error handling, and user flows.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/vibe-coding-mistakes-production/">Vibe Coding Mistakes That Break in Production</a>
+      <p>The most common architectural mistakes in vibe-coded apps, ranked by how often they cause real incidents.</p>
+    </div>
+    <div class="related-card">
+      <a href="/vibers/blog/">All Vibers Articles</a>
+      <p>Guides on AI-generated code review, production readiness, and shipping with confidence.</p>
+    </div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Noxon Team — Vibers</h4>
+      <p>We review AI-generated and vibe-coded apps for production readiness. Our reviewers have audited apps across fintech, SaaS, and consumer products — covering auth flows, data exposure, infrastructure gaps, and code quality. Vibers is a human-in-the-loop review service built for founders who ship with AI.</p>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers — Human Code Review</span>
+    <span>
+      <a href="/vibers/">Home</a> ·
+      <a href="/vibers/blog/">Blog</a> ·
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a> ·
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
