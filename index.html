@@ -277,8 +277,6 @@
         }
         @media (max-width: 600px) {
             .two-col { grid-template-columns: 1fr; }
-            .page { padding: 24px 20px; }
-            .cv-name { font-size: 26px; }
         }
 
         .col-block h4 {
@@ -339,7 +337,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-        @media (max-width: 600px) { .price-row { grid-template-columns: 1fr; } }
+        /* price-row mobile — merged into unified mobile block below */
         .price-block {
             border: 1px solid #e5e5e5;
             border-radius: 6px;
@@ -444,6 +442,34 @@
                 min-height: auto;
             }
         }
+
+        /* ─── Mobile (must be LAST to override base rules) ─── */
+        @media (max-width: 600px) {
+            .page { padding: 24px 16px; }
+            .cv-name { font-size: 24px; }
+            .cv-tagline { font-size: 14px; }
+            .cv-badge { display: block; margin: 8px 0 0 0; }
+
+            .metrics-row { display: grid !important; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+            .metric { min-width: 0; }
+            .metric-value { font-size: 20px; }
+            .metric-label { font-size: 11px; }
+
+            .setup-box { padding: 16px; }
+            .setup-box code { padding-right: 0; font-size: 13px; }
+            .copy-btn { position: static; display: block; width: 100%; margin-top: 10px; padding: 10px; font-size: 14px; }
+            .setup-box .setup-label { font-size: 11px; }
+
+            .flow-steps { flex-direction: column; align-items: stretch; }
+            .flow-step { text-align: center; }
+            .flow-arrow { transform: rotate(90deg); text-align: center; }
+
+            .price-row { grid-template-columns: 1fr; }
+            .price-block { padding: 16px; }
+            .price-amount { font-size: 24px; }
+
+            .details-body { font-size: 14px; }
+        }
     </style>
 </head>
 <body>
@@ -465,7 +491,7 @@
     </header>
 
     <!-- Above-the-fold summary (always visible) -->
-    <p style="font-size: 16px; color: #333; margin-bottom: 16px; line-height: 1.7;" data-i18n="sum_body">We review and fix code written by AI vibecoders. Install our GitHub App, share your spec — we check every commit, catch hallucinations, fix security holes, and send a pull request with working code. You merge, keep shipping.</p>
+    <p style="font-size: 15px; color: #333; margin-bottom: 14px; line-height: 1.6;" data-i18n="sum_body">We review and fix code written by AI vibecoders. Install our GitHub App, share your spec — we check every commit, catch hallucinations, fix security holes, and send a pull request with working code. You merge, keep shipping.</p>
 
     <div class="metrics-row" style="margin-bottom: 24px;">
         <div class="metric"><div class="metric-value">30s</div><div class="metric-label" data-i18n="m_setup">Setup time</div></div>
@@ -804,7 +830,7 @@ if (window.innerWidth > 768) {
     </details>
 
     <footer>
-        <p>Human-in-the-loop Review &mdash; by <a href="https://onout.org" target="_blank" rel="noopener noreferrer">onout.org</a> &nbsp;|&nbsp; <a href="/community.html">Community</a> &nbsp;|&nbsp; <a href="/career.html">$$ Career $$</a> &nbsp;|&nbsp; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Telegram</a> &nbsp;|&nbsp; <a href="mailto:support@onout.org">Email</a> &nbsp;|&nbsp; <a href="/blog/">Blog</a> &nbsp;|&nbsp; <a href="/privacy.html">Privacy</a></p>
+        <p>Human-in-the-loop Review &mdash; by <a href="https://onout.org" target="_blank" rel="noopener noreferrer">onout.org</a> &nbsp;|&nbsp; <a href="/vibers/community.html">Community</a> &nbsp;|&nbsp; <a href="/vibers/career.html">$$ Career $$</a> &nbsp;|&nbsp; <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">Telegram</a> &nbsp;|&nbsp; <a href="mailto:support@onout.org">Email</a> &nbsp;|&nbsp; <a href="/vibers/blog/">Blog</a> &nbsp;|&nbsp; <a href="/vibers/privacy.html">Privacy</a></p>
         <p>
             <a href="https://trust-traffic.com/startup/83f937de-aa9d-47e7-96c0-4efb4873ec39" target="_blank" rel="noopener noreferrer" style="border-bottom: none;"><img src="https://trust-traffic.com/badges/Listed_on_trust_traffic.svg" alt="Listed on Trust Traffic" style="height: 20px; vertical-align: middle;"></a>
             &nbsp;&nbsp;
