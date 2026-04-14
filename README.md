@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://onout.org/vibers/blog/images/vibers-og.png" alt="Vibers — Human Code Review for Vibe Coders" width="600">
+  <img src="blog/images/vibers-og.png" alt="Vibers — Human Code Review for Vibe Coders" width="600">
 </p>
 
 <h1 align="center">Vibers — Human-in-the-Loop Code Review</h1>
