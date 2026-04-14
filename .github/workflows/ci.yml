@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Validate HTML
+        run: |
+          python3 -c "
+          import html.parser, sys
+          parser = html.parser.HTMLParser()
+          for f in ['index.html', 'setup.html', 'privacy.html']:
+              try:
+                  with open(f) as fh:
+                      parser.feed(fh.read())
+                  print(f'  {f} OK')
+              except Exception as e:
+                  print(f'  {f} FAIL: {e}', file=sys.stderr)
+                  sys.exit(1)
+          "
+
+      - name: Check links in README
+        run: |
+          python3 -c "
+          import re
+          with open('README.md') as f:
+              content = f.read()
+          links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+          print(f'Found {len(links)} links in README.md')
+          for text, url in links:
+              if url.startswith('#') or url.startswith('mailto:'):
+                  continue
+              print(f'  [{text}]({url})')
+          "
+
+      - name: Verify key files exist
+        run: |
+          for f in README.md LICENSE CONTRIBUTING.md SECURITY.md index.html setup.html; do
+            test -f "$f" && echo "  $f exists" || { echo "  MISSING: $f"; exit 1; }
+          done
