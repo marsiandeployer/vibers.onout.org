@@ -61,7 +61,18 @@
         }
         .nav a.back { color: #9ca3af; font-size: 14px; }
         .nav a.back:hover { color: #fff; }
-        .nav .logo { color: #fff; font-weight: 700; font-size: 18px; }
+        .nav .logo {
+            display: inline-flex;
+            align-items: center;
+        }
+        .nav .logo img {
+            display: block;
+            width: min(100%, 152px);
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.24);
+        }
 
         /* Hero */
         .hero {
@@ -235,7 +246,9 @@
 <div class="container">
     <nav class="nav">
         <a href="/vibers/" class="back" data-i18n="nav_back">&larr; Back</a>
-        <span class="logo">Human-in-the-loop Review</span>
+        <a href="/vibers/" class="logo" aria-label="Vibers home">
+            <img src="assets/vibers-logo-source.jpg" alt="Vibers logo">
+        </a>
     </nav>
 </div>
 

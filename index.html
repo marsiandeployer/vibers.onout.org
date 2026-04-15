@@ -472,12 +472,16 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin: 18px 0 16px;
+            align-items: start;
         }
         .example-shot {
             border: 1px solid rgba(91, 68, 232, 0.1);
             border-radius: 16px;
             padding: 10px;
             background: rgba(255, 255, 255, 0.74);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .example-shot-label,
         .example-prompt-label {
@@ -489,11 +493,15 @@
             margin-bottom: 8px;
         }
         .example-shot img {
-            width: 100%;
+            width: auto;
+            max-width: min(100%, 240px);
+            max-height: 320px;
             display: block;
+            margin: 0 auto;
             border-radius: 10px;
             border: 1px solid #eee;
             background: #fff;
+            object-fit: contain;
         }
         .example-prompt-wrap {
             border: 1px solid rgba(91, 68, 232, 0.12);
@@ -650,6 +658,10 @@
             }
             .example-body { padding: 0 16px 16px; }
             .example-gallery { grid-template-columns: 1fr; }
+            .example-shot img {
+                max-width: min(100%, 190px);
+                max-height: 240px;
+            }
 
             .price-row { grid-template-columns: 1fr; }
             .price-block { padding: 16px; }

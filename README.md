@@ -121,9 +121,9 @@ Current cases are the mobile floor map label fix, the Paycif mobile pricing card
 
 When a UI bug is intermittent or stops reproducing later, we keep the exact screenshot or page link in the example so the case still points to the concrete screen where the issue was observed.
 
-On the landing page, each case now stays collapsed behind its own downward arrow by default, using the same smaller type scale as the rest of the site so the section can grow without turning into a long wall of screenshots.
+On the landing page, each case now stays collapsed behind its own downward arrow by default, using the same smaller type scale as the rest of the site so the section can grow without turning into a long wall of screenshots. Mobile UI captures inside the examples accordion are intentionally shown at a smaller, phone-like size so they read like interface previews instead of oversized posters.
 
-Brand assets now use `assets/vibers-logo-source.jpg` as the source file for README, favicon, and share previews so the repo and site stay in sync.
+Brand assets now use `assets/vibers-logo-source.jpg` as the source file for README, favicon, share previews, and the remaining internal page headers so the repo and site stay in sync.
 
 ## Vibers vs Alternatives
 

@@ -28,12 +28,16 @@
     box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   }
   .logo {
-    font-size: 22px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
   }
-  .logo span { color: #5b44e8; }
+  .logo img {
+    display: block;
+    width: min(100%, 192px);
+    height: auto;
+    border-radius: 12px;
+  }
   .subtitle {
     font-size: 14px;
     color: #666;
@@ -108,7 +112,9 @@
 <body>
 <div class="card">
   <div id="form-section">
-    <div class="logo">Vibers <span>Review</span></div>
+    <div class="logo">
+      <img src="assets/vibers-logo-source.jpg" alt="Vibers logo">
+    </div>
     <div class="subtitle">App installed ✓ &nbsp;—&nbsp; Help us review better by sharing a few details. All fields are optional.</div>
 
     <label>Brief, spec or materials folder <span class="opt">optional</span></label>
