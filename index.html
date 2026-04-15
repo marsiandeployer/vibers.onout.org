@@ -895,6 +895,31 @@
                         </div>
                         <p class="example-footer" data-i18n="ex_case_2_footer">Result: the cards stack cleanly on mobile, the section becomes readable again, and the shipped fix is documented in a public PR.</p>
                     </article>
+
+                    <article class="example-card">
+                        <div class="example-card-head">
+                            <div>
+                                <div class="example-kicker" data-i18n="ex_case_3_badge">Live UI Fix</div>
+                                <h3 data-i18n="ex_case_3_title">Chat Message Wrapping</h3>
+                            </div>
+                        </div>
+                        <p class="example-desc" data-i18n="ex_case_3_desc">Long chat messages stayed on a single line instead of wrapping, so the conversation UI overflowed horizontally and became hard to read.</p>
+                        <div class="example-gallery">
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_before_label">Before</div>
+                                <img src="https://skrinshoter.ru/s/080426/imGIniKz.png?view=1" alt="Chat UI before fix with a long message overflowing in one line">
+                            </figure>
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_after_label">After</div>
+                                <img src="https://s3.wpmix.net/main/SCR-20260415-pxq.png" alt="Chat UI after fix with long messages wrapping onto the next line">
+                            </figure>
+                        </div>
+                        <div class="example-prompt-wrap">
+                            <div class="example-prompt-label" data-i18n="ex_prompt_label">Prompt used to get from before to after</div>
+                            <pre class="example-prompt"><code>Fix long chat message wrapping in the conversation UI. Right now oversized messages stay on one line, overflow the container, and hurt readability. Update the message bubble styles so long text wraps onto the next line, preserves normal spacing, and stays fully readable on both desktop and mobile without changing the rest of the chat layout.</code></pre>
+                        </div>
+                        <p class="example-footer" data-i18n="ex_case_3_footer">Result: long messages wrap cleanly inside the bubble, horizontal overflow is gone, and the chat stays readable across screen sizes.</p>
+                    </article>
                 </div>
             </div>
         </div>
@@ -1189,6 +1214,10 @@ const ru = {
     ex_case_2_title: "Paycif: mobile pricing cards",
     ex_case_2_desc: "В лендинге Paycif блок с карточками цен оставался колонками на мобильных, потому что новый grid приехал без маленького breakpoint. Мы добавили нужные mobile-правила и отправили фиксы реальным PR.",
     ex_case_2_footer: "Результат: карточки складываются в одну колонку, секция снова читается на мобильных, а сам фикс задокументирован публичным PR.",
+    ex_case_3_badge: "Live UI fix",
+    ex_case_3_title: "Перенос длинных сообщений в чате",
+    ex_case_3_desc: "В чате длинное сообщение не переносилось на следующую строку, оставалось в одну линию и вылезало за пределы контейнера. Из-за этого диалог было неудобно читать.",
+    ex_case_3_footer: "Результат: длинные сообщения аккуратно переносятся внутри bubble, горизонтальный выезд исчезает, а чат остаётся читаемым на всех размерах экрана.",
     ex_open_pr: "Открыть PR #3",
     honest_box: "<strong>Честно о себе:</strong> Мы не security-фирма. Никаких OWASP-пентестов, аудитов архитектуры, профилирования производительности. Мы — обычные люди, которые смотрят на ваш код свежим взглядом: ловят очевидные баги, проверяют что основные сценарии работают, и пишут фикс вместо того чтобы создавать тикет. Думайте об этом как альфа-тестер, который ещё и шлёт PR.",
     site_label: "Нет GitHub? Не проблема",

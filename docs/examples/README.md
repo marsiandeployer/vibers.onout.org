@@ -21,5 +21,6 @@ Current examples:
 
 - `mobile-floor-map-fix.md`
 - `paycif-mobile-layout.md`
+- `chat-message-wrapping.md`
 
 Asset files that are not already public can be stored in `docs/examples/assets/`.

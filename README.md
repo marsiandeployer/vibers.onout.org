@@ -117,7 +117,7 @@ Each example should keep the same structure:
 - English prompt that could realistically produce the fix
 - optional proof link: PR, commit, issue, or live page
 
-Current cases are the mobile floor map label fix and the Paycif mobile pricing card fix.
+Current cases are the mobile floor map label fix, the Paycif mobile pricing card fix, and a chat message wrapping fix for long conversation bubbles.
 
 ## Vibers vs Alternatives
 
