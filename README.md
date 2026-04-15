@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="blog/images/vibers-og.png" alt="Vibers — Human Code Review for Vibe Coders" width="600">
+  <img src="assets/vibers-logo-source.jpg" alt="Vibers — Human Code Review for Vibe Coders" width="600">
 </p>
 
 <h1 align="center">Vibers — Human-in-the-Loop Code Review</h1>
@@ -120,6 +120,8 @@ Each example should keep the same structure:
 Current cases are the mobile floor map label fix, the Paycif mobile pricing card fix, a chat message wrapping fix for long conversation bubbles, a responsive poster preview loading fix, a floor map edge-slot alignment fix on mobile, and a Brand identity Screen 1/1 orientation fix in Stand settings.
 
 When a UI bug is intermittent or stops reproducing later, we keep the exact screenshot or page link in the example so the case still points to the concrete screen where the issue was observed.
+
+Brand assets now use `assets/vibers-logo-source.jpg` as the source file for README, favicon, and share previews so the repo and site stay in sync.
 
 ## Vibers vs Alternatives
 
