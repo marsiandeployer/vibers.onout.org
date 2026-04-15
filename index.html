@@ -371,6 +371,171 @@
         .compare-table .td-partial { color: #999; }
         .compare-table .td-vibers { color: #5b44e8; font-weight: 600; }
 
+        /* ─── Examples slider ─── */
+        .examples-shell {
+            margin-top: 8px;
+        }
+        .examples-toolbar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .examples-copy {
+            font-size: 13px;
+            color: #666;
+            max-width: 520px;
+        }
+        .examples-nav {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .examples-nav button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #d8d3ff;
+            border-radius: 999px;
+            background: #f7f4ff;
+            color: #3d2dcc;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .examples-nav button:hover {
+            background: #ede7ff;
+            border-color: #bdb1ff;
+            transform: translateY(-1px);
+        }
+        .examples-track {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 4px 4px 10px;
+            margin: 0 -4px;
+            scrollbar-gutter: stable;
+        }
+        .examples-track::-webkit-scrollbar {
+            height: 10px;
+        }
+        .examples-track::-webkit-scrollbar-track {
+            background: #f2f0ff;
+            border-radius: 999px;
+        }
+        .examples-track::-webkit-scrollbar-thumb {
+            background: #cfc5ff;
+            border-radius: 999px;
+        }
+        .example-card {
+            flex: 0 0 min(640px, calc(100vw - 64px));
+            scroll-snap-align: start;
+            border: 1px solid #e7e1ff;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fcfbff 0%, #f6f2ff 100%);
+            padding: 22px;
+            box-shadow: 0 18px 35px rgba(61, 45, 204, 0.08);
+        }
+        .example-card-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .example-kicker {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #5b44e8;
+            background: rgba(91, 68, 232, 0.08);
+            border: 1px solid rgba(91, 68, 232, 0.14);
+            padding: 4px 8px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+        .example-card h3 {
+            font-size: 22px;
+            line-height: 1.15;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+        .example-link {
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .example-desc {
+            font-size: 14px;
+            color: #49455a;
+        }
+        .example-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 18px 0;
+        }
+        .example-shot {
+            border: 1px solid #e9e3ff;
+            border-radius: 14px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.82);
+        }
+        .example-shot-label,
+        .example-prompt-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #7a7390;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 8px;
+        }
+        .example-shot img {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            background: #fff;
+        }
+        .example-prompt-wrap {
+            border: 1px solid #231c49;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #2d2753 0%, #1d1835 100%);
+            padding: 14px;
+        }
+        .example-prompt-label {
+            color: #bfb6ff;
+            margin-bottom: 10px;
+        }
+        .example-prompt {
+            margin: 0;
+            color: #f7f4ff;
+            font-size: 12px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            overflow-x: hidden;
+            word-break: break-word;
+        }
+        .example-prompt code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: inherit;
+            font-size: inherit;
+            white-space: inherit;
+        }
+        .example-footer {
+            font-size: 13px;
+            color: #615b78;
+            margin-top: 14px;
+        }
+
         /* ─── Code inline ─── */
         code {
             background: #f4f2ff;
@@ -463,6 +628,17 @@
             .flow-steps { flex-direction: column; align-items: stretch; }
             .flow-step { text-align: center; }
             .flow-arrow { transform: rotate(90deg); text-align: center; }
+
+            .examples-toolbar { flex-direction: column; }
+            .examples-copy { max-width: none; }
+            .examples-nav { width: 100%; justify-content: flex-end; }
+            .example-card {
+                flex-basis: calc(100vw - 48px);
+                padding: 18px;
+            }
+            .example-card h3 { font-size: 19px; }
+            .example-gallery { grid-template-columns: 1fr; }
+            .example-card-head { flex-direction: column; }
 
             .price-row { grid-template-columns: 1fr; }
             .price-block { padding: 16px; }
@@ -656,28 +832,71 @@
 
     <details open>
         <summary>
-            <span class="section-label" data-i18n="label_example">Example</span>
-            <span data-i18n="ex_title">Before / After: Mobile Floor Map Fix</span>
+            <span class="section-label" data-i18n="label_example">Examples</span>
+            <span data-i18n="ex_title">Scrollable Before / After Fixes</span>
         </summary>
         <div class="details-body">
-            <p style="font-size:13px; color:#666; margin-bottom:14px;" data-i18n="ex_intro">A client shipped a mobile floor map where two label variants rendered at once. The desktop label and the short mobile label overlapped, so slot names became unreadable on small screens.</p>
-            <div style="background:#fff8f8; border:1px solid #fcc; border-radius:6px; padding:16px; margin-bottom:16px;">
-                <div style="font-size:12px; font-weight:600; color:#d94f4f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;" data-i18n="ex_bug_label">Bug found</div>
-                <div style="font-size:13px; color:#333; margin-bottom:12px;" data-i18n="ex_bug_desc">The responsive logic showed both the desktop slot caption and the shorter mobile caption on the same floor map card. Text stacked on top of itself, making the slot label hard to read and breaking the mobile UI.</div>
-                <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-                    <div style="flex:1; min-width:140px;">
-                        <div style="font-size:11px; color:#999; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;" data-i18n="ex_before_label">Before — overlapping labels</div>
-                        <img src="https://i.wpmix.net/image/photo/photo_1776264507338.jpg" alt="Floor map before fix with overlapping desktop and mobile labels" style="width:100%; display:block; border-radius:4px; border:1px solid #eee;">
-                    </div>
-                    <div style="flex:1; min-width:140px;">
-                        <div style="font-size:11px; color:#999; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;" data-i18n="ex_after_label">After — one clean mobile label</div>
-                        <img src="https://i.wpmix.net/image/photo/photo_1776264504185.jpg" alt="Floor map after fix with readable mobile slot labels" style="width:100%; display:block; border-radius:4px; border:1px solid #eee;">
+            <div class="examples-shell">
+                <div class="examples-toolbar">
+                    <p class="examples-copy" data-i18n="ex_intro">Every case follows the same pattern: bug summary, before shot, after shot, and the English prompt we used to steer the fix. Swipe horizontally when more examples are added.</p>
+                    <div class="examples-nav" aria-label="Examples navigation">
+                        <button type="button" onclick="scrollExamples(-1)" aria-label="Scroll examples left">‹</button>
+                        <button type="button" onclick="scrollExamples(1)" aria-label="Scroll examples right">›</button>
                     </div>
                 </div>
-                <div style="font-size:11px; color:#999; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;" data-i18n="ex_prompt_label">Prompt used to get from before to after</div>
-                <pre style="background:#2d2d2d; color:#f8f8f2; padding:12px; border-radius:4px; font-size:12px; overflow-x:auto; margin:0;"><code style="background:none; border:none; padding:0; color:#f8f8f2; font-size:12px;">Fix the mobile floor map labels. Right now both the desktop label and the short mobile label are rendered for each slot, so the text overlaps and becomes unreadable on small screens. Show only one label variant per breakpoint, keep the short label on mobile, preserve slot alignment, and make sure every slot name is readable without overlap.</code></pre>
+                <div class="examples-track" id="examples-track">
+                    <article class="example-card">
+                        <div class="example-card-head">
+                            <div>
+                                <div class="example-kicker" data-i18n="ex_case_1_badge">Live UI Fix</div>
+                                <h3 data-i18n="ex_case_1_title">Mobile Floor Map Labels</h3>
+                            </div>
+                        </div>
+                        <p class="example-desc" data-i18n="ex_case_1_desc">A floor map shipped with both the desktop slot label and the shorter mobile label visible at once. On phones the text overlapped, so the slot names were hard to read.</p>
+                        <div class="example-gallery">
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_before_label">Before</div>
+                                <img src="https://i.wpmix.net/image/photo/photo_1776264507338.jpg" alt="Floor map before fix with overlapping desktop and mobile labels">
+                            </figure>
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_after_label">After</div>
+                                <img src="https://i.wpmix.net/image/photo/photo_1776264504185.jpg" alt="Floor map after fix with readable mobile slot labels">
+                            </figure>
+                        </div>
+                        <div class="example-prompt-wrap">
+                            <div class="example-prompt-label" data-i18n="ex_prompt_label">Prompt used to get from before to after</div>
+                            <pre class="example-prompt"><code>Fix the mobile floor map labels. Right now both the desktop label and the short mobile label render for each slot, so the text overlaps and becomes unreadable on small screens. Show only one label variant per breakpoint, keep the short label on mobile, preserve slot alignment, and make sure every slot name stays readable without overlap.</code></pre>
+                        </div>
+                        <p class="example-footer" data-i18n="ex_case_1_footer">Result: clean mobile slot labels, readable map cards, and a reusable prompt pattern for similar responsive bugs.</p>
+                    </article>
+
+                    <article class="example-card">
+                        <div class="example-card-head">
+                            <div>
+                                <div class="example-kicker" data-i18n="ex_case_2_badge">Real PR</div>
+                                <h3 data-i18n="ex_case_2_title">Paycif Mobile Pricing Cards</h3>
+                            </div>
+                            <a href="https://github.com/MethasMP/Paycif/pull/3" target="_blank" rel="noopener noreferrer" class="example-link" data-i18n="ex_open_pr">Open PR #3</a>
+                        </div>
+                        <p class="example-desc" data-i18n="ex_case_2_desc">In the Paycif landing page, the pricing cards stayed in columns on mobile because the new grid shipped without a small-screen breakpoint. We added the missing mobile rules and shipped the fix in a real PR.</p>
+                        <div class="example-gallery">
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_before_label">Before</div>
+                                <img src="https://i.wpmix.net/image/photo/photo_1774439739463.jpg" alt="Paycif before fix with pricing cards broken on mobile">
+                            </figure>
+                            <figure class="example-shot">
+                                <div class="example-shot-label" data-i18n="ex_after_label">After</div>
+                                <img src="docs/examples/assets/paycif-mobile-after.png" alt="Paycif after fix with pricing cards stacked on mobile">
+                            </figure>
+                        </div>
+                        <div class="example-prompt-wrap">
+                            <div class="example-prompt-label" data-i18n="ex_prompt_label">Prompt used to get from before to after</div>
+                            <pre class="example-prompt"><code>Fix the fee-card section on mobile. The pricing cards still render in columns at small widths and the section feels cramped. Add a mobile breakpoint that collapses the grid to one column, remove decorative transforms that break spacing on small screens, and keep the desktop layout unchanged.</code></pre>
+                        </div>
+                        <p class="example-footer" data-i18n="ex_case_2_footer">Result: the cards stack cleanly on mobile, the section becomes readable again, and the shipped fix is documented in a public PR.</p>
+                    </article>
+                </div>
             </div>
-            <p style="font-size:13px; color:#666;" data-i18n="ex_footer">Typical Vibers outcome: one clear bug report, a concrete prompt for the agent, and a visible before/after result the client can ship.</p>
         </div>
     </details>
 
@@ -956,15 +1175,21 @@ const ru = {
     sec_not_list: "<li>Мержить или пушить в main без вашего одобрения</li><li>Получить доступ к другим репозиториям аккаунта</li><li>Видеть приватные env-файлы за пределами коммитов</li>",
     sec_revoke: "<strong>Отозвать в любой момент:</strong> GitHub Settings → Applications → Installed GitHub Apps → Vibers Review → Uninstall. 5 секунд. Никаких привязок.",
     sec_nda: "NDA доступен по запросу для платных ревью.",
-    label_example: "Пример",
-    ex_title: "Before / After: фикс mobile floor map",
-    ex_intro: "Клиент выкатил mobile floor map, где одновременно рендерились два варианта подписи. Десктопная подпись и короткая мобильная подпись накладывались друг на друга, из-за чего названия слотов становились нечитаемыми на маленьком экране.",
-    ex_bug_label: "Найден баг",
-    ex_bug_desc: "Адаптивная логика показывала и десктопную подпись слота, и сокращённую мобильную подпись в одной и той же карточке floor map. Текст накладывался сам на себя, ломал мобильный UI и мешал прочитать название слота.",
-    ex_before_label: "До — подписи налезают друг на друга",
-    ex_after_label: "После — одна чистая мобильная подпись",
+    label_example: "Примеры",
+    ex_title: "Слайдер real before / after фиксов",
+    ex_intro: "Каждый кейс теперь собран по одной схеме: краткое описание бага, скрин до, скрин после и English prompt, которым мы вели исправление. Новые кейсы можно просто докидывать в этот горизонтальный ряд.",
+    ex_before_label: "До",
+    ex_after_label: "После",
     ex_prompt_label: "Промпт, который дал такой результат",
-    ex_footer: "Типичный результат Vibers: один понятный баг-репорт, конкретный промпт для агента и наглядный before/after, который клиент может сразу выкатывать.",
+    ex_case_1_badge: "Live UI fix",
+    ex_case_1_title: "Подписи mobile floor map",
+    ex_case_1_desc: "На floor map одновременно показывались десктопная подпись слота и короткая мобильная подпись. На телефоне текст налезал сам на себя, и название слота становилось плохо читаемым.",
+    ex_case_1_footer: "Результат: чистые мобильные подписи, читаемые карточки карты и шаблон промпта, который можно переиспользовать на похожих адаптивных багах.",
+    ex_case_2_badge: "Реальный PR",
+    ex_case_2_title: "Paycif: mobile pricing cards",
+    ex_case_2_desc: "В лендинге Paycif блок с карточками цен оставался колонками на мобильных, потому что новый grid приехал без маленького breakpoint. Мы добавили нужные mobile-правила и отправили фиксы реальным PR.",
+    ex_case_2_footer: "Результат: карточки складываются в одну колонку, секция снова читается на мобильных, а сам фикс задокументирован публичным PR.",
+    ex_open_pr: "Открыть PR #3",
     honest_box: "<strong>Честно о себе:</strong> Мы не security-фирма. Никаких OWASP-пентестов, аудитов архитектуры, профилирования производительности. Мы — обычные люди, которые смотрят на ваш код свежим взглядом: ловят очевидные баги, проверяют что основные сценарии работают, и пишут фикс вместо того чтобы создавать тикет. Думайте об этом как альфа-тестер, который ещё и шлёт PR.",
     site_label: "Нет GitHub? Не проблема",
     site_desc: "Не готовы подключать GitHub? Просто укажите URL вашего сайта — мы протестируем вручную и пришлём отчёт с находками.",
@@ -1013,6 +1238,13 @@ function setLang(lang) {
 <script src="https://op.wpmix.net/embed.js" data-app="vibers"></script>
 
 <script>
+function scrollExamples(direction) {
+    const track = document.getElementById('examples-track');
+    if (!track) return;
+    const amount = Math.min(track.clientWidth * 0.9, 540) * direction;
+    track.scrollBy({ left: amount, behavior: 'smooth' });
+}
+
 // Lead tracking — fires once per session per action type
 const _ledFired = {};
 function trackLead(action) {

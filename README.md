@@ -105,6 +105,20 @@ Recent UI example from the landing page: on a mobile floor map, both the desktop
 
 This is what every review looks like: not just comments, but actual working fixes in a PR.
 
+## Landing Page Examples
+
+Landing page case studies now live in [`docs/examples/`](docs/examples/README.md).
+
+Each example should keep the same structure:
+
+- short title + one-sentence bug summary
+- before screenshot
+- after screenshot
+- English prompt that could realistically produce the fix
+- optional proof link: PR, commit, issue, or live page
+
+Current cases are the mobile floor map label fix and the Paycif mobile pricing card fix.
+
 ## Vibers vs Alternatives
 
 | Feature | Vibers | CodeRabbit | SonarQube | PullRequest.com |
