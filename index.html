@@ -511,14 +511,47 @@
     </div>
 
     <!-- Tertiary CTA: Just share your site URL -->
-    <div class="site-review-box" style="background: #f0faf4; border: 1px solid #b8e6c8; border-radius: 6px; padding: 20px 24px; margin-bottom: 16px;">
-        <div style="font-size: 12px; font-weight: 600; color: #2a9d5c; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;" data-i18n="site_label">No GitHub? No problem</div>
-        <p style="font-size: 14px; color: #333; margin-bottom: 14px;" data-i18n="site_desc">Not ready to connect GitHub yet? Just share your site URL — we'll test it manually and send you a report with what we find.</p>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <input type="url" id="site-url-input" placeholder="https://your-app.com" style="flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid #b8e6c8; border-radius: 6px; font-size: 14px; outline: none; background: #fff;" onfocus="this.style.borderColor='#2a9d5c'" onblur="this.style.borderColor='#b8e6c8'">
-            <button id="site-submit-btn" onclick="submitSiteUrl()" style="padding: 10px 20px; background: #2a9d5c; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;" data-i18n="site_btn">Send for review</button>
+    <div class="site-review-box" id="site-review-box" style="background: #f0faf4; border: 1px solid #b8e6c8; border-radius: 6px; padding: 20px 24px; margin-bottom: 16px;">
+        <!-- Step 1: URL input -->
+        <div id="site-step-url">
+            <div style="font-size: 12px; font-weight: 600; color: #2a9d5c; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;" data-i18n="site_label">No GitHub? No problem</div>
+            <p style="font-size: 14px; color: #333; margin-bottom: 14px;" data-i18n="site_desc">Not ready to connect GitHub yet? Just share your site URL — we'll test it manually and send you a report with what we find.</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <input type="url" id="site-url-input" placeholder="https://your-app.com" style="flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid #b8e6c8; border-radius: 6px; font-size: 14px; outline: none; background: #fff;" onfocus="this.style.borderColor='#2a9d5c'" onblur="this.style.borderColor='#b8e6c8'">
+                <button id="site-submit-btn" onclick="submitSiteUrl()" style="padding: 10px 20px; background: #2a9d5c; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;" data-i18n="site_btn">Send for review</button>
+            </div>
+            <p style="font-size: 12px; color: #888; margin-top: 10px;" data-i18n="site_note">We'll look at your site, check the main flows, and reach out with findings. Free for the first review.</p>
         </div>
-        <p style="font-size: 12px; color: #888; margin-top: 10px;" data-i18n="site_note">We'll look at your site, check the main flows, and reach out with findings. Free for the first review.</p>
+        <!-- Step 2: Onboarding details (hidden until URL submitted) -->
+        <div id="site-step-details" style="display:none;">
+            <div style="font-size: 14px; font-weight: 600; color: #2a9d5c; margin-bottom: 4px;">&#10003; <span data-i18n="site_sent_title">URL sent!</span></div>
+            <p style="font-size: 13px; color: #555; margin-bottom: 16px;" data-i18n="site_sent_desc">Help us review better — share a few details. All fields are optional.</p>
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 4px;" data-i18n="site_spec_label">Brief, spec or materials <span style="font-weight:400; color:#999; font-size:11px;">optional</span></label>
+                <input type="url" id="site-spec-url" placeholder="https://docs.google.com/... or Notion link" style="width:100%; padding: 9px 12px; border: 1px solid #b8e6c8; border-radius: 6px; font-size: 13px; outline: none; background: #fff;" onfocus="this.style.borderColor='#2a9d5c'" onblur="this.style.borderColor='#b8e6c8'">
+                <div style="font-size: 11px; color: #999; margin-top: 3px;" data-i18n="site_spec_hint">Google Doc, Notion, Confluence — we'll review against it</div>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 4px;" data-i18n="site_figma_label">Figma <span style="font-weight:400; color:#999; font-size:11px;">optional</span></label>
+                <input type="url" id="site-figma-url" placeholder="https://figma.com/file/..." style="width:100%; padding: 9px 12px; border: 1px solid #b8e6c8; border-radius: 6px; font-size: 13px; outline: none; background: #fff;" onfocus="this.style.borderColor='#2a9d5c'" onblur="this.style.borderColor='#b8e6c8'">
+                <div style="font-size: 11px; color: #999; margin-top: 3px;" data-i18n="site_figma_hint">Design file — we check if UI matches</div>
+            </div>
+            <div style="margin-bottom: 14px;">
+                <label style="display:block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 4px;" data-i18n="site_contact_label">Contact <span style="font-weight:400; color:#999; font-size:11px;">optional</span></label>
+                <input type="text" id="site-telegram" placeholder="@telegram, email, or any messenger" style="width:100%; padding: 9px 12px; border: 1px solid #b8e6c8; border-radius: 6px; font-size: 13px; outline: none; background: #fff;" onfocus="this.style.borderColor='#2a9d5c'" onblur="this.style.borderColor='#b8e6c8'">
+                <div style="font-size: 11px; color: #999; margin-top: 3px;" data-i18n="site_contact_hint">We'll reach out when the review is ready</div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button id="site-details-btn" onclick="submitSiteDetails()" style="padding: 10px 20px; background: #2a9d5c; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;" data-i18n="site_save_btn">Save & Continue</button>
+                <a onclick="skipSiteDetails()" style="font-size: 13px; color: #999; cursor: pointer; text-decoration: underline;" data-i18n="site_skip">Skip for now</a>
+            </div>
+        </div>
+        <!-- Step 3: Success -->
+        <div id="site-step-done" style="display:none; text-align:center; padding: 16px 0;">
+            <div style="font-size: 36px; margin-bottom: 10px;">&#127881;</div>
+            <div style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px;" data-i18n="site_done_title">You're all set!</div>
+            <p style="font-size: 13px; color: #666;" data-i18n="site_done_desc">We'll review your site and reach out with findings. Questions? <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">@onoutnoxon</a></p>
+        </div>
     </div>
 
     <!-- Real testimonial -->
@@ -945,6 +978,18 @@ const ru = {
     site_desc: "Не готовы подключать GitHub? Просто укажите URL вашего сайта — мы протестируем вручную и пришлём отчёт с находками.",
     site_btn: "Отправить на ревью",
     site_note: "Мы посмотрим сайт, проверим основные сценарии и напишем что нашли. Первое ревью бесплатно.",
+    site_sent_title: "URL отправлен!",
+    site_sent_desc: "Помогите нам сделать ревью лучше — поделитесь деталями. Все поля необязательны.",
+    site_spec_label: 'Бриф, ТЗ или материалы <span style="font-weight:400; color:#999; font-size:11px;">необязательно</span>',
+    site_spec_hint: "Google Doc, Notion, Confluence — мы проверим код по нему",
+    site_figma_label: 'Figma <span style="font-weight:400; color:#999; font-size:11px;">необязательно</span>',
+    site_figma_hint: "Дизайн-файл — проверим соответствие UI",
+    site_contact_label: 'Контакт <span style="font-weight:400; color:#999; font-size:11px;">необязательно</span>',
+    site_contact_hint: "Напишем когда ревью будет готово",
+    site_save_btn: "Сохранить",
+    site_skip: "Пропустить",
+    site_done_title: "Готово!",
+    site_done_desc: 'Мы проверим ваш сайт и напишем с результатами. Вопросы? <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer">@onoutnoxon</a>',
 };
 
 let savedEn = {};
@@ -1019,7 +1064,10 @@ function trackLead(action) {
     });
 })();
 
-// Site URL review submission
+// Site URL review submission — two-step flow
+var _siteReviewId = '';
+var _siteReviewUrl = '';
+
 function submitSiteUrl() {
     var input = document.getElementById('site-url-input');
     var btn = document.getElementById('site-submit-btn');
@@ -1034,24 +1082,66 @@ function submitSiteUrl() {
     btn.textContent = 'Sending...';
     trackLead('submit_site_url');
     rdt('track', 'Lead');
+    _siteReviewUrl = url;
 
-    fetch('/github/setup', {
+    fetch('/vibers/site-review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ site_url: url, source: 'landing_site_review' }),
     })
     .then(function(r) {
-        btn.textContent = 'Sent!';
-        btn.style.background = '#2a9d5c';
-        input.value = '';
-        input.placeholder = 'Thanks! We\'ll be in touch.';
-        input.disabled = true;
+        if (!r.ok) throw new Error('Server error');
+        return r.json();
+    })
+    .then(function(data) {
+        _siteReviewId = data.review_id || '';
+        // Show step 2: onboarding details
+        document.getElementById('site-step-url').style.display = 'none';
+        document.getElementById('site-step-details').style.display = 'block';
     })
     .catch(function() {
         btn.disabled = false;
         btn.textContent = 'Send for review';
         window.open('https://t.me/onoutnoxon?text=' + encodeURIComponent('Review my site: ' + url), '_blank');
     });
+}
+
+function submitSiteDetails() {
+    var btn = document.getElementById('site-details-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    var payload = {
+        site_url: _siteReviewUrl,
+        spec_url: document.getElementById('site-spec-url').value.trim(),
+        figma_url: document.getElementById('site-figma-url').value.trim(),
+        telegram: document.getElementById('site-telegram').value.trim(),
+        source: 'landing_site_review_details',
+    };
+
+    fetch('/vibers/site-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    })
+    .then(function(r) {
+        if (!r.ok) throw new Error('Server error');
+        showSiteDone();
+    })
+    .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Save & Continue';
+        alert('Could not save — please try again.');
+    });
+}
+
+function skipSiteDetails() {
+    showSiteDone();
+}
+
+function showSiteDone() {
+    document.getElementById('site-step-details').style.display = 'none';
+    document.getElementById('site-step-done').style.display = 'block';
 }
 </script>
 </body>

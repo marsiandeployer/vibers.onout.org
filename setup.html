@@ -149,7 +149,7 @@ function submitSetup() {
     telegram: document.getElementById('telegram').value.trim(),
   };
 
-  fetch('/github/setup', {
+  fetch('/vibers/github/setup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),

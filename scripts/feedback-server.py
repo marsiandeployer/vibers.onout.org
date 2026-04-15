@@ -87,6 +87,28 @@ def _save_setup_data(data: dict):
 
 _setup_data: dict = _load_setup_data()
 
+# Site review requests (no GitHub, just URL)
+_SITE_REVIEWS_FILE = os.path.join(os.path.dirname(__file__), "site-reviews.json")
+
+def _load_site_reviews() -> dict:
+    try:
+        with open(_SITE_REVIEWS_FILE) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def _save_site_reviews(data: dict):
+    try:
+        dir_ = os.path.dirname(_SITE_REVIEWS_FILE)
+        with tempfile.NamedTemporaryFile("w", dir=dir_, delete=False, suffix=".tmp") as tf:
+            json.dump(data, tf, indent=2)
+            tmp_path = tf.name
+        os.replace(tmp_path, _SITE_REVIEWS_FILE)
+    except Exception as e:
+        print(f"Failed to save site reviews: {e}", file=sys.stderr)
+
+_site_reviews: dict = _load_site_reviews()
+
 # Rate limiting: max 5 requests per minute per IP
 RATE_LIMIT = {}
 RATE_WINDOW = 60
@@ -358,6 +380,8 @@ class FeedbackHandler(BaseHTTPRequestHandler):
             self._handle_github_webhook()
         elif self.path == "/github/setup":
             self._handle_github_setup()
+        elif self.path == "/site-review":
+            self._handle_site_review()
         elif self.path == "/github/marketplace":
             self._handle_github_marketplace()
         else:
@@ -641,6 +665,60 @@ class FeedbackHandler(BaseHTTPRequestHandler):
         self._cors_headers()
         self.end_headers()
         self.wfile.write(b'{"ok": true}')
+
+    def _handle_site_review(self):
+        """Handle site URL review requests from landing page (no GitHub required)."""
+        global _site_reviews
+        data, err = self._read_json_body(max_size=5000)
+        if err:
+            return
+
+        site_url = str(data.get("site_url") or "").strip()[:500]
+        if not site_url:
+            self.send_response(400)
+            self._cors_headers()
+            self.end_headers()
+            self.wfile.write(b'{"error": "site_url is required"}')
+            return
+
+        # Generate a review ID based on timestamp
+        review_id = str(int(time.time() * 1000))
+
+        spec_url = str(data.get("spec_url") or "").strip()[:500]
+        figma_url = str(data.get("figma_url") or "").strip()[:500]
+        telegram = str(data.get("telegram") or "").strip()[:100]
+        source = str(data.get("source") or "landing").strip()[:50]
+
+        entry = {
+            "site_url": site_url,
+            "spec_url": spec_url,
+            "figma_url": figma_url,
+            "telegram": telegram,
+            "source": source,
+            "saved_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+
+        _site_reviews[review_id] = entry
+        _save_site_reviews(_site_reviews)
+
+        # Telegram notification
+        parts = [f"🌐 **Site Review Request**\n\nURL: {site_url}"]
+        if spec_url:
+            parts.append(f"Spec: {spec_url}")
+        if figma_url:
+            parts.append(f"Figma: {figma_url}")
+        if telegram:
+            parts.append(f"Contact: {telegram}")
+        if not any([spec_url, figma_url, telegram]):
+            parts.append("_(no contact details yet)_")
+
+        send_telegram("\n".join(parts), TELEGRAM_REVIEW_CHAT_ID)
+
+        self.send_response(200)
+        self._cors_headers()
+        self.end_headers()
+        resp = json.dumps({"ok": True, "review_id": review_id}).encode()
+        self.wfile.write(resp)
 
     def _handle_github_marketplace(self):
         """Handle GitHub Marketplace webhook events (purchase, cancellation, etc.)."""
