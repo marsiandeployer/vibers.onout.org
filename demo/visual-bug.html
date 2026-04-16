@@ -15,17 +15,7 @@
     overflow: hidden;
   }
 
-  /* ── Full-screen iframe wrapper ── */
-  .site-frame {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-
-  /* ══════════════════════════════════════════
+/* ══════════════════════════════════════════
      🐛 VISUAL BUG OVERLAY: floating broken button
      Positioned over the iframe to simulate a
      real UI bug on the live product
@@ -96,12 +86,8 @@
 </head>
 <body>
 
-<!-- Real product as background -->
-<iframe
-  class="site-frame"
-  src="https://op.wpmix.net"
-  title="op.wpmix.net"
-></iframe>
+<!-- op.wpmix.net embed widget -->
+<script src="https://op.wpmix.net/embed.js"></script>
 
 <!-- Visual bug overlay on top -->
 <div class="bug-overlay">
