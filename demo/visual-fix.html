@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue Dashboard — Fixed (Vibers Demo)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { overflow: hidden; }
+    .main-content {
+      background: url('dashboard-bg.jpg') center/cover no-repeat fixed !important;
+    }
+    .bg-gray-50, .bg-gray-100 { background: transparent !important; }
+    .kpi-card {
+      background: rgba(255,255,255,0.68) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.45) !important;
+    }
+
+    /* ── FIXED: button width fits text ── */
+    .btn-fixed {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 6px 12px;
+      background: #2d3a8c;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-gray-100" style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+
+<!-- op.wpmix.net embed widget -->
+<script src="https://op.wpmix.net/embed.js"></script>
+
+<div class="flex h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-56 text-white flex flex-col p-5 flex-shrink-0" style="background: linear-gradient(rgba(17,24,39,0.88),rgba(17,24,39,0.94)), url('dashboard-bg.jpg') center/cover no-repeat">
+    <div class="text-lg font-bold mb-8 text-white">📊 Revenue</div>
+    <nav class="space-y-1">
+      <div class="px-3 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium">Overview</div>
+      <div class="px-3 py-2 rounded-lg text-gray-400 hover:text-white text-sm cursor-pointer">Transactions</div>
+      <div class="px-3 py-2 rounded-lg text-gray-400 hover:text-white text-sm cursor-pointer">Customers</div>
+      <div class="px-3 py-2 rounded-lg text-gray-400 hover:text-white text-sm cursor-pointer">Reports</div>
+      <div class="px-3 py-2 rounded-lg text-gray-400 hover:text-white text-sm cursor-pointer">Settings</div>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 overflow-auto main-content">
+
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Overview</h1>
+      <div class="text-sm text-gray-500">Last 7 days</div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-4 gap-5 mb-8">
+
+      <!-- Card 1: Total Revenue — HAS THE BUG -->
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <div class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">Monthly Revenue</div>
+        <div class="text-3xl font-bold text-gray-900">$48,210</div>
+        <div class="text-green-600 text-xs mt-1">↑ 12.4% vs last month</div>
+        <!-- FIXED: proper button -->
+        <span class="btn-fixed">View transaction details</span>
+      </div>
+
+      <!-- Card 2: Normal -->
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <div class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">New Customers</div>
+        <div class="text-3xl font-bold text-blue-600">1,284</div>
+        <div class="text-gray-500 text-xs mt-1">↑ 8.2% vs last month</div>
+        <button class="mt-3 px-4 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-md">View all</button>
+      </div>
+
+      <!-- Card 3: Normal -->
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <div class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">Conversion Rate</div>
+        <div class="text-3xl font-bold text-purple-600">3.8%</div>
+        <div class="text-gray-500 text-xs mt-1">↓ 0.3% vs last month</div>
+        <button class="mt-3 px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-md">Analytics</button>
+      </div>
+
+      <!-- Card 4: Normal -->
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <div class="text-gray-500 text-xs font-medium uppercase tracking-wide mb-1">Avg. Order Value</div>
+        <div class="text-3xl font-bold text-emerald-600">$124</div>
+        <div class="text-green-600 text-xs mt-1">↑ 5.1% vs last month</div>
+        <button class="mt-3 px-4 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-md">Details</button>
+      </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="grid grid-cols-2 gap-5 mb-5">
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <h3 class="font-semibold text-gray-700 mb-4 text-sm">Revenue by Day</h3>
+        <canvas id="revenueChart" height="110"></canvas>
+      </div>
+      <div class="kpi-card rounded-xl p-5 shadow-sm">
+        <h3 class="font-semibold text-gray-700 mb-4 text-sm">Traffic Sources</h3>
+        <canvas id="sourceChart" height="110"></canvas>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="kpi-card rounded-xl shadow-sm overflow-hidden">
+      <div class="px-5 py-4 border-b border-gray-100">
+        <h3 class="font-semibold text-gray-700 text-sm">Recent Transactions</h3>
+      </div>
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
+          <tr>
+            <th class="px-5 py-3 text-left">Customer</th>
+            <th class="px-5 py-3 text-left">Product</th>
+            <th class="px-5 py-3 text-right">Amount</th>
+            <th class="px-5 py-3 text-right">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-medium">Alex Johnson</td>
+            <td class="px-5 py-3 text-gray-500">Pro Plan</td>
+            <td class="px-5 py-3 text-right font-semibold">$299</td>
+            <td class="px-5 py-3 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">Paid</span></td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-medium">Maria García</td>
+            <td class="px-5 py-3 text-gray-500">Starter Plan</td>
+            <td class="px-5 py-3 text-right font-semibold">$49</td>
+            <td class="px-5 py-3 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">Paid</span></td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-medium">David Chen</td>
+            <td class="px-5 py-3 text-gray-500">Enterprise</td>
+            <td class="px-5 py-3 text-right font-semibold">$1,200</td>
+            <td class="px-5 py-3 text-right"><span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded text-xs">Pending</span></td>
+          </tr>
+          <tr class="hover:bg-gray-50">
+            <td class="px-5 py-3 font-medium">Sarah Williams</td>
+            <td class="px-5 py-3 text-gray-500">Pro Plan</td>
+            <td class="px-5 py-3 text-right font-semibold">$299</td>
+            <td class="px-5 py-3 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs">Paid</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Revenue chart
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      datasets: [{
+        data: [6200, 5800, 7100, 6900, 8400, 5200, 8600],
+        borderColor: '#3B82F6',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        tension: 0.4,
+        fill: true,
+        pointRadius: 3
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } }, y: { grid: { color: '#f3f4f6' } } }
+    }
+  });
+
+  // Sources doughnut
+  new Chart(document.getElementById('sourceChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Organic','Paid','Referral','Direct'],
+      datasets: [{
+        data: [38, 27, 20, 15],
+        backgroundColor: ['#3B82F6','#8B5CF6','#10B981','#F59E0B'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } }
+    }
+  });
+</script>
+</body>
+</html>
