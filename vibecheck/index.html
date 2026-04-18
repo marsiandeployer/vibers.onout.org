@@ -276,6 +276,51 @@
     }
     .btn-white:hover { background: #f0eeff; text-decoration: none; }
 
+    .demo-banner {
+      margin: 0 -40px 40px;
+      position: relative;
+    }
+    .demo-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    .demo-banner-caption {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-top: 8px;
+      padding: 0 40px;
+    }
+
+    .what-fixes {
+      margin: 40px 0;
+      padding: 24px;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
+    }
+    .fixes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      margin-top: 16px;
+    }
+    .fix-item {
+      font-size: 14px;
+      color: #333;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .fix-item::before {
+      content: "→";
+      color: #5b44e8;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
     footer {
       margin-top: 48px;
       padding-top: 24px;
@@ -291,6 +336,9 @@
       h1 { font-size: 26px; }
       .case-grid { grid-template-columns: 1fr; }
       .vs-table { font-size: 12px; }
+      .demo-banner { margin: 0 -20px 32px; }
+      .demo-banner-caption { padding: 0 20px; }
+      .fixes-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -312,6 +360,34 @@
     </div>
     <p class="beta-note">Beta &mdash; free first fix for early users. No credit card.</p>
   </header>
+
+  <div class="demo-banner">
+    <picture>
+      <source media="(max-width: 600px)" srcset="/vibers/demo/chrome-store-before-after-640x400.png">
+      <img src="/vibers/demo/chrome-store-before-after-1280x800.png"
+           alt="VibeCheck before/after: visual bug spotted and fixed via Fix It button"
+           width="1280" height="800" loading="lazy">
+    </picture>
+    <p class="demo-banner-caption">Before &amp; after — broken button layout spotted with VibeCheck, PR merged in 2 hours</p>
+  </div>
+
+  <section class="what-fixes">
+    <h2>What VibeCheck can fix</h2>
+    <div class="fixes-grid">
+      <div class="fix-item">Copy &amp; content — typos, tone, CTA wording</div>
+      <div class="fix-item">CSS, layout &amp; responsive issues</div>
+      <div class="fix-item">Accessibility — alt text, contrast, ARIA</div>
+      <div class="fix-item">Broken elements &amp; visual bugs</div>
+      <div class="fix-item">AI-generated code &amp; vibe-coded sites</div>
+      <div class="fix-item">React, Vue, Next.js, plain HTML/CSS</div>
+      <div class="fix-item">WordPress (FTP/SSH to wp-content)</div>
+      <div class="fix-item">Any PHP / Node.js / Python stack</div>
+    </div>
+    <p style="font-size:13px; color:#888; margin-top:16px;">
+      Works with: self-hosted sites, GitHub Pages, Vercel, Netlify, Cloudflare Pages.<br>
+      Does not work with closed no-code platforms (Webflow, Wix, Squarespace) — no file access.
+    </p>
+  </section>
 
   <section class="how-it-works">
     <h2>How VibeCheck works</h2>
