@@ -732,6 +732,52 @@
       border-top: 1px solid #e0e0e0;
     }
 
+    .demo-explainer {
+      margin: 56px 0 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .demo-explainer-step {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 16px 18px;
+      position: relative;
+    }
+    .demo-explainer-step .num {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FF6B35;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .demo-explainer-step .title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+      margin: 0 0 6px;
+      line-height: 1.3;
+    }
+    .demo-explainer-step .detail {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .demo-explainer-tagline {
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+      margin: 4px 0 8px;
+    }
+    .demo-explainer-tagline strong { color: #333; font-weight: 600; }
+    @media (max-width: 720px) {
+      .demo-explainer { grid-template-columns: 1fr; gap: 10px; }
+    }
+
     .what-fixes {
       margin: 40px 0;
       padding: 24px;
@@ -1155,6 +1201,25 @@
     <p class="demo-banner-caption" id="demo-caption">Bug spotted — Fix It sends element + codebase to reviewer → PR in hours</p>
   </div><!-- /demo-banner -->
   </div><!-- /demo-banner-outer -->
+
+  <div class="demo-explainer">
+    <div class="demo-explainer-step">
+      <span class="num" data-i18n="demo-ex-1-num">Step 1</span>
+      <h3 class="title" data-i18n="demo-ex-1-title">Click the issue on your live site</h3>
+      <p class="detail" data-i18n="demo-ex-1-detail">Element gets highlighted right where you see it.</p>
+    </div>
+    <div class="demo-explainer-step">
+      <span class="num" data-i18n="demo-ex-2-num">Step 2</span>
+      <h3 class="title" data-i18n="demo-ex-2-title">VibeCheck captures context</h3>
+      <p class="detail" data-i18n="demo-ex-2-detail">Selector, DOM, screenshot, your comment, repo access.</p>
+    </div>
+    <div class="demo-explainer-step">
+      <span class="num" data-i18n="demo-ex-3-num">Step 3</span>
+      <h3 class="title" data-i18n="demo-ex-3-title">AI fixes it and ships it</h3>
+      <p class="detail" data-i18n="demo-ex-3-detail">Patch &rarr; diff &rarr; PR &rarr; deploy.</p>
+    </div>
+  </div>
+  <p class="demo-explainer-tagline" data-i18n="demo-ex-tagline"><strong>Not a visual editor.</strong> No drag-and-drop. Just shipped fixes.</p>
   </div><!-- /hero-wrap -->
 
   <div class="content-wrap">
@@ -1547,7 +1612,17 @@ var ru = {
   'h2-faq':              'Частые вопросы',
   'h2-cta':              'Получить ранний доступ к VibeCheck',
   'cta-sub':             'Ранний доступ открыт. Первое исправление бесплатно. GitHub, WordPress (FTP/SSH) и любой сайт с доступом к коду.',
-  'cta-primary-bottom':  'Получить ранний доступ →'
+  'cta-primary-bottom':  'Получить ранний доступ →',
+  'demo-ex-1-num':       'Шаг 1',
+  'demo-ex-1-title':     'Кликаешь на проблему на своём живом сайте',
+  'demo-ex-1-detail':    'Элемент подсвечивается прямо там, где ты его видишь.',
+  'demo-ex-2-num':       'Шаг 2',
+  'demo-ex-2-title':     'VibeCheck собирает контекст',
+  'demo-ex-2-detail':    'Селектор, DOM, скриншот, твой комментарий, доступ к репозиторию.',
+  'demo-ex-3-num':       'Шаг 3',
+  'demo-ex-3-title':     'AI правит и деплоит',
+  'demo-ex-3-detail':    'Патч → diff → PR → деплой.',
+  'demo-ex-tagline':     '<strong>Это не визуальный редактор.</strong> Без drag-and-drop. Только готовые фиксы.'
 };
 
 TAB_DESC_RU = {
