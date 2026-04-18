@@ -85,6 +85,21 @@
     .site-nav a { color: #888; border-bottom: 1px solid #ddd; }
     .site-nav a:hover { color: #5b44e8; border-color: #5b44e8; text-decoration: none; }
 
+    .hero-wrap {
+      background: url('images/hero-bg.jpg') center/cover no-repeat;
+      position: relative;
+      padding-bottom: 48px;
+      overflow: hidden;
+    }
+    .hero-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.87);
+    }
+    .hero-wrap > * {
+      position: relative;
+    }
     .hero {
       border-bottom: 2px solid #1a1a1a;
       padding: 48px 0 32px;
@@ -262,7 +277,7 @@
     .cta-box {
       margin: 40px 0;
       padding: 32px;
-      background: #1a1a1a;
+      background: url('images/cta-bg.jpg') center/cover no-repeat, #1a1a1a;
       color: #fff;
       border-radius: 8px;
       text-align: center;
@@ -642,6 +657,7 @@
 <body>
 <div class="page">
 
+  <div class="hero-wrap">
   <div class="content-wrap">
   <header class="hero">
     <div class="hero-badge">Chrome Extension &mdash; Early Access</div>
@@ -873,6 +889,7 @@
 
     <p class="demo-banner-caption" id="demo-caption">Bug spotted — Fix It sends element + codebase to reviewer → PR in hours</p>
   </div>
+  </div><!-- /hero-wrap -->
 
   <div class="content-wrap">
   <section class="what-fixes">
@@ -1197,7 +1214,8 @@ function resetTab(tab) {
   if (wpBtn) { wpBtn.textContent = 'Unavailable'; wpBtn.style.background = '#ccc'; wpBtn.style.color = '#999'; wpBtn.style.cursor = 'not-allowed'; wpBtn.classList.remove('text-fade'); }
 }
 
-function switchTab(tab) {
+function switchTab(tab, skipHistory) {
+  if (!TAB_DATA[tab]) tab = 'bug';
   animGen++; // invalidates all pending callbacks from previous tab
   var gen = animGen;
   ['bug','feature','improve','wp'].forEach(function(t) { resetTab(t); });
@@ -1214,10 +1232,21 @@ function switchTab(tab) {
     setTimeout(function() { applyFix(tab, gen); }, 500);
   });
   currentTab = tab;
+  if (!skipHistory) {
+    history.replaceState(null, '', '#' + tab);
+  }
 }
 
+window.addEventListener('hashchange', function() {
+  var hash = location.hash.replace('#', '');
+  if (TAB_DATA[hash] && hash !== currentTab) {
+    switchTab(hash, true);
+  }
+});
+
 // init
-switchTab('bug');
+var initTab = location.hash.replace('#', '');
+switchTab(TAB_DATA[initTab] ? initTab : 'bug');
 </script>
 <script src="https://op.wpmix.net/embed.js" data-app="vibers"></script>
 </body>
