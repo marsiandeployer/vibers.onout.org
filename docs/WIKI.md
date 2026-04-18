@@ -39,9 +39,48 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 | [backlink-opportunities.md](backlink-opportunities.md) | 13 directories + 6 dev blogs + media pitch targets |
 | [COMPETITORS.md#markerio-markerio](COMPETITORS.md) | Marker.io ($39/mo) + **Feedbucket** (agency feedback tool) + Markup.io (design, adjacent) — прямые конкуренты VibeCheck. Marker.io: контент-паттерн (template hubs, utility tripwire) в COMPETITORS.md |
 | [advertising-channels.md](advertising-channels.md) | Полная карта рекламы: каталоги, ad networks, newsletters, стратегия по бюджету |
-| [backlinks/](backlinks/) | Raw SEMrush backlink exports (CodeRabbit 4.6K, Qodo 6K domains) |
+| [backlinks/](backlinks/) | Raw SEMrush backlink exports (CodeRabbit 4.6K, Qodo 6K domains); `submission-targets-from-competitor-backlinks.csv` — каталоги из бэклинков конкурентов |
 | [topic-research-20260414.xlsx](topic-research-20260414.xlsx) | SEMrush Topic Research — 108 content ideas with volumes, questions, backlinks |
 | [WIKI.md#seo-intelligence](WIKI.md#seo-intelligence-april-2026) | Google March 2026 Core Update итоги + Claude SEO Prompts methodology |
+
+### Directory Submission Targets (из бэклинков конкурентов, 2026-04-18)
+
+Полный список: `backlinks/submission-targets-from-competitor-backlinks.csv`
+
+**Каталоги для сабмишена Vibers/VibeCheck** (DS ≥ 15, не конкуренты):
+
+| DS | Domain | Тип | Приоритет |
+|----|--------|-----|-----------|
+| 58 | webcatalog.io | App catalog | HIGH |
+| 41 | softwareworld.co | SaaS directory | HIGH |
+| 36 | saashub.com | SaaS directory | HIGH |
+| 30 | glama.ai | AI tools directory | HIGH |
+| 28 | subscribed.fyi | SaaS discovery | HIGH |
+| 26 | huntscreens.com | Product gallery | MED |
+| 16 | digtize.com | Software directory | MED |
+| 15 | wpm.so | SaaS directory | MED |
+| 5 | rightfeature.com | Product directory | LOW |
+| 6 | whatarethebest.com | Software comparison | LOW |
+
+**Площадки для контента** (статьи/упоминания):
+
+| DS | Domain | Формат |
+|----|--------|--------|
+| 85 | substack.com | Newsletter guest post |
+| 66 | dev.to | Technical article |
+| 44 | indiehackers.com | Founder story post |
+
+**Конкуренты из этого же списка** (мониторить, не сабмитить):
+
+| DS | Domain | Чем занимается |
+|----|--------|---------------|
+| 40 | bugherd.com | Visual feedback (agencias) |
+| 36 | filestage.io | Design/file review |
+| 31 | atarim.io | Visual feedback for WordPress |
+| 29 | webvizio.com | Web annotation tool |
+| 22 | bugsmash.io | Bug reporting widget |
+| 19 | pageproofer.com | Page proofing tool |
+| 44 | featurebase.app | Feature request board |
 
 ### Content Plan (from keyword research)
 
