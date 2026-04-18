@@ -553,19 +553,26 @@
       color: #fff;
       white-space: nowrap;
     }
-    /* highlighted element - orange border */
+    /* highlighted element - thin orange outline, captured-target feel */
     .demo-kpi.highlighted {
-      border: 2px solid #FF6B35;
-      box-shadow: 0 0 0 3px rgba(255,107,53,0.15);
+      border: 1px dashed #FF6B35;
+      box-shadow: 0 0 0 1px rgba(255,107,53,0.2);
       position: relative;
     }
     .demo-kpi.highlighted::after {
-      content: "👆";
+      content: "Captured target";
       position: absolute;
-      bottom: -18px;
-      right: 4px;
-      font-size: 14px;
-      animation: cursor-bob 1.2s ease-in-out infinite;
+      top: -9px;
+      left: 8px;
+      background: #FF6B35;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
+      line-height: 1;
     }
     @keyframes cursor-bob {
       0%,100% { transform: translateY(0); }
@@ -610,6 +617,16 @@
     .panel-element-tag { font-size: 12px; color: #0070f3; font-family: monospace; }
     .panel-element-text { font-size: 12px; color: #333; margin-top: 3px; }
     .panel-element-path { font-size: 11px; color: #888; margin-top: 4px; font-family: monospace; }
+    .panel-element-file {
+      font-size: 11px;
+      color: #0070f3;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #eee;
+      font-family: monospace;
+      word-break: break-all;
+    }
+    .panel-element-file::before { content: "📄 "; }
     .panel-btn-fix {
       background: #FF6B35;
       color: #fff;
@@ -712,8 +729,8 @@
     }
     @keyframes fixGlow {
       0%   { box-shadow: 0 0 0 0 rgba(22,163,74,0); border-color: #FF6B35; }
-      40%  { box-shadow: 0 0 0 6px rgba(22,163,74,0.35); border-color: #16a34a; }
-      100% { box-shadow: 0 0 0 3px rgba(22,163,74,0.15); border-color: #16a34a; }
+      40%  { box-shadow: 0 0 0 3px rgba(22,163,74,0.25); border-color: #16a34a; }
+      100% { box-shadow: 0 0 0 1px rgba(22,163,74,0.2); border-color: #16a34a; }
     }
     .text-fade {
       animation: textSwap .5s ease;
@@ -867,7 +884,7 @@
 
     <!-- TAB: Bug -->
     <div class="demo-viewport" id="tab-bug">
-      <span class="step-badge" style="top:44px;left:14px;" data-tip="Step 1: Click the issue on your live site — element gets highlighted">1</span>
+      <span class="step-badge" style="top:44px;left:14px;" data-tip="Step 1: Click where the change should go">1</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -927,8 +944,15 @@
           <span class="panel-logo">VibeCheck</span>
           <span class="panel-badge badge-bug">bug</span>
         </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;span class="kpi-btn"&gt;</div>
+          <div class="panel-element-text">"View transaction details"</div>
+          <div class="panel-element-path">.kpi-card &gt; span.btn</div>
+          <div class="panel-element-file">src/components/dashboard/KPICard.tsx</div>
+        </div>
         <div class="panel-comment-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: VibeCheck captures context — selector, DOM, screenshot, comment, repo access">2</span>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: Describe what you want">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-bug"></span><span class="type-cursor">|</span></div>
         </div>
@@ -943,7 +967,7 @@
 
     <!-- TAB: Feature -->
     <div class="demo-viewport" id="tab-feature" style="display:none">
-      <span class="step-badge" style="top:98px;left:14px;" data-tip="Step 1: Click the issue on your live site — element gets highlighted">1</span>
+      <span class="step-badge" style="top:98px;left:14px;" data-tip="Step 1: Click where the change should go">1</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -995,8 +1019,15 @@
           <span class="panel-logo">VibeCheck</span>
           <span class="panel-badge badge-feature">feature</span>
         </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;section class="transactions"&gt;</div>
+          <div class="panel-element-text">Recent Transactions</div>
+          <div class="panel-element-path">main &gt; section.transactions</div>
+          <div class="panel-element-file">src/components/TransactionsTable.tsx</div>
+        </div>
         <div class="panel-comment-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: VibeCheck captures context — selector, DOM, screenshot, comment, repo access">2</span>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: Describe what you want">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-feature"></span><span class="type-cursor">|</span></div>
         </div>
@@ -1011,7 +1042,7 @@
 
     <!-- TAB: Improve -->
     <div class="demo-viewport" id="tab-improve" style="display:none">
-      <span class="step-badge" style="top:58px;left:14px;" data-tip="Step 1: Click the issue on your live site — element gets highlighted">1</span>
+      <span class="step-badge" style="top:58px;left:14px;" data-tip="Step 1: Click where the change should go">1</span>
       <div class="demo-site">
         <!-- wireframe nav bar -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -1061,8 +1092,15 @@
           <span class="panel-logo">VibeCheck</span>
           <span class="panel-badge badge-improve">improve</span>
         </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;section class="hero"&gt;</div>
+          <div class="panel-element-text">"Automate your financial reporting"</div>
+          <div class="panel-element-path">main &gt; section.hero &gt; h1</div>
+          <div class="panel-element-file">src/pages/landing/Hero.tsx</div>
+        </div>
         <div class="panel-comment-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: VibeCheck captures context — selector, DOM, screenshot, comment, repo access">2</span>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: Describe what you want">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-improve"></span><span class="type-cursor">|</span></div>
         </div>
@@ -1077,7 +1115,7 @@
 
     <!-- TAB: WordPress -->
     <div class="demo-viewport" id="tab-wp" style="display:none">
-      <span class="step-badge" style="top:96px;left:14px;" data-tip="Step 1: Click the issue on your live site — element gets highlighted">1</span>
+      <span class="step-badge" style="top:96px;left:14px;" data-tip="Step 1: Click where the change should go">1</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e4e4;padding-bottom:10px;margin-bottom:14px;">
@@ -1139,8 +1177,15 @@
           <span class="panel-logo">VibeCheck</span>
           <span class="panel-badge" style="background:#21759b;">WordPress</span>
         </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;a class="button add_to_cart"&gt;</div>
+          <div class="panel-element-text">"Unavailable"</div>
+          <div class="panel-element-path">li.product &gt; a.button</div>
+          <div class="panel-element-file">wp-content/plugins/woocommerce/templates/loop/add-to-cart.php</div>
+        </div>
         <div class="panel-comment-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: VibeCheck captures context — selector, DOM, screenshot, comment, repo access">2</span>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 2: Describe what you want">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-wp"></span><span class="type-cursor">|</span></div>
         </div>
@@ -1433,10 +1478,10 @@ function applyFix(tab, gen) {
       if (btn) { btn.style.display = 'none'; }
       if (ps) {
         var msgs = {
-          bug:     '✓ PR #247 opened\nbranch: fix/button-overflow\nReviewer: @alex — merged in 1h 52m',
-          feature: '✓ PR #248 opened\nbranch: feat/transaction-search\nReviewer: @marina — merged in 3h 10m',
-          improve: '✓ PR #249 opened\nbranch: copy/hero-headline\nReviewer: @alex — merged in 47m',
-          wp:      '✓ Fix ready\nMethod: FTP → wp-content/plugins/woocommerce\nReviewer: @alex — ready in 58m'
+          bug:     '✓ PR #247 opened\nfix: prevent kpi button overflow on narrow viewports\nsrc/components/dashboard/KPICard.tsx',
+          feature: '✓ PR #248 opened\nfeat: add transaction search + date filter\nsrc/components/TransactionsTable.tsx',
+          improve: '✓ PR #249 opened\ncopy: rewrite hero headline for clarity + CTR\nsrc/pages/landing/Hero.tsx',
+          wp:      '✓ Fix ready via FTP\nfix: enable add-to-cart button for in-stock variants\nwp-content/plugins/woocommerce/templates/loop/add-to-cart.php'
         };
         ps.style.display = 'block';
         ps.style.whiteSpace = 'pre-line';
