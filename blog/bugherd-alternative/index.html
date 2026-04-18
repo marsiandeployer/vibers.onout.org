@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BugHerd Alternative for Agencies: Get Pull Requests, Not Just Sticky Notes — Vibers Blog</title>
+  <meta name="description" content="BugHerd costs $50/mo and creates Kanban tasks from visual feedback. VibeCheck is free and sends real pull requests. Here's why agencies are switching.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/bugherd-alternative/">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="../../favicon.png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="BugHerd Alternative for Agencies: Get Pull Requests, Not Just Sticky Notes">
+  <meta property="og:description" content="BugHerd costs $50/mo and creates Kanban tasks from visual feedback. VibeCheck is free and sends real pull requests. Here's why agencies are switching.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/bugherd-alternative/">
+  <meta property="og:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "BugHerd Alternative for Agencies: Get Pull Requests, Not Just Sticky Notes",
+    "description": "BugHerd costs $50/mo and creates Kanban tasks from visual feedback. VibeCheck is free and sends real pull requests. Here's why agencies are switching.",
+    "url": "https://onout.org/vibers/blog/bugherd-alternative/",
+    "datePublished": "2026-04-18",
+    "dateModified": "2026-04-18",
+    "author": {
+      "@type": "Person",
+      "name": "Alex Noxon",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://onout.org/vibers/",
+      "logo": { "@type": "ImageObject", "url": "https://onout.org/vibers/favicon.png" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://onout.org/vibers/blog/bugherd-alternative/" },
+    "keywords": ["bugherd alternative", "bugherd vs vibecheck", "visual bug reporting tool for agencies", "website feedback tool that sends PRs", "vibecheck", "agency code review"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the best free BugHerd alternative?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VibeCheck by Vibers is the strongest free BugHerd alternative for agencies that need bugs actually fixed, not just reported. It is a free Chrome extension — no widget installation on the target site required. You click any element on the live page, type your comment, and choose whether to route the fix to an AI (BYOK, free) or a Vibers human reviewer who sends a real GitHub pull request. BugHerd starts at $50/month for 5 seats and only creates Kanban tasks — it does not fix anything."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does BugHerd integrate with GitHub and send pull requests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BugHerd does not send pull requests. It integrates with GitHub Issues as a task destination — so a BugHerd feedback item can become a GitHub Issue — but your developer still needs to diagnose, reproduce, and fix the bug manually. VibeCheck routes feedback directly to a human reviewer (via Vibers) who sends an actual fix PR, or to your own AI via BYOK. The difference is between creating a task and delivering a merged fix."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does VibeCheck work on WordPress sites?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. VibeCheck works on any live website without installing anything on the server. For WordPress specifically, Vibers reviewers can deploy fixes via FTP or SSH — no GitHub repo required. In one documented case, a WooCommerce product status bug (item showing 'Unavailable' despite being in stock) was identified with VibeCheck and fixed directly to WordPress via FTP within 1 hour. BugHerd also works on WordPress as a visual feedback layer, but requires the BugHerd JavaScript widget to be installed on the site."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does BugHerd cost compared to VibeCheck?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "BugHerd starts at $50/month (Starter, 5 seats) and goes up to $150/month (Pro, 25 seats), with a 14-day free trial and 60-day money-back guarantee. VibeCheck (the Chrome extension for capturing feedback) is completely free with no subscription. Routing a fix to your own AI via BYOK costs only the AI API fee. Routing to a Vibers human reviewer costs from $15/hour — a typical small fix takes 1–2 hours. For agencies managing multiple client sites, the cost difference over a year is substantial."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can VibeCheck be used without installing anything on the client's site?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — this is one of VibeCheck's key advantages over BugHerd. BugHerd requires you to install a JavaScript widget on the target site (either a snippet in the HTML or a WordPress plugin). VibeCheck is a Chrome extension installed in the reviewer's browser. There is nothing to install on the client's site — it works on any URL the reviewer can open in Chrome, including password-protected staging sites and localhost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens after you submit feedback with VibeCheck?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "After clicking an element and typing your comment, you click 'Fix It'. VibeCheck gives you two paths: (1) BYOK — your comment plus full context (element selector, page URL, screenshot) is sent to your own AI (Claude, GPT-4, etc.) which generates the fix; (2) Vibers human review — a real developer receives the feedback, accesses your repo or WordPress via FTP/SSH, implements the fix, and submits a pull request or deploys directly. BugHerd by contrast creates a Kanban card — someone on your team then has to pick it up and do all the diagnostic and fix work."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
+    .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
+    @media(max-width:600px){.page{padding:24px 20px}}
+    a{color:#5b44e8;text-decoration:none}
+    a:hover{text-decoration:underline}
+    /* Nav */
+    .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
+    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
+    .site-nav .nav-links a{color:#555}
+    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    /* Article header */
+    .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
+    @media(max-width:600px){h1{font-size:24px}}
+    .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
+    /* Key takeaways box */
+    .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+    .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+    .key-takeaways ul{padding-left:20px}
+    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    /* Content typography */
+    h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
+    h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
+    p{margin-bottom:16px;color:#333}
+    ul,ol{padding-left:24px;margin-bottom:16px}
+    li{margin-bottom:8px;color:#333}
+    /* Tables */
+    .table-wrap{overflow-x:auto;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    td{padding:9px 14px;border-bottom:1px solid #eee}
+    tr:nth-child(even) td{background:#fafaf8}
+    /* Stat callout */
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
+    .stat-box strong{color:#92400e}
+    /* Quote */
+    blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
+    blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
+    /* Definition / green info box */
+    .definition{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:14px 18px;margin:20px 0;font-size:15px;color:#166534}
+    .definition strong{font-weight:700}
+    /* Scenario banner */
+    .scenario-banner{background:#fafaf8;border:1px solid #e5e5e5;border-left:4px solid #5b44e8;border-radius:0 8px 8px 0;padding:18px 22px;margin:24px 0}
+    .scenario-banner .scenario-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#5b44e8;margin-bottom:6px}
+    .scenario-banner p{margin-bottom:8px;font-size:15px;color:#333}
+    .scenario-banner p:last-child{margin-bottom:0}
+    .scenario-banner .scenario-result{font-size:13px;color:#166534;font-weight:600;background:#f0fdf4;display:inline-block;padding:3px 10px;border-radius:4px;margin-top:6px}
+    /* VS split cards */
+    .vs-split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+    @media(max-width:600px){.vs-split{grid-template-columns:1fr}}
+    .vs-card{border:1px solid #eee;border-radius:8px;padding:20px}
+    .vs-card.bugherd{border-top:3px solid #f59e0b}
+    .vs-card.vibecheck{border-top:3px solid #5b44e8}
+    .vs-card h3{margin-top:0;margin-bottom:10px;font-size:16px}
+    .vs-card ul{padding-left:18px;margin:0}
+    .vs-card li{font-size:14px;margin-bottom:6px}
+    /* CTA */
+    .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
+    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px;margin:6px}
+    .cta-btn:hover{background:#4834c8;text-decoration:none}
+    .cta-btn.secondary{background:transparent;border:1px solid #666;color:#ccc}
+    .cta-btn.secondary:hover{border-color:#fff;color:#fff}
+    /* FAQ */
+    .faq-section h2{border-top:none;padding-top:0}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
+    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
+    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    /* Author */
+    .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
+    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    /* Related posts */
+    .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
+    .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px;transition:border-color .2s}
+    .related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
+    .related-card p{font-size:13px;color:#888;margin-top:6px}
+    /* Footer */
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-footer a{color:#555}
+    /* v-yes/no/partial for table cells */
+    .v-yes{color:#166534;font-weight:600}
+    .v-no{color:#991b1b;font-weight:600}
+    .v-partial{color:#92400e;font-weight:600}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="/vibers/vibecheck/">VibeCheck Extension</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 18, 2026</span>
+    <span>10 min read</span>
+    <span><a href="/vibers/blog/">Blog</a> · Agency Tools</span>
+  </div>
+
+  <h1>BugHerd Alternative for Agencies: Get Pull Requests, Not Just Sticky Notes</h1>
+
+  <p class="article-lead">BugHerd is a well-designed visual feedback tool. It turns client annotations into Kanban cards. But Kanban cards don't ship code — your developers still have to diagnose, reproduce, and fix every single item. VibeCheck routes that same visual click to an AI or a human reviewer who sends back a real pull request. Here's the full comparison.</p>
+
+  <div class="key-takeaways">
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li><strong>BugHerd:</strong> $50–150/mo, installs a widget on your site, creates sticky-note-style Kanban tasks. G2 4.8/5. Does NOT fix code. Does NOT send PRs.</li>
+      <li><strong>VibeCheck:</strong> Free Chrome extension, no widget on target site, click any element → type comment → choose AI fix (BYOK, free) or Vibers human reviewer ($15/hr) who sends a real PR.</li>
+      <li>For WordPress sites: Vibers deploys fixes via FTP/SSH — no GitHub required. One WooCommerce bug went from spotted to fixed in 1 hour.</li>
+      <li>For agencies paying $50/mo+ for feedback that still requires developer triage, VibeCheck removes the entire middle layer.</li>
+      <li>Both tools can coexist: BugHerd for non-technical client sign-off, VibeCheck for fixes that need to ship fast.</li>
+    </ul>
+  </div>
+
+  <h2>What BugHerd Actually Does — and Where It Stops</h2>
+
+  <p>BugHerd describes itself as "like sticky notes on a webpage." You install a JavaScript snippet on your staging or production site (or use their Chrome extension for read-only sites), and then anyone — client, PM, QA — can click an element, annotate it, and submit feedback. That feedback lands in a Kanban board with the screenshot, browser metadata, and element selector attached.</p>
+
+  <p>The workflow BugHerd optimizes is agency-to-client feedback collection. A non-technical client can point at exactly the button that's broken without writing a confusing email. The developer gets a reproducible ticket with a DOM selector and a console log. It eliminates a specific, painful communication overhead.</p>
+
+  <p>But BugHerd stops at the ticket. Once that Kanban card exists, your developer still has to open it, understand the issue, find the relevant code, write the fix, test it, and deploy it. BugHerd has no concept of a pull request. It has no GitHub code integration for writing fixes. The gap between "feedback collected" and "fix shipped" is entirely your problem.</p>
+
+  <div class="stat-box">
+    <strong>BugHerd pricing:</strong> Starter $50/mo (5 seats), Studio $83/mo (10 seats), Pro $150/mo (25 seats). 14-day free trial, 60-day money-back guarantee. Source: BugHerd pricing page, April 2026.
+  </div>
+
+  <p>For many agencies, this is fine. Client feedback collection is genuinely valuable. But when the question is "why is this button broken and how do we fix it fast," BugHerd gives you an organized inbox — not an answer.</p>
+
+  <h2>What VibeCheck Does Differently</h2>
+
+  <p><a href="/vibers/vibecheck/">VibeCheck</a> is a free Chrome extension built by the <a href="/vibers/">Vibers</a> team. The interaction model is similar to BugHerd: you click any element on any live website, type a comment describing the issue or request, and submit. But what happens next is fundamentally different.</p>
+
+  <p>When you click "Fix It," VibeCheck gives you two paths:</p>
+
+  <ol>
+    <li><strong>AI fix (BYOK — free):</strong> Your comment, the element selector, the page URL, and a screenshot are sent to your own AI (Claude, GPT-4, or any compatible model via your own API key). The AI generates the fix. You review and apply it. Cost: your AI API fee only.</li>
+    <li><strong>Vibers human reviewer ($15/hr):</strong> A real developer receives the feedback package, accesses your repository or WordPress site via FTP/SSH, implements the fix properly, and submits a pull request — or deploys directly to WordPress. You review and merge. Typical small UI fix: 1–2 hours.</li>
+  </ol>
+
+  <p>Critically: VibeCheck requires nothing installed on the target site. It's a browser extension. It works on any URL you can open in Chrome — including password-protected staging environments, client sites you don't own, and localhost.</p>
+
+  <div class="definition">
+    <strong>VibeCheck vs BugHerd core difference:</strong> BugHerd collects feedback and creates tasks. VibeCheck collects feedback and routes it to a fix. The task board is not the destination — the merged pull request is.
+  </div>
+
+  <h2>BugHerd vs VibeCheck: Full Comparison Table</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>BugHerd</th>
+          <th>VibeCheck + Vibers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Price</td>
+          <td>$50–150/mo (5–25 seats)</td>
+          <td>Free extension; fixes from $15/hr (BYOK = AI API cost only)</td>
+        </tr>
+        <tr>
+          <td>Free tier</td>
+          <td>14-day trial only</td>
+          <td class="v-yes">Extension always free; BYOK AI fixes always free</td>
+        </tr>
+        <tr>
+          <td>Requires widget on target site</td>
+          <td class="v-no">Yes — JS snippet or WordPress plugin</td>
+          <td class="v-yes">No — browser extension only</td>
+        </tr>
+        <tr>
+          <td>Non-technical clients can report</td>
+          <td class="v-yes">Yes — designed for this</td>
+          <td class="v-partial">Yes, but requires installing Chrome extension</td>
+        </tr>
+        <tr>
+          <td>Creates Kanban tasks</td>
+          <td class="v-yes">Yes — core feature</td>
+          <td>No — routes to fix directly</td>
+        </tr>
+        <tr>
+          <td>Sends GitHub pull requests</td>
+          <td class="v-no">No</td>
+          <td class="v-yes">Yes — via Vibers human reviewer</td>
+        </tr>
+        <tr>
+          <td>AI-powered fixes (BYOK)</td>
+          <td class="v-no">No</td>
+          <td class="v-yes">Yes — free with your own API key</td>
+        </tr>
+        <tr>
+          <td>WordPress / FTP deployment</td>
+          <td class="v-no">No</td>
+          <td class="v-yes">Yes — Vibers deploys via FTP/SSH</td>
+        </tr>
+        <tr>
+          <td>GitHub Issues integration</td>
+          <td class="v-yes">Yes (20+ integrations)</td>
+          <td class="v-yes">Yes — native via GitHub App</td>
+        </tr>
+        <tr>
+          <td>Works on localhost / staging</td>
+          <td class="v-partial">Chrome extension mode only</td>
+          <td class="v-yes">Yes — works on any URL in browser</td>
+        </tr>
+        <tr>
+          <td>Session replay / console log</td>
+          <td class="v-yes">Yes (Pro tier)</td>
+          <td>Element selector + screenshot + URL</td>
+        </tr>
+        <tr>
+          <td>Target audience</td>
+          <td>Agencies collecting client feedback</td>
+          <td>Agencies and founders who need bugs fixed fast</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Three Real-World Scenarios</h2>
+
+  <p>These are documented cases from the VibeCheck demo workflow, illustrating how the "fix it" model compares to the "create a task" model.</p>
+
+  <h3>Scenario 1 — WooCommerce Product Bug (WordPress, no GitHub)</h3>
+
+  <div class="scenario-banner">
+    <div class="scenario-label">Real case — e-commerce client site</div>
+    <p>A client's "Camera Lens 50mm" product showed an "Unavailable" button in WooCommerce even though the item was in stock. The issue was invisible in the backend — stock status was correct — but the product status flag had drifted out of sync.</p>
+    <p>The account manager spotted it during a routine check, opened VibeCheck, clicked the "Unavailable" button directly on the product page, and typed: <em>"the Camera Lens product shows 'Unavailable' but it's in stock — looks like a WooCommerce status bug."</em></p>
+    <p>A Vibers reviewer received the feedback package (element selector, URL, screenshot, comment), diagnosed the WooCommerce product status mismatch, and deployed the fix directly to WordPress via FTP.</p>
+    <div class="scenario-result">Fix deployed — product back on sale in 1 hour</div>
+  </div>
+
+  <p>With BugHerd, the same click would have created a Kanban card. A developer would then need to open it, reproduce the issue, identify it as a WooCommerce status sync bug, find the correct fix (not obvious unless you know WooCommerce internals), and deploy it. Realistic timeline: 4–8 hours across two people. The product stays unavailable — and loses sales — the entire time.</p>
+
+  <h3>Scenario 2 — UI Overflow Bug (GitHub PR workflow)</h3>
+
+  <div class="scenario-banner">
+    <div class="scenario-label">Real case — revenue dashboard</div>
+    <p>A "View transaction details" button on a revenue dashboard overflowed its card width on mobile and medium viewports, making the dashboard look broken to finance team members.</p>
+    <p>The product owner clicked the button with VibeCheck and typed: <em>"the 'View transaction details' label overflows the card width — shorten to 'View details'"</em></p>
+    <p>A Vibers reviewer received the feedback, found the relevant component, shortened the label, verified the CSS flex behavior didn't need adjustment, and submitted a pull request.</p>
+    <div class="scenario-result">PR #247 merged — fix live in 2 hours</div>
+  </div>
+
+  <p>The key difference from BugHerd here isn't the bug collection — BugHerd would capture this fine. The difference is that the Vibers reviewer wrote the fix. No developer on your team had to context-switch into the codebase, find the component, and write a one-line change. The person who spotted the problem clicked once, and the fix arrived as a PR.</p>
+
+  <h3>Scenario 3 — Feature Request via the Same Tool</h3>
+
+  <div class="scenario-banner">
+    <div class="scenario-label">Real case — transaction search</div>
+    <p>Users were repeatedly asking customer support how to filter transactions by date. The dashboard had no search bar on the transactions list.</p>
+    <p>A support lead opened VibeCheck, clicked the transactions list header, and typed: <em>"can we add a search bar here? users keep asking how to filter transactions by date"</em></p>
+    <p>A Vibers reviewer implemented a date-range search filter with debounced input, connected it to the existing data layer, and submitted a pull request with a working implementation.</p>
+    <div class="scenario-result">PR #248 merged — search filter added</div>
+  </div>
+
+  <p>VibeCheck is not limited to bug reports. The same click-and-comment workflow works for feature requests, copy changes, layout adjustments, and anything else you can describe while pointing at an element. BugHerd's feedback model is also flexible, but the output is still a task — the feature still needs to be scoped, designed, assigned, developed, reviewed, and deployed by your team.</p>
+
+  <h2>The Agency Workflow Problem BugHerd Doesn't Solve</h2>
+
+  <p>Agencies using BugHerd describe a consistent pattern: client feedback collection is smooth, but the actual fixing is still a bottleneck. A client submits 15 BugHerd items after a review session. The PM triages them. A developer picks them up in the next sprint. Some items require clarification (the screenshot doesn't capture enough context). Others are actually design decisions that need to go back to the client. The fix-to-feedback cycle takes days.</p>
+
+  <blockquote>
+    "BugHerd is great for getting organized bug reports. But organized reports aren't shipped fixes. The dev still does all the work — they just have better inputs."
+    <cite>— Common agency complaint, summarized from G2 reviews of BugHerd</cite>
+  </blockquote>
+
+  <p>VibeCheck short-circuits that loop for issues where the fix is clear. A label overflows — shorten it. A product shows the wrong status — fix the status flag. A button is missing — add the button. When the solution is proportional to the feedback, routing it directly to a human reviewer who can ship a PR in 1–2 hours is faster and cheaper than the full sprint cycle.</p>
+
+  <p>For items that require real design discussion or stakeholder alignment, BugHerd's Kanban workflow is appropriate. The two tools occupy different parts of the feedback-to-fix pipeline.</p>
+
+  <h2>WordPress-Specific Advantages</h2>
+
+  <p>For agencies managing WordPress client sites — which is most agencies — the BugHerd vs VibeCheck comparison has a specific additional dimension.</p>
+
+  <p>BugHerd works on WordPress as a feedback collector. You install a plugin or add the JS snippet to your theme, and clients can annotate the live site. The resulting tasks go into BugHerd's Kanban board. Your WordPress developer then handles each fix manually.</p>
+
+  <p>VibeCheck works on WordPress sites without any installation. As a Chrome extension, you point it at any live WordPress URL and start capturing feedback. More importantly, Vibers reviewers can deploy fixes directly to WordPress via FTP or SSH — no GitHub repository required. This matters for the large category of WordPress sites that aren't on git workflows: theme customizations, plugin configurations, WooCommerce product data fixes, and template changes can be applied and verified in the live environment without establishing a full CI/CD pipeline.</p>
+
+  <div class="vs-split">
+    <div class="vs-card bugherd">
+      <h3>BugHerd on WordPress</h3>
+      <ul>
+        <li>Requires JS widget or plugin installed on site</li>
+        <li>Captures client annotations as Kanban tasks</li>
+        <li>Developer must diagnose and fix manually</li>
+        <li>No direct WordPress deployment</li>
+        <li>Works well for client sign-off workflows</li>
+      </ul>
+    </div>
+    <div class="vs-card vibecheck">
+      <h3>VibeCheck on WordPress</h3>
+      <ul>
+        <li>No installation on target site — Chrome extension only</li>
+        <li>Click any element, type the issue</li>
+        <li>Vibers reviewer deploys fix via FTP/SSH directly</li>
+        <li>Works on sites without GitHub repos</li>
+        <li>WooCommerce bugs: spotted and fixed in 1 hour</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>When BugHerd Is Still the Right Choice</h2>
+
+  <p>This article isn't an argument that BugHerd is bad. It has a 4.8/5 on G2 from 800+ reviews, and those reviews are genuine. BugHerd solves the specific problem it targets — agency client feedback — very well.</p>
+
+  <p>BugHerd is the right choice when:</p>
+
+  <ul>
+    <li>Your primary bottleneck is collecting feedback from non-technical clients who won't install a Chrome extension</li>
+    <li>You need structured UAT sign-off with a paper trail of what was reviewed and approved</li>
+    <li>Your team manages dozens of active client projects and needs a centralized Kanban system for triaging feedback across all of them</li>
+    <li>You need integrations with project management tools your clients already use (Jira, Asana, Basecamp, etc.)</li>
+    <li>Client reporters need zero technical setup — BugHerd's widget means the client just clicks the button that already exists on their browser</li>
+  </ul>
+
+  <p>VibeCheck is the right choice when:</p>
+
+  <ul>
+    <li>You need bugs fixed, not just documented</li>
+    <li>You can't or don't want to install anything on the target site</li>
+    <li>The fix is small enough that routing it to an AI or a $15/hr human reviewer is faster than the full sprint triage cycle</li>
+    <li>You're managing WordPress sites and need FTP/SSH deployment without a GitHub workflow</li>
+    <li>You want BYOK AI fixes at zero monthly cost</li>
+  </ul>
+
+  <h2>Pricing Reality for Agencies</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>BugHerd cost</th>
+          <th>VibeCheck + Vibers cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monthly subscription</td>
+          <td>$50/mo (5 seats, Starter)</td>
+          <td>$0 (extension is free)</td>
+        </tr>
+        <tr>
+          <td>10 small UI fixes per month (AI, BYOK)</td>
+          <td>$50/mo + developer time</td>
+          <td>~$1–2 in AI API costs</td>
+        </tr>
+        <tr>
+          <td>10 small UI fixes per month (human reviewer)</td>
+          <td>$50/mo + developer time</td>
+          <td>~$150–300 (10–20 hrs at $15/hr)</td>
+        </tr>
+        <tr>
+          <td>WooCommerce bug fix (1 hr)</td>
+          <td>$50/mo + 4–8 hrs dev time</td>
+          <td>$15 (1 hr reviewer)</td>
+        </tr>
+        <tr>
+          <td>Annual cost, 5-seat agency</td>
+          <td>$600/yr minimum</td>
+          <td>$0 (BYOK) or pay-per-fix</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The comparison isn't purely on subscription cost — it's about what the subscription buys you. BugHerd's $600/yr organizes your incoming feedback. VibeCheck's $0/yr routes that feedback toward resolution. For fixes that are straightforward, the cost difference compounds quickly.</p>
+
+  <div class="cta-block">
+    <h3>Stop paying $50/mo for a task board. Start getting pull requests.</h3>
+    <p>VibeCheck is free. Click any element, type your comment, get a fix from AI (BYOK) or a Vibers human reviewer. Works on WordPress via FTP. No installation on target site.</p>
+    <a href="/vibers/vibecheck/" class="cta-btn">Get VibeCheck Free</a>
+    <a href="/vibers/" class="cta-btn secondary">Learn About Vibers Review ($15/hr)</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <p class="faq-q">What is the best free BugHerd alternative?</p>
+      <p class="faq-a">VibeCheck by Vibers is the strongest free BugHerd alternative for agencies that need bugs actually fixed, not just reported. It is a free Chrome extension — no widget installation on the target site required. You click any element on the live page, type your comment, and choose whether to route the fix to an AI (BYOK, free) or a Vibers human reviewer who sends a real GitHub pull request. BugHerd starts at $50/month for 5 seats and only creates Kanban tasks — it does not fix anything.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Does BugHerd integrate with GitHub and send pull requests?</p>
+      <p class="faq-a">BugHerd does not send pull requests. It integrates with GitHub Issues as a task destination — a BugHerd feedback item can become a GitHub Issue — but your developer still needs to diagnose, reproduce, and fix the bug manually. VibeCheck routes feedback directly to a human reviewer (via Vibers) who sends an actual fix PR, or to your own AI via BYOK. The difference is between creating a task and delivering a merged fix.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Does VibeCheck work on WordPress sites?</p>
+      <p class="faq-a">Yes. VibeCheck works on any live website without installing anything on the server. For WordPress specifically, Vibers reviewers can deploy fixes via FTP or SSH — no GitHub repo required. In one documented case, a WooCommerce product status bug (item showing "Unavailable" despite being in stock) was identified with VibeCheck and fixed directly to WordPress via FTP within 1 hour. BugHerd also works on WordPress as a visual feedback layer, but requires the BugHerd JavaScript widget installed on the site.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">How much does BugHerd cost compared to VibeCheck?</p>
+      <p class="faq-a">BugHerd starts at $50/month (Starter, 5 seats) and goes up to $150/month (Pro, 25 seats), with a 14-day free trial and 60-day money-back guarantee. VibeCheck (the Chrome extension for capturing feedback) is completely free with no subscription. Routing a fix to your own AI via BYOK costs only the AI API fee — typically a few cents per fix. Routing to a Vibers human reviewer costs from $15/hour. A typical small UI fix takes 1–2 hours. For agencies managing multiple client sites, the annual cost difference is $600+ in BugHerd subscriptions alone, before accounting for developer time saved.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Can VibeCheck be used without installing anything on the client's site?</p>
+      <p class="faq-a">Yes — this is one of VibeCheck's key advantages over BugHerd. BugHerd requires you to install a JavaScript widget on the target site (either a code snippet in the HTML or a WordPress plugin). VibeCheck is a Chrome extension installed in the reviewer's browser only. There is nothing to install on the client's site — it works on any URL the reviewer can open in Chrome, including password-protected staging environments and localhost.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">What happens after you submit feedback with VibeCheck?</p>
+      <p class="faq-a">After clicking an element and typing your comment, you click "Fix It." VibeCheck gives you two paths: (1) BYOK — your comment plus full context (element selector, page URL, screenshot) is sent to your own AI which generates the fix code; (2) Vibers human review — a real developer receives the feedback, accesses your repo or WordPress via FTP/SSH, implements the fix, and submits a pull request or deploys directly. BugHerd by contrast creates a Kanban card — someone on your team then picks it up and does all the diagnostic and fix work.</p>
+    </div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Alex Noxon — Vibers founder</h4>
+      <p>Building Vibers — the human-in-the-loop code review service and VibeCheck extension for agencies and founders. Previously shipped production systems for e-commerce and SaaS clients. Writes about the gap between visual feedback tools and actual shipped fixes.</p>
+    </div>
+  </div>
+
+  <div class="related-posts">
+    <h3>Related Articles</h3>
+    <div class="related-grid">
+      <div class="related-card">
+        <a href="/vibers/blog/markerio-vs-vibers/">Marker.io vs Vibers: Report Bugs vs Fix Bugs</a>
+        <p>How Marker.io and Vibers compare — and when to use each.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+        <p>Why automated tools catch syntax but miss logic — and what that costs in production.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>
+        <p>A practical checklist for what to verify before shipping AI-built software.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit Alternative: Why Human Review Wins</a>
+        <p>Comparing CodeRabbit, Qodo, and human review for AI-generated MVPs.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers — Human Code Review · <a href="/vibers/">onout.org/vibers</a></span>
+    <span><a href="/vibers/vibecheck/">VibeCheck Extension</a> · <a href="/vibers/blog/">Blog</a> · <a href="https://t.me/onoutnoxon">Telegram</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
