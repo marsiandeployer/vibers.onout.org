@@ -24,6 +24,7 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 | **Feedbucket** | 14-day trial, paid plans | Agencies + clients | Reports only, no dev fixes. No extension required for clients (widget). |
 | **Marker.io** | $39/mo+ | Agencies, QA teams | Reports only. Session replay, AI-features, 20+ integrations. No fixes. |
 | **Markup.io** | Trial, tiered | Creative/design teams | Adjacent — PDFs, images, videos (not live-site code). Not direct competitor. |
+| **Userback** | Freemium + paid | Product teams, SaaS | Full feedback loop (NPS, surveys, session replay, roadmap). No code fixes. 20K+ teams. |
 
 **Key message:** Marker.io/Feedbucket → ticket. VibeCheck → PR.
 
