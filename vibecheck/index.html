@@ -276,6 +276,31 @@
     }
     .btn-white:hover { background: #f0eeff; text-decoration: none; }
 
+    /* ── Demo Tabs ── */
+    .demo-tabs {
+      display: flex;
+      gap: 2px;
+      background: #0f0f0f;
+      padding: 10px 12px 0;
+    }
+    .demo-tab {
+      background: #2a2a2a;
+      border: none;
+      color: #888;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+      font-family: inherit;
+    }
+    .demo-tab:hover { background: #333; color: #ccc; }
+    .demo-tab.active { background: #1e1e1e; color: #fff; }
+    .badge-bug    { background: #dc2626 !important; }
+    .badge-feature { background: #7c3aed !important; }
+    .badge-improve { background: #16a34a !important; }
+
     /* ── HTML Demo Banner ── */
     .demo-banner {
       margin: 0 -40px 40px;
@@ -568,23 +593,27 @@
   </header>
 
   <div class="demo-banner">
+    <!-- Tab bar -->
+    <div class="demo-tabs">
+      <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')">🐛 Bug fix</button>
+      <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')">✨ Feature</button>
+      <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')">💡 Improve</button>
+    </div>
     <!-- Browser chrome -->
     <div class="browser-chrome">
       <div class="browser-dots">
         <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
       </div>
-      <div class="browser-url">onout.org/vibers/</div>
+      <div class="browser-url" id="demo-url">onout.org/dashboard/</div>
       <div class="browser-ext-icon">V</div>
     </div>
-    <!-- Viewport: site + panel -->
-    <div class="demo-viewport">
-      <!-- Mock website -->
+
+    <!-- TAB: Bug -->
+    <div class="demo-viewport" id="tab-bug">
       <div class="demo-site">
         <div class="demo-site-header">
           <div class="demo-site-logo">📊 Revenue Dashboard</div>
-          <div class="demo-site-nav">
-            <span>Overview</span><span>Reports</span><span>Settings</span>
-          </div>
+          <div class="demo-site-nav"><span>Overview</span><span>Reports</span><span>Settings</span></div>
         </div>
         <div class="demo-kpi-row">
           <div class="demo-kpi highlighted">
@@ -596,29 +625,22 @@
           <div class="demo-kpi">
             <div class="demo-kpi-label">New Customers</div>
             <div class="demo-kpi-value" style="color:#2563eb;">1,284</div>
-            <div style="font-size:9px;color:#888;margin-top:2px;">↑ 8.2%</div>
           </div>
           <div class="demo-kpi">
             <div class="demo-kpi-label">Conversion Rate</div>
             <div class="demo-kpi-value" style="color:#7c3aed;">3.8%</div>
-            <div style="font-size:9px;color:#888;margin-top:2px;">↓ 0.3%</div>
           </div>
         </div>
         <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;">
           <div style="font-size:10px;color:#888;margin-bottom:8px;">Recent Transactions</div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;border-bottom:1px solid #f0f0f0;">
-            <span>Alex Johnson</span><span style="color:#16a34a;font-weight:600;">$299</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;">
-            <span>Maria García</span><span style="color:#16a34a;font-weight:600;">$49</span>
-          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;border-bottom:1px solid #f0f0f0;"><span>Alex Johnson</span><span style="color:#16a34a;font-weight:600;">$299</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;"><span>Maria García</span><span style="color:#16a34a;font-weight:600;">$49</span></div>
         </div>
       </div>
-      <!-- VibeCheck panel -->
       <div class="demo-panel">
         <div class="panel-header">
           <span class="panel-logo">VibeCheck</span>
-          <span class="panel-badge">active</span>
+          <span class="panel-badge badge-bug">bug</span>
         </div>
         <div class="panel-element">
           <div class="panel-element-label">Selected element</div>
@@ -628,12 +650,98 @@
         </div>
         <div class="panel-comment-wrap">
           <div class="panel-comment-label">Comment</div>
-          <div class="panel-comment-box"><span id="typewriter-text"></span><span class="type-cursor">|</span></div>
+          <div class="panel-comment-box"><span class="tw" id="tw-bug"></span><span class="type-cursor">|</span></div>
         </div>
         <button class="panel-btn-fix">Fix It →</button>
       </div>
     </div>
-    <p class="demo-banner-caption">Hover any element &rarr; click Fix It &rarr; get a PR within hours</p>
+
+    <!-- TAB: Feature -->
+    <div class="demo-viewport" id="tab-feature" style="display:none">
+      <div class="demo-site">
+        <div class="demo-site-header">
+          <div class="demo-site-logo">📊 Revenue Dashboard</div>
+          <div class="demo-site-nav" style="border:2px solid #FF6B35;border-radius:5px;padding:2px 6px;box-shadow:0 0 0 3px rgba(255,107,53,.15);position:relative;">
+            <span>Overview</span><span>Reports</span><span>Settings</span>
+            <span style="position:absolute;bottom:-18px;right:2px;font-size:14px;animation:cursor-bob 1.2s ease-in-out infinite;">👆</span>
+          </div>
+        </div>
+        <div class="demo-kpi-row">
+          <div class="demo-kpi">
+            <div class="demo-kpi-label">Monthly Revenue</div>
+            <div class="demo-kpi-value">$48,210</div>
+          </div>
+          <div class="demo-kpi">
+            <div class="demo-kpi-label">New Customers</div>
+            <div class="demo-kpi-value" style="color:#2563eb;">1,284</div>
+          </div>
+          <div class="demo-kpi">
+            <div class="demo-kpi-label">Conversion Rate</div>
+            <div class="demo-kpi-value" style="color:#7c3aed;">3.8%</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;">
+          <div style="font-size:10px;color:#888;margin-bottom:8px;">Recent Transactions</div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;border-bottom:1px solid #f0f0f0;"><span>Alex Johnson</span><span style="color:#16a34a;font-weight:600;">$299</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;padding:4px 0;"><span>Maria García</span><span style="color:#16a34a;font-weight:600;">$49</span></div>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div class="panel-header">
+          <span class="panel-logo">VibeCheck</span>
+          <span class="panel-badge badge-feature">feature</span>
+        </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;nav class="site-nav"&gt;</div>
+          <div class="panel-element-text">Overview · Reports · Settings</div>
+          <div class="panel-element-path">header &gt; nav.site-nav</div>
+        </div>
+        <div class="panel-comment-wrap">
+          <div class="panel-comment-label">Comment</div>
+          <div class="panel-comment-box"><span class="tw" id="tw-feature"></span><span class="type-cursor">|</span></div>
+        </div>
+        <button class="panel-btn-fix" style="background:#7c3aed;">Add Feature →</button>
+      </div>
+    </div>
+
+    <!-- TAB: Improve -->
+    <div class="demo-viewport" id="tab-improve" style="display:none">
+      <div class="demo-site">
+        <div style="padding:16px 0 10px;">
+          <div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Landing page hero</div>
+          <div style="border:2px solid #FF6B35;border-radius:6px;padding:14px 16px;box-shadow:0 0 0 3px rgba(255,107,53,.12);position:relative;">
+            <div style="font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.25;margin-bottom:6px;">Automate your financial reporting</div>
+            <div style="font-size:10px;color:#555;margin-bottom:10px;">Connect your accounts and get instant insights on your revenue.</div>
+            <span style="display:inline-block;background:#1a1a1a;color:#fff;font-size:9px;font-weight:700;padding:5px 12px;border-radius:4px;">Get started</span>
+            <span style="position:absolute;bottom:-20px;right:8px;font-size:14px;animation:cursor-bob 1.2s ease-in-out infinite;">👆</span>
+          </div>
+          <div style="margin-top:24px;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:10px 12px;">
+            <div style="font-size:10px;color:#888;margin-bottom:6px;">Key features</div>
+            <div style="font-size:10px;color:#444;">✓ Real-time sync &nbsp; ✓ Multi-currency &nbsp; ✓ CSV export</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div class="panel-header">
+          <span class="panel-logo">VibeCheck</span>
+          <span class="panel-badge badge-improve">improve</span>
+        </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;section class="hero"&gt;</div>
+          <div class="panel-element-text">"Automate your financial reporting"</div>
+          <div class="panel-element-path">main &gt; section.hero</div>
+        </div>
+        <div class="panel-comment-wrap">
+          <div class="panel-comment-label">Comment</div>
+          <div class="panel-comment-box"><span class="tw" id="tw-improve"></span><span class="type-cursor">|</span></div>
+        </div>
+        <button class="panel-btn-fix" style="background:#16a34a;">Improve →</button>
+      </div>
+    </div>
+
+    <p class="demo-banner-caption" id="demo-caption">Bug spotted — Fix It sends element + codebase to reviewer → PR in hours</p>
   </div>
 
   <section class="what-fixes">
@@ -804,28 +912,65 @@
 </div>
 
 <script>
-(function() {
-  var el = document.getElementById('typewriter-text');
-  if (!el) return;
-  var text = "button text cuts off on mobile — maybe shorten to 'View details'?";
-  var i = 0;
-  var delays = [];
-  for (var c = 0; c < text.length; c++) {
-    // natural typing: spaces slightly slower, punctuation pauses
-    var d = 55 + Math.random() * 60;
-    if (text[c] === ' ') d += 30;
-    if ('.,—?!'.indexOf(text[c]) !== -1) d += 180;
-    delays.push(d);
+var TAB_DATA = {
+  bug: {
+    url: 'onout.org/dashboard/',
+    text: "button text cuts off on mobile — maybe shorten to 'View details'?",
+    caption: 'Bug spotted — Fix It sends element + codebase to reviewer → PR in hours'
+  },
+  feature: {
+    url: 'onout.org/dashboard/',
+    text: "can we add a search bar here? users keep asking how to filter transactions by date",
+    caption: 'Feature request → developer gets context + codebase → PR with new feature'
+  },
+  improve: {
+    url: 'onout.org/landing/',
+    text: "headline feels too generic — 'See exactly where your money goes' might convert better",
+    caption: 'Copy/UX improvement → AI + human reviewer rewrites and ships the change'
   }
-  function type() {
+};
+
+var currentTab = 'bug';
+var typeTimer = null;
+
+function typeText(elId, text, delay) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = '';
+  var i = 0;
+  function go() {
     if (i >= text.length) return;
     el.textContent += text[i];
     i++;
-    setTimeout(type, delays[i] || 70);
+    var d = 50 + Math.random() * 55;
+    if (text[i-1] === ' ') d += 25;
+    if ('.,—?!'.indexOf(text[i-1]) !== -1) d += 160;
+    typeTimer = setTimeout(go, d);
   }
-  // start after 1.8s so user notices the element highlight first
-  setTimeout(type, 1800);
-})();
+  setTimeout(go, delay);
+}
+
+function switchTab(tab) {
+  if (typeTimer) clearTimeout(typeTimer);
+  // update tabs
+  document.querySelectorAll('.demo-tab').forEach(function(b) {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  // show/hide viewports
+  ['bug','feature','improve'].forEach(function(t) {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'flex' : 'none';
+  });
+  // update url + caption
+  var data = TAB_DATA[tab];
+  document.getElementById('demo-url').textContent = data.url;
+  document.getElementById('demo-caption').textContent = data.caption;
+  // restart typewriter
+  typeText('tw-' + tab, data.text, 1200);
+  currentTab = tab;
+}
+
+// init
+switchTab('bug');
 </script>
 <script src="https://op.wpmix.net/embed.js" data-app="vibers"></script>
 </body>
