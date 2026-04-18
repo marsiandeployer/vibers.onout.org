@@ -281,27 +281,34 @@
     }
     .btn-white:hover { background: #f0eeff; text-decoration: none; }
 
-    /* ── Demo Tabs ── */
-    .demo-tabs {
+    /* ── Demo Scenario Selector ── */
+    .demo-scenario-bar {
+      max-width: 1080px;
+      margin: 0 auto 12px;
       display: flex;
-      gap: 2px;
-      background: #0f0f0f;
-      padding: 10px 12px 0;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .demo-scenario-label {
+      font-size: 13px;
+      color: #888;
+      margin-right: 4px;
     }
     .demo-tab {
-      background: #2a2a2a;
-      border: none;
-      color: #888;
-      font-size: 11px;
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      color: #555;
+      font-size: 12px;
       font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 6px 6px 0 0;
+      padding: 6px 16px;
+      border-radius: 20px;
       cursor: pointer;
       transition: background .15s, color .15s;
       font-family: inherit;
     }
-    .demo-tab:hover { background: #333; color: #ccc; }
-    .demo-tab.active { background: #1e1e1e; color: #fff; }
+    .demo-tab:hover { background: #f5f5f5; border-color: #bbb; color: #333; }
+    .demo-tab.active { background: #FF6B35; border-color: #FF6B35; color: #fff; }
     .badge-bug    { background: #dc2626 !important; }
     .badge-feature { background: #7c3aed !important; }
     .badge-improve { background: #16a34a !important; }
@@ -317,8 +324,8 @@
       box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     }
     .browser-chrome {
-      background: #1e1e1e;
-      border-bottom: 1px solid #333;
+      background: #e8e8e8;
+      border-bottom: 1px solid #d0d0d0;
       padding: 8px 12px;
       display: flex;
       align-items: center;
@@ -334,11 +341,12 @@
     .dot-g { background: #28c840; }
     .browser-url {
       flex: 1;
-      background: #2a2a2a;
+      background: #fff;
+      border: 1px solid #c8c8c8;
       border-radius: 4px;
       padding: 3px 10px;
       font-size: 11px;
-      color: #aaa;
+      color: #444;
       margin: 0 8px;
     }
     .browser-ext-icon {
@@ -428,8 +436,8 @@
     .demo-panel {
       width: 200px;
       flex-shrink: 0;
-      background: #1a1a1a;
-      border-left: 1px solid #333;
+      background: #f7f7f7;
+      border-left: 1px solid #e0e0e0;
       padding: 14px;
       display: flex;
       flex-direction: column;
@@ -455,14 +463,15 @@
       font-weight: 700;
     }
     .panel-element {
-      background: #2a2a2a;
+      background: #fff;
+      border: 1px solid #e5e5e5;
       border-radius: 4px;
       padding: 8px 10px;
     }
     .panel-element-label { font-size: 9px; color: #888; margin-bottom: 2px; }
-    .panel-element-tag { font-size: 10px; color: #7dd3fc; font-family: monospace; }
-    .panel-element-text { font-size: 10px; color: #d1d5db; margin-top: 2px; }
-    .panel-element-path { font-size: 9px; color: #6b7280; margin-top: 3px; font-family: monospace; }
+    .panel-element-tag { font-size: 10px; color: #0070f3; font-family: monospace; }
+    .panel-element-text { font-size: 10px; color: #333; margin-top: 2px; }
+    .panel-element-path { font-size: 9px; color: #888; margin-top: 3px; font-family: monospace; }
     .panel-btn-fix {
       background: #FF6B35;
       color: #fff;
@@ -482,8 +491,8 @@
     }
     .panel-btn-comment {
       background: transparent;
-      border: 1px solid #444;
-      color: #aaa;
+      border: 1px solid #d0d0d0;
+      color: #666;
       border-radius: 5px;
       padding: 7px 14px;
       font-size: 11px;
@@ -500,12 +509,12 @@
       color: #888;
     }
     .panel-comment-box {
-      background: #2a2a2a;
-      border: 1px solid #444;
+      background: #fff;
+      border: 1px solid #d0d0d0;
       border-radius: 4px;
       padding: 7px 8px;
       font-size: 10px;
-      color: #e5e7eb;
+      color: #333;
       line-height: 1.5;
       min-height: 52px;
     }
@@ -529,12 +538,23 @@
     }
     .panel-success {
       display: none;
-      background: #0d2b1a;
-      border: 1px solid #16a34a;
+      background: #f0faf4;
+      border: 1px solid #86efac;
       border-radius: 5px;
       padding: 8px 10px;
       font-size: 10px;
-      color: #4ade80;
+      color: #166534;
+      line-height: 1.5;
+      animation: fadeIn .4s ease;
+    }
+    .panel-deploy {
+      display: none;
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-size: 10px;
+      color: #1e40af;
       line-height: 1.5;
       animation: fadeIn .4s ease;
     }
@@ -635,13 +655,15 @@
   </header>
   </div><!-- /content-wrap hero -->
 
+  <!-- Scenario selector — sits above the browser mockup -->
+  <div class="demo-scenario-bar">
+    <span class="demo-scenario-label">Try a scenario:</span>
+    <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')">🐛 Bug fix</button>
+    <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')">✨ Feature request</button>
+    <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')">💡 Copy / UX</button>
+  </div>
+
   <div class="demo-banner">
-    <!-- Tab bar -->
-    <div class="demo-tabs">
-      <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')">🐛 Bug fix</button>
-      <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')">✨ Feature</button>
-      <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')">💡 Improve</button>
-    </div>
     <!-- Browser chrome -->
     <div class="browser-chrome">
       <div class="browser-dots">
@@ -697,6 +719,7 @@
         </div>
         <button class="panel-btn-fix" id="fix-btn-bug">Fix It →</button>
         <div class="panel-success" id="ps-bug"></div>
+        <div class="panel-deploy" id="pd-bug"></div>
       </div>
     </div>
 
@@ -755,6 +778,7 @@
         </div>
         <button class="panel-btn-fix" id="fix-btn-feature" style="background:#7c3aed;">Add Feature →</button>
         <div class="panel-success" id="ps-feature"></div>
+        <div class="panel-deploy" id="pd-feature"></div>
       </div>
     </div>
 
@@ -792,6 +816,7 @@
         </div>
         <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Improve →</button>
         <div class="panel-success" id="ps-improve"></div>
+        <div class="panel-deploy" id="pd-improve"></div>
       </div>
     </div>
 
@@ -987,40 +1012,41 @@ var TAB_DATA = {
 };
 
 var currentTab = 'bug';
-var typeTimer = null;
+var animGen = 0; // incremented on each switchTab; stale callbacks check this and abort
 
-function typeText(elId, text, delay, onDone) {
+function typeText(elId, text, delay, gen, onDone) {
   var el = document.getElementById(elId);
   if (!el) return;
   el.textContent = '';
   var i = 0;
   function go() {
+    if (animGen !== gen) return; // tab switched — abort
     if (i >= text.length) { if (onDone) onDone(); return; }
     el.textContent += text[i];
     i++;
     var d = 48 + Math.random() * 52;
     if (text[i-1] === ' ') d += 22;
     if ('.,—?!'.indexOf(text[i-1]) !== -1) d += 150;
-    typeTimer = setTimeout(go, d);
+    setTimeout(go, d);
   }
-  typeTimer = setTimeout(go, delay);
+  setTimeout(go, delay);
 }
 
-function applyFix(tab) {
+function applyFix(tab, gen) {
+  if (animGen !== gen) return;
   var btn = document.getElementById('fix-btn-' + tab);
   var ps  = document.getElementById('ps-' + tab);
 
-  // 1. Button enters "sending" state
   if (btn) { btn.classList.add('sending'); btn.textContent = '⏳ Sending…'; }
 
   setTimeout(function() {
-    // 2. Magic transformation in mock site
+    if (animGen !== gen) return;
     if (tab === 'bug') {
       var mockBtn = document.getElementById('mock-btn-bug');
       var kpiCard = mockBtn && mockBtn.closest('.demo-kpi');
       if (mockBtn) {
         mockBtn.classList.add('text-fade');
-        setTimeout(function() { mockBtn.textContent = 'View details'; }, 200);
+        setTimeout(function() { if (animGen === gen) mockBtn.textContent = 'View details'; }, 200);
       }
       if (kpiCard) kpiCard.classList.add('fix-applied');
     }
@@ -1036,13 +1062,13 @@ function applyFix(tab) {
       var title = document.getElementById('mock-hero-title');
       if (title) {
         title.classList.add('text-fade');
-        setTimeout(function() { title.textContent = 'See exactly where your money goes'; }, 200);
+        setTimeout(function() { if (animGen === gen) title.textContent = 'See exactly where your money goes'; }, 200);
         title.closest('div[style*="border:2px"]') && title.closest('div[style*="border:2px"]').classList.add('fix-applied');
       }
     }
 
-    // 3. Panel → success state
     setTimeout(function() {
+      if (animGen !== gen) return;
       if (btn) { btn.style.display = 'none'; }
       if (ps) {
         var msgs = {
@@ -1054,9 +1080,23 @@ function applyFix(tab) {
         ps.style.whiteSpace = 'pre-line';
         ps.textContent = msgs[tab];
       }
-      // update caption
       var cap = document.getElementById('demo-caption');
       if (cap) cap.textContent = TAB_DATA[tab].caption;
+      // deploy step — shown 1.8s after PR success
+      setTimeout(function() {
+        if (animGen !== gen) return;
+        var pd = document.getElementById('pd-' + tab);
+        if (pd) {
+          var deploys = {
+            bug:     '🚀 Deployed to production\nWordPress via FTP • 0s ago\n✓ Live on onout.org',
+            feature: '🚀 Deployed to production\nVercel — build passed • 0s ago\n✓ Live on dashboard.app',
+            improve: '🚀 Deployed to production\nGitHub Pages • 0s ago\n✓ Live — CTR tracking started'
+          };
+          pd.style.display = 'block';
+          pd.style.whiteSpace = 'pre-line';
+          pd.textContent = deploys[tab];
+        }
+      }, 1800);
     }, 700);
   }, 900);
 }
@@ -1066,7 +1106,8 @@ function resetTab(tab) {
   var ps  = document.getElementById('ps-' + tab);
   if (btn) { btn.classList.remove('sending'); btn.style.display = ''; btn.textContent = tab === 'bug' ? 'Fix It →' : tab === 'feature' ? 'Add Feature →' : 'Improve →'; }
   if (ps)  { ps.style.display = 'none'; ps.textContent = ''; }
-  // reset mock elements
+  var pd = document.getElementById('pd-' + tab);
+  if (pd)  { pd.style.display = 'none'; pd.textContent = ''; }
   var mockBtn = document.getElementById('mock-btn-bug');
   if (mockBtn) { mockBtn.textContent = 'View transaction details'; mockBtn.classList.remove('text-fade'); }
   var bugCard = mockBtn && mockBtn.closest('.demo-kpi');
@@ -1080,7 +1121,8 @@ function resetTab(tab) {
 }
 
 function switchTab(tab) {
-  if (typeTimer) clearTimeout(typeTimer);
+  animGen++; // invalidates all pending callbacks from previous tab
+  var gen = animGen;
   ['bug','feature','improve'].forEach(function(t) { resetTab(t); });
   document.querySelectorAll('.demo-tab').forEach(function(b) {
     b.classList.toggle('active', b.dataset.tab === tab);
@@ -1088,13 +1130,11 @@ function switchTab(tab) {
   ['bug','feature','improve'].forEach(function(t) {
     document.getElementById('tab-' + t).style.display = t === tab ? 'flex' : 'none';
   });
-  // update url + caption
   var data = TAB_DATA[tab];
   document.getElementById('demo-url').textContent = data.url;
   document.getElementById('demo-caption').textContent = '⏳ Sending feedback…';
-  // typewriter → then apply fix
-  typeText('tw-' + tab, data.text, 1200, function() {
-    setTimeout(function() { applyFix(tab); }, 500);
+  typeText('tw-' + tab, data.text, 1200, gen, function() {
+    setTimeout(function() { applyFix(tab, gen); }, 500);
   });
   currentTab = tab;
 }
