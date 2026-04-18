@@ -193,3 +193,56 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 | Main competitor | CodeRabbit | $24/user/mo, 15K+ customers |
 | Our price | $15/hr | Free promo available |
 | First client | MethasMP/Paycif (Thailand) | 2026-03-23 |
+
+## Software Directories & Placement Ideas
+
+Где ещё можно разместить Vibers для получения трафика, backlinks и лидов.
+
+### Общие каталоги SaaS/Software
+
+| Платформа | URL | Приоритет | Примечание |
+|-----------|-----|-----------|------------|
+| Capterra | https://www.capterra.com/ | HIGH | Топ-1 по DR, платные отзывы, огромный трафик по "code review software" |
+| G2 | https://www.g2.com/ | HIGH | B2B-аудитория, отзывы влияют на продажи |
+| GetApp | https://www.getapp.com/ | MEDIUM | Сестра Capterra (тот же Gartner), дубль без усилий |
+| Software Advice | https://www.softwareadvice.com/ | MEDIUM | Ещё одна Gartner-сеть, бесплатный листинг |
+| TrustRadius | https://www.trustradius.com/ | MEDIUM | Больше для enterprise, хорошие backlinks |
+| SourceForge | https://sourceforge.net/ | LOW | Старый DR 90, dev-аудитория, бесплатно |
+| AlternativeTo | https://alternativeto.net/ | HIGH | Уже в issue #26 — размещение ведётся |
+| SaaSHub | https://www.saashub.com/ | MEDIUM | Автоматически индексируется, можно claim |
+
+### Launch-платформы (разовый буст)
+
+| Платформа | URL | Приоритет | Примечание |
+|-----------|-----|-----------|------------|
+| Product Hunt | https://www.producthunt.com/ | HIGH | Разовый launch — потенциал сотни лидов за день |
+| BetaList | https://betalist.com/ | MEDIUM | Pre-launch аудитория, waiting list |
+| AppSumo | https://appsumo.com/ | LOW | Нужен разовый lifetime deal, работает для инструментов |
+| Uneed | https://www.uneed.best/ | MEDIUM | Меньше PH, но проще попасть в топ |
+| AI Product Launch | https://aiproductlaunch.vercel.app/ | LOW | Упомянут в чате (#6), быстрый сабмит |
+
+### AI-инструменты каталоги
+
+| Платформа | URL | Приоритет | Примечание |
+|-----------|-----|-----------|------------|
+| Futurepedia | https://www.futurepedia.io/ | HIGH | Крупнейший AI tools directory, DR 70+ |
+| There's An AI For That | https://theresanaiforthat.com/ | HIGH | 10M+ посетителей/мес, хорошо индексируется |
+| Toolify.ai | https://www.toolify.ai/ | MEDIUM | AI directory с SEO-трафиком |
+| AI Tool Hunt | https://www.aitoolhunt.com/ | LOW | Небольшой, но бесплатный |
+| PeerPush | https://peerpush.net/ | MEDIUM | Упомянут в чате (#6), discovery для AI-ассистентов |
+
+### Dev-сообщества (не каталоги, но дают трафик)
+
+| Платформа | URL | Приоритет | Примечание |
+|-----------|-----|-----------|------------|
+| GitHub Marketplace | https://github.com/marketplace | HIGH | Уже есть GitHub App — надо оформить листинг |
+| Indie Hackers | https://www.indiehackers.com/ | MEDIUM | Пост о запуске + ссылка |
+| Hacker News (Show HN) | https://news.ycombinator.com/ | HIGH | Разовый Show HN пост — аудитория именно dev-инструментов |
+
+### Статус размещений
+
+| Платформа | Статус |
+|-----------|--------|
+| AlternativeTo | В процессе (issue #26) |
+| GitHub Marketplace | Есть App, листинг не оформлен |
+| Все остальные | Не начато |
