@@ -595,6 +595,13 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      position: relative;
+    }
+    .panel-btn-wrap { position: relative; }
+    .step-badge-panel {
+      left: -34px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .panel-comment-label {
       font-size: 9px;
@@ -802,8 +809,6 @@
     <!-- TAB: Bug -->
     <div class="demo-viewport" id="tab-bug">
       <span class="step-badge" style="top:44px;left:14px;" data-tip="Step 1: Click any element on the page to select it">1</span>
-      <span class="step-badge tip-left" style="top:104px;right:195px;" data-tip="Step 2: Describe the issue in plain words">2</span>
-      <span class="step-badge tip-left" style="top:164px;right:195px;" data-tip="Step 3: Fix It — routes to your AI (free) or Vibers reviewer (paid)">3</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -882,8 +887,6 @@
     <!-- TAB: Feature -->
     <div class="demo-viewport" id="tab-feature" style="display:none">
       <span class="step-badge" style="top:98px;left:14px;" data-tip="Step 1: Click the transactions block to select it">1</span>
-      <span class="step-badge tip-left" style="top:104px;right:195px;" data-tip="Step 2: Describe what feature you need">2</span>
-      <span class="step-badge tip-left" style="top:164px;right:195px;" data-tip="Step 3: Add Feature — Vibers reviewer implements it and sends a PR">3</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -1048,7 +1051,7 @@
             <div class="wf-block" style="height:18px;border-radius:3px;"></div>
           </div>
           <!-- highlighted product card -->
-          <div id="mock-wp-card" style="background:#fff;border:2px solid #FF6B35;border-radius:6px;padding:8px;box-shadow:0 0 0 3px rgba(255,107,53,.15);position:relative;aspect-ratio:1;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;">
+          <div id="mock-wp-card" style="background:#fff;border:2px solid #FF6B35;border-radius:6px;padding:8px;box-shadow:0 0 0 3px rgba(255,107,53,.15);position:relative;aspect-ratio:1;box-sizing:border-box;display:flex;flex-direction:column;">
             <div style="background:linear-gradient(135deg,#1a2a4a 0%,#2d4a7a 100%);flex:1;border-radius:4px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;">
               <svg width="28" height="22" viewBox="0 0 32 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="2" y="6" width="28" height="16" rx="2" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/>
