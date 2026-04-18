@@ -121,6 +121,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://onout.org/vibers/blog/react-usestate-not-updating/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://onout.org/vibers/blog/bug-report-template/</loc>
     <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
