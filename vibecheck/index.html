@@ -283,7 +283,7 @@
 
     /* ── Demo Scenario Selector ── */
     .demo-scenario-bar {
-      max-width: 1080px;
+      max-width: 860px;
       margin: 0 auto 12px;
       display: flex;
       align-items: center;
@@ -315,7 +315,7 @@
 
     /* ── HTML Demo Banner ── */
     .demo-banner {
-      max-width: 1080px;
+      max-width: 860px;
       margin: 0 auto 48px;
       background: #0f0f0f;
       border-radius: 10px;
@@ -662,6 +662,7 @@
     <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')">🐛 Bug fix</button>
     <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')">✨ Feature request</button>
     <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')">💡 Copy / UX</button>
+    <button class="demo-tab" data-tab="wp" onclick="switchTab('wp')">🔌 WordPress</button>
   </div>
 
   <div class="demo-banner">
@@ -820,6 +821,53 @@
         <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Improve →</button>
         <div class="panel-success" id="ps-improve"></div>
         <div class="panel-deploy" id="pd-improve"></div>
+      </div>
+    </div>
+
+    <!-- TAB: WordPress -->
+    <div class="demo-viewport" id="tab-wp" style="display:none">
+      <div class="demo-site">
+        <div class="demo-site-header" style="border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:14px;">
+          <div class="demo-site-logo" style="display:flex;align-items:center;gap:6px;">
+            <span style="background:#21759b;color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;">WP</span>
+            My Online Store
+          </div>
+          <div class="demo-site-nav"><span>Shop</span><span>About</span><span>Cart (2)</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:10px;">
+            <div style="background:#f3f3f3;height:60px;border-radius:4px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:20px;">🎧</div>
+            <div style="font-size:10px;font-weight:700;color:#1a1a1a;margin-bottom:3px;">Wireless Headphones</div>
+            <div style="font-size:11px;color:#e44;font-weight:700;">$89.00</div>
+            <div style="margin-top:7px;background:#96588a;color:#fff;font-size:9px;font-weight:700;padding:4px 8px;border-radius:3px;text-align:center;">Add to cart</div>
+          </div>
+          <div id="mock-wp-card" style="background:#fff;border:2px solid #FF6B35;border-radius:6px;padding:10px;box-shadow:0 0 0 3px rgba(255,107,53,.15);position:relative;">
+            <div style="background:#f3f3f3;height:60px;border-radius:4px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:20px;">📷</div>
+            <div style="font-size:10px;font-weight:700;color:#1a1a1a;margin-bottom:3px;">Camera Lens 50mm</div>
+            <div style="font-size:11px;color:#e44;font-weight:700;">$349.00</div>
+            <div id="mock-wp-btn" style="margin-top:7px;background:#ccc;color:#999;font-size:9px;font-weight:700;padding:4px 8px;border-radius:3px;text-align:center;cursor:not-allowed;">Unavailable</div>
+            <span style="position:absolute;bottom:-18px;right:6px;font-size:14px;animation:cursor-bob 1.2s ease-in-out infinite;">👆</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-panel">
+        <div class="panel-header">
+          <span class="panel-logo">VibeCheck</span>
+          <span class="panel-badge" style="background:#21759b;">WordPress</span>
+        </div>
+        <div class="panel-element">
+          <div class="panel-element-label">Selected element</div>
+          <div class="panel-element-tag">&lt;a class="button add_to_cart"&gt;</div>
+          <div class="panel-element-text">"Unavailable"</div>
+          <div class="panel-element-path">li.product &gt; a.button</div>
+        </div>
+        <div class="panel-comment-wrap">
+          <div class="panel-comment-label">Comment</div>
+          <div class="panel-comment-box"><span class="tw" id="tw-wp"></span><span class="type-cursor">|</span></div>
+        </div>
+        <button class="panel-btn-fix" id="fix-btn-wp" style="background:#21759b;">Fix It →</button>
+        <div class="panel-success" id="ps-wp"></div>
+        <div class="panel-deploy" id="pd-wp"></div>
       </div>
     </div>
 
@@ -1011,6 +1059,11 @@ var TAB_DATA = {
     url: 'onout.org/landing/',
     text: "headline feels too generic — 'See exactly where your money goes' might convert better",
     caption: '✓ PR #249 merged — hero copy rewritten, CTR +18%'
+  },
+  wp: {
+    url: 'mystore.com/shop/',
+    text: "the Camera Lens product shows 'Unavailable' but it's in stock — looks like a WooCommerce status bug",
+    caption: '✓ Fix deployed to WordPress via FTP — product back on sale in 1 hour'
   }
 };
 
@@ -1069,6 +1122,21 @@ function applyFix(tab, gen) {
         title.closest('div[style*="border:2px"]') && title.closest('div[style*="border:2px"]').classList.add('fix-applied');
       }
     }
+    if (tab === 'wp') {
+      var wpCard = document.getElementById('mock-wp-card');
+      var wpBtn  = document.getElementById('mock-wp-btn');
+      if (wpBtn) {
+        wpBtn.classList.add('text-fade');
+        setTimeout(function() {
+          if (animGen !== gen) return;
+          wpBtn.textContent = 'Add to cart';
+          wpBtn.style.background = '#96588a';
+          wpBtn.style.color = '#fff';
+          wpBtn.style.cursor = 'pointer';
+        }, 200);
+      }
+      if (wpCard) wpCard.classList.add('fix-applied');
+    }
 
     setTimeout(function() {
       if (animGen !== gen) return;
@@ -1077,7 +1145,8 @@ function applyFix(tab, gen) {
         var msgs = {
           bug:     '✓ PR #247 opened\nbranch: fix/button-overflow\nReviewer: @alex — merged in 1h 52m',
           feature: '✓ PR #248 opened\nbranch: feat/transaction-search\nReviewer: @marina — merged in 3h 10m',
-          improve: '✓ PR #249 opened\nbranch: copy/hero-headline\nReviewer: @alex — merged in 47m'
+          improve: '✓ PR #249 opened\nbranch: copy/hero-headline\nReviewer: @alex — merged in 47m',
+          wp:      '✓ Fix ready\nbranch: fix/product-stock-status\nReviewer: @alex — ready in 58m'
         };
         ps.style.display = 'block';
         ps.style.whiteSpace = 'pre-line';
@@ -1091,9 +1160,10 @@ function applyFix(tab, gen) {
         var pd = document.getElementById('pd-' + tab);
         if (pd) {
           var deploys = {
-            bug:     '🚀 Deployed to production\nWordPress via FTP • 0s ago\n✓ Live on onout.org',
+            bug:     '🚀 Deployed to production\nGitHub Pages • 0s ago\n✓ Live on onout.org',
             feature: '🚀 Deployed to production\nVercel — build passed • 0s ago\n✓ Live on dashboard.app',
-            improve: '🚀 Deployed to production\nGitHub Pages • 0s ago\n✓ Live — CTR tracking started'
+            improve: '🚀 Deployed to production\nNetlify — build passed • 0s ago\n✓ Live — CTR tracking started',
+            wp:      '🚀 Deployed via FTP\nwp-content/plugins/woocommerce\n✓ Product live on mystore.com'
           };
           pd.style.display = 'block';
           pd.style.whiteSpace = 'pre-line';
@@ -1107,7 +1177,7 @@ function applyFix(tab, gen) {
 function resetTab(tab) {
   var btn = document.getElementById('fix-btn-' + tab);
   var ps  = document.getElementById('ps-' + tab);
-  if (btn) { btn.classList.remove('sending'); btn.style.display = ''; btn.textContent = tab === 'bug' ? 'Fix It →' : tab === 'feature' ? 'Add Feature →' : 'Improve →'; }
+  if (btn) { btn.classList.remove('sending'); btn.style.display = ''; btn.textContent = tab === 'bug' ? 'Fix It →' : tab === 'feature' ? 'Add Feature →' : tab === 'improve' ? 'Improve →' : 'Fix It →'; }
   if (ps)  { ps.style.display = 'none'; ps.textContent = ''; }
   var pd = document.getElementById('pd-' + tab);
   if (pd)  { pd.style.display = 'none'; pd.textContent = ''; }
@@ -1121,16 +1191,20 @@ function resetTab(tab) {
   if (filterBar) filterBar.style.display = 'none';
   var title = document.getElementById('mock-hero-title');
   if (title) { title.textContent = 'Automate your financial reporting'; title.classList.remove('text-fade'); var heroWrap = title.closest('div[style*="border:2px"]'); if (heroWrap) heroWrap.classList.remove('fix-applied'); }
+  var wpCard = document.getElementById('mock-wp-card');
+  if (wpCard) wpCard.classList.remove('fix-applied');
+  var wpBtn = document.getElementById('mock-wp-btn');
+  if (wpBtn) { wpBtn.textContent = 'Unavailable'; wpBtn.style.background = '#ccc'; wpBtn.style.color = '#999'; wpBtn.style.cursor = 'not-allowed'; wpBtn.classList.remove('text-fade'); }
 }
 
 function switchTab(tab) {
   animGen++; // invalidates all pending callbacks from previous tab
   var gen = animGen;
-  ['bug','feature','improve'].forEach(function(t) { resetTab(t); });
+  ['bug','feature','improve','wp'].forEach(function(t) { resetTab(t); });
   document.querySelectorAll('.demo-tab').forEach(function(b) {
     b.classList.toggle('active', b.dataset.tab === tab);
   });
-  ['bug','feature','improve'].forEach(function(t) {
+  ['bug','feature','improve','wp'].forEach(function(t) {
     document.getElementById('tab-' + t).style.display = t === tab ? 'flex' : 'none';
   });
   var data = TAB_DATA[tab];
