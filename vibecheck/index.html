@@ -650,6 +650,29 @@
       .demo-kpi-row { grid-template-columns: 1fr; }
       .demo-kpi:not(.highlighted) { display: none; }
     }
+    #lang-switch {
+      display: none;
+      position: fixed;
+      top: 14px; right: 14px;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    #lang-switch button {
+      padding: 5px 12px;
+      border: none;
+      background: #fff;
+      color: #555;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    #lang-switch button.active { background: #1a1a1a; color: #fff; }
   </style>
 </head>
 <body>
@@ -658,25 +681,25 @@
   <div class="hero-wrap">
   <div class="content-wrap">
   <header class="hero">
-    <div class="hero-badge">Chrome Extension &mdash; Early Access</div>
+    <div class="hero-badge" data-i18n="badge">Chrome Extension &mdash; Early Access</div>
     <h1>VibeCheck</h1>
-    <p class="hero-sub">Free Chrome extension for website feedback.<br>
+    <p class="hero-sub" data-i18n="hero-sub">Free Chrome extension for website feedback.<br>
     Click any element &rarr; leave a comment &rarr; let your AI fix it — or have a Vibers reviewer send you a real PR.</p>
     <div class="cta-group">
-      <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist'});">Join Early Access</a>
-      <a href="/vibers/" class="btn-secondary">Learn about Vibers &rarr;</a>
+      <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist'});" data-i18n="cta-primary">Join Early Access</a>
+      <a href="/vibers/" class="btn-secondary" data-i18n="cta-secondary">Learn about Vibers &rarr;</a>
     </div>
-    <p class="beta-note">Free to use with your own AI (Claude Code, Codex, Cursor). Human review from $15/hr — <a href="/vibers/" style="color:#888;">learn more</a>.</p>
+    <p class="beta-note" data-i18n="beta-note">Free to use with your own AI (Claude Code, Codex, Cursor). Human review from $15/hr — <a href="/vibers/" style="color:#888;">learn more</a>.</p>
   </header>
   </div><!-- /content-wrap hero -->
 
   <!-- Scenario selector — sits above the browser mockup -->
   <div class="demo-scenario-bar">
-    <span class="demo-scenario-label">Try a scenario:</span>
-    <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')">🐛 Bug fix</button>
-    <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')">✨ Feature request</button>
-    <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')">💡 Copywriting / UX</button>
-    <button class="demo-tab" data-tab="wp" onclick="switchTab('wp')">🔌 WordPress</button>
+    <span class="demo-scenario-label" data-i18n="try-scenario">Try a scenario:</span>
+    <button class="demo-tab active" data-tab="bug" onclick="switchTab('bug')" data-i18n="tab-bug">🐛 Bug fix</button>
+    <button class="demo-tab" data-tab="feature" onclick="switchTab('feature')" data-i18n="tab-feature">✨ Feature request</button>
+    <button class="demo-tab" data-tab="improve" onclick="switchTab('improve')" data-i18n="tab-improve">💡 Copywriting / UX</button>
+    <button class="demo-tab" data-tab="wp" onclick="switchTab('wp')" data-i18n="tab-wp">🔌 WordPress</button>
   </div>
   <div class="tab-desc-wrap">
     <p class="tab-desc" id="tab-desc"></p>
@@ -894,7 +917,7 @@
 
   <div class="content-wrap">
   <section class="what-fixes">
-    <h2>What VibeCheck can fix</h2>
+    <h2 data-i18n="h2-fixes">What VibeCheck can fix</h2>
     <div class="fixes-grid">
       <div class="fix-item">Copy &amp; content — typos, tone, CTA wording</div>
       <div class="fix-item">CSS, layout &amp; responsive issues</div>
@@ -912,7 +935,7 @@
   </section>
 
   <section class="how-it-works">
-    <h2>How VibeCheck works</h2>
+    <h2 data-i18n="h2-how">How VibeCheck works</h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
@@ -947,7 +970,7 @@
   </section>
 
   <section class="vs-section">
-    <h2>VibeCheck vs feedback-only tools</h2>
+    <h2 data-i18n="h2-vs">VibeCheck vs feedback-only tools</h2>
     <table class="vs-table">
       <thead>
         <tr>
@@ -997,7 +1020,7 @@
   </section>
 
   <section class="use-cases">
-    <h2>Who uses VibeCheck</h2>
+    <h2 data-i18n="h2-who">Who uses VibeCheck</h2>
     <div class="case-grid">
       <div class="case-card">
         <h3>Solo founders with Cursor/Bolt apps</h3>
@@ -1019,7 +1042,7 @@
   </section>
 
   <section class="faq-section">
-    <h2>FAQ</h2>
+    <h2 data-i18n="h2-faq">FAQ</h2>
     <div class="faq-item">
       <div class="faq-q">How is VibeCheck different from Marker.io or Feedbucket?</div>
       <div class="faq-a">Marker.io and Feedbucket create bug reports. VibeCheck creates bug fixes. When you click Fix It, a human developer reviews the element, writes the code, and sends you a pull request. You don't just get a ticket — you get working code.</div>
@@ -1043,9 +1066,9 @@
   </section>
 
   <div class="cta-box">
-    <h2>Get early access to VibeCheck</h2>
-    <p>Beta is open. First fix is free. Works with any GitHub-hosted project.</p>
-    <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-white" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist_bottom'});">Join Early Access &rarr;</a>
+    <h2 data-i18n="h2-cta">Get early access to VibeCheck</h2>
+    <p data-i18n="cta-sub">Beta is open. First fix is free. Works with any GitHub-hosted project.</p>
+    <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-white" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist_bottom'});" data-i18n="cta-primary-bottom">Join Early Access &rarr;</a>
   </div>
 
   <p style="font-size:14px; color:#555; margin: 32px 0 16px;">
@@ -1090,6 +1113,8 @@ var TAB_DATA = {
 };
 
 var currentTab = 'bug';
+var currentLang = 'en';
+var TAB_DESC_RU = null;
 var animGen = 0; // incremented on each switchTab; stale callbacks check this and abort
 
 function typeText(elId, text, delay, gen, onDone) {
@@ -1234,7 +1259,8 @@ function switchTab(tab, skipHistory) {
   document.getElementById('demo-url').textContent = data.url;
   document.getElementById('demo-caption').textContent = '⏳ Sending feedback…';
   var descEl = document.getElementById('tab-desc');
-  if (descEl) descEl.textContent = data.desc;
+  if (descEl) descEl.textContent = (currentLang === 'ru' && TAB_DESC_RU && TAB_DESC_RU[tab])
+    ? TAB_DESC_RU[tab] : data.desc;
   typeText('tw-' + tab, data.text, 1200, gen, function() {
     setTimeout(function() { applyFix(tab, gen); }, 500);
   });
@@ -1254,6 +1280,75 @@ window.addEventListener('hashchange', function() {
 // init
 var initTab = location.hash.replace('#', '');
 switchTab(TAB_DATA[initTab] ? initTab : 'bug');
+</script>
+<div id="lang-switch">
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+  <button id="btn-ru" onclick="setLang('ru')">RU</button>
+</div>
+
+<script>
+var ru = {
+  'badge':               'Chrome Расширение — Ранний доступ',
+  'hero-sub':            'Бесплатное Chrome-расширение для фидбека по сайту.<br>Кликни на любой элемент → оставь комментарий → пусть AI исправит бесплатно — или Vibers-ревьюер пришлёт настоящий PR.',
+  'cta-primary':         'Получить ранний доступ',
+  'cta-secondary':       'Узнать о Vibers →',
+  'beta-note':           'Бесплатно с вашим AI (Claude Code, Codex, Cursor). Ревью руками от $15/ч — <a href="/vibers/" style="color:#888;">подробнее</a>.',
+  'try-scenario':        'Попробуй сценарий:',
+  'tab-bug':             '🐛 Баг-фикс',
+  'tab-feature':         '✨ Фича',
+  'tab-improve':         '💡 Копирайтинг / UX',
+  'tab-wp':              '🔌 WordPress',
+  'h2-fixes':            'Что исправляет VibeCheck',
+  'h2-how':              'Как работает VibeCheck',
+  'h2-vs':               'VibeCheck vs инструменты только для фидбека',
+  'h2-who':              'Кто использует VibeCheck',
+  'h2-faq':              'Частые вопросы',
+  'h2-cta':              'Получить ранний доступ к VibeCheck',
+  'cta-sub':             'Бета открыта. Первое исправление бесплатно. Работает с любым GitHub-проектом.',
+  'cta-primary-bottom':  'Получить ранний доступ →'
+};
+
+TAB_DESC_RU = {
+  bug:     'Заметил визуальный баг — инструмент захватывает DOM + CSS и отправляет вашему AI (бесплатно, BYOK) или Vibers-ревьюеру, который разберётся в коде и откроет PR (платно).',
+  feature: 'Оставь запрос фичи на любом элементе. Твой AI (Claude Code, Codex) предложит реализацию бесплатно — или Vibers-разработчик сделает всё за тебя и откроет PR.',
+  improve: 'Отметь текст или UX, который не конвертит. AI перепишет бесплатно (BYOK) — или человек-копирайтер + разработчик сделают это за тебя.',
+  wp:      'Работает с WordPress — GitHub не нужен. Бесплатный инструмент собирает проблему; Vibers-ревьюер фиксит в wp-content и деплоит через FTP/SSH.'
+};
+
+// TAB_DESC_RU and currentLang declared in main script above
+var savedEnI18n = {};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.getElementById('btn-en').className = lang === 'en' ? 'active' : '';
+  document.getElementById('btn-ru').className = lang === 'ru' ? 'active' : '';
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    if (lang === 'ru') {
+      if (!savedEnI18n[key]) savedEnI18n[key] = el.innerHTML;
+      if (ru[key] !== undefined) el.innerHTML = ru[key];
+    } else {
+      if (savedEnI18n[key]) el.innerHTML = savedEnI18n[key];
+    }
+  });
+  var descEl = document.getElementById('tab-desc');
+  if (descEl && currentTab) {
+    descEl.textContent = lang === 'ru'
+      ? (TAB_DESC_RU[currentTab] || TAB_DATA[currentTab].desc)
+      : TAB_DATA[currentTab].desc;
+  }
+  try { localStorage.setItem('vibers_lang', lang); } catch(e) {}
+}
+
+(function() {
+  var isRu = /^ru\b/i.test(navigator.language || '');
+  var stored = localStorage.getItem('vibers_lang');
+  if (isRu || stored) {
+    document.getElementById('lang-switch').style.display = 'flex';
+    setLang(stored || (isRu ? 'ru' : 'en'));
+  }
+})();
 </script>
 <script src="https://op.wpmix.net/embed.js" data-app="vibers"></script>
 </body>
