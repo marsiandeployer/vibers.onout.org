@@ -47,11 +47,12 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-      {"@type": "Question", "name": "How is VibeCheck different from Marker.io or Feedbucket?", "acceptedAnswer": {"@type": "Answer", "text": "Marker.io and Feedbucket create bug reports. VibeCheck creates bug fixes. When you click Fix It, a Vibers reviewer digs into your repo, writes the fix, and sends you a pull request. You don't just get a ticket — you get working code."}},
-      {"@type": "Question", "name": "Do I need a developer on my team to use VibeCheck?", "acceptedAnswer": {"@type": "Answer", "text": "No. That's the point. VibeCheck is for teams that use AI tools like Cursor or Claude to build their product. You spot the visual issue, VibeCheck routes it to a Vibers reviewer who sends the PR."}},
-      {"@type": "Question", "name": "What does the Fix It button actually do?", "acceptedAnswer": {"@type": "Answer", "text": "Clicking Fix It captures the selected element, its CSS, the surrounding DOM context, and your comment. This is sent to a Vibers reviewer who diagnoses the root cause in your codebase and submits a pull request with the actual fix — not a screenshot, not a ticket."}},
-      {"@type": "Question", "name": "How long does a fix take?", "acceptedAnswer": {"@type": "Answer", "text": "Most visual fixes are reviewed within a few hours on business days. Complex logic bugs may take longer. You'll get a PR on GitHub you can review and merge at any time."}},
-      {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "The Chrome extension is free to use with your own AI (Claude Code, Codex, Cursor). If you want a Vibers reviewer to do the work for you — find the root cause in your code and open a PR — that's the paid service, from $15/hr."}}
+      {"@type": "Question", "name": "How is VibeCheck different from Marker.io or other feedback tools?", "acceptedAnswer": {"@type": "Answer", "text": "Most feedback tools stop at screenshots and bug reports. VibeCheck captures the issue and helps turn it into a real code fix — either via your own AI agent (free) or by us (paid)."}},
+      {"@type": "Question", "name": "Do I need my own AI agent?", "acceptedAnswer": {"@type": "Answer", "text": "No. You can use VibeCheck in two ways: free with your own AI agent (Claude Code, Codex, Cursor), or paid if you want us to fix it for you."}},
+      {"@type": "Question", "name": "What does the Fix It button do?", "acceptedAnswer": {"@type": "Answer", "text": "VibeCheck captures the selected element, its DOM context, and your comment. You can send it to your own AI agent for free, or pay us to review the code and deliver the fix."}},
+      {"@type": "Question", "name": "What kinds of sites does it work on?", "acceptedAnswer": {"@type": "Answer", "text": "VibeCheck works on any code-accessible site, including React, Vue, Next.js, WordPress, plain HTML/CSS, and legacy codebases. It does not work on closed no-code platforms without file access."}},
+      {"@type": "Question", "name": "How long does a paid fix take?", "acceptedAnswer": {"@type": "Answer", "text": "Most visual fixes land within a few hours on business days. Complex logic bugs may take longer. You receive a Pull Request on GitHub — or a deploy on WordPress via FTP/SSH — to review and merge at any time."}},
+      {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "The Chrome extension is free. Using it with your own AI agent is also free. If you want us to fix it for you, that's the paid part — from $15/hr."}}
     ]
   }
   </script>
@@ -654,6 +655,28 @@
       text-align: center;
       cursor: pointer;
     }
+    .panel-btn-paid {
+      background: #fff;
+      border: 1px solid #1a1a1a;
+      color: #1a1a1a;
+      border-radius: 5px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 6px;
+      display: block;
+      width: 100%;
+      font-family: inherit;
+    }
+    .panel-btn-paid small {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: #888;
+      margin-top: 1px;
+    }
     .panel-comment-wrap {
       display: flex;
       flex-direction: column;
@@ -848,12 +871,12 @@
   <div class="content-wrap">
   <header class="hero">
     <div class="hero-badge" data-i18n="badge">VibeCheck &middot; Chrome Extension &mdash; Early Access</div>
-    <h1 data-i18n="hero-title">Click any issue on your website. AI fixes it and ships it.</h1>
+    <h1 data-i18n="hero-title">Click any issue on your website. Use your own AI agent for free &mdash; or let us fix it for you.</h1>
     <div class="cta-group">
       <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist'});" data-i18n="cta-primary">Join Early Access</a>
       <a href="#how-it-works" class="btn-secondary" data-i18n="cta-secondary">How it works &rarr;</a>
     </div>
-    <p class="beta-note" data-i18n="beta-note">Use your own AI — Claude Code, Codex, or Cursor. No AI? <a href="/vibers/" style="color:#888;">Vibers can handle it for you.</a></p>
+    <p class="beta-note" data-i18n="beta-note">Works with any code-accessible site &mdash; including legacy apps, WordPress, and modern frameworks.</p>
   </header>
   </div><!-- /content-wrap hero -->
 
@@ -957,8 +980,9 @@
           <div class="panel-comment-box"><span class="tw" id="tw-bug"></span><span class="type-cursor">|</span></div>
         </div>
         <div class="panel-btn-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: AI fixes it and ships it — patch → diff → PR → deploy">3</span>
-          <button class="panel-btn-fix" id="fix-btn-bug">Fix It →</button>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: Send to your AI (free) or pay us to fix it">3</span>
+          <button class="panel-btn-fix" id="fix-btn-bug">Send to my AI →</button>
+          <button class="panel-btn-paid" id="paid-btn-bug" type="button">Fix it for me<small>paid · we do it</small></button>
         </div>
         <div class="panel-success" id="ps-bug"></div>
         <div class="panel-deploy" id="pd-bug"></div>
@@ -1032,8 +1056,9 @@
           <div class="panel-comment-box"><span class="tw" id="tw-feature"></span><span class="type-cursor">|</span></div>
         </div>
         <div class="panel-btn-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: AI fixes it and ships it — patch → diff → PR → deploy">3</span>
-          <button class="panel-btn-fix" id="fix-btn-feature" style="background:#7c3aed;">Add Feature →</button>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: Send to your AI (free) or pay us to fix it">3</span>
+          <button class="panel-btn-fix" id="fix-btn-feature" style="background:#7c3aed;">Send to my AI →</button>
+          <button class="panel-btn-paid" id="paid-btn-feature" type="button">Fix it for me<small>paid · we do it</small></button>
         </div>
         <div class="panel-success" id="ps-feature"></div>
         <div class="panel-deploy" id="pd-feature"></div>
@@ -1105,8 +1130,9 @@
           <div class="panel-comment-box"><span class="tw" id="tw-improve"></span><span class="type-cursor">|</span></div>
         </div>
         <div class="panel-btn-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: AI fixes it and ships it — patch → diff → PR → deploy">3</span>
-          <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Improve →</button>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: Send to your AI (free) or pay us to fix it">3</span>
+          <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Send to my AI →</button>
+          <button class="panel-btn-paid" id="paid-btn-improve" type="button">Fix it for me<small>paid · we do it</small></button>
         </div>
         <div class="panel-success" id="ps-improve"></div>
         <div class="panel-deploy" id="pd-improve"></div>
@@ -1190,8 +1216,9 @@
           <div class="panel-comment-box"><span class="tw" id="tw-wp"></span><span class="type-cursor">|</span></div>
         </div>
         <div class="panel-btn-wrap">
-          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: AI fixes it and ships it — patch → diff → PR (WordPress: FTP/SSH deploy)">3</span>
-          <button class="panel-btn-fix" id="fix-btn-wp" style="background:#21759b;">Fix It →</button>
+          <span class="step-badge step-badge-panel tip-left" data-tip="Step 3: Send to your AI (free) or pay us to fix and deploy via FTP/SSH">3</span>
+          <button class="panel-btn-fix" id="fix-btn-wp" style="background:#21759b;">Send to my AI →</button>
+          <button class="panel-btn-paid" id="paid-btn-wp" type="button">Fix it for me<small>paid · we do it</small></button>
         </div>
         <div class="panel-success" id="ps-wp"></div>
         <div class="panel-deploy" id="pd-wp"></div>
@@ -1229,29 +1256,29 @@
         <div class="step-num">1</div>
         <div class="step-content">
           <h3>Install the Chrome Extension</h3>
-          <p>Add VibeCheck to Chrome in one click. Works on any code-accessible site — staging, production, localhost. Not for closed no-code platforms (Webflow, Wix).</p>
+          <p>Add VibeCheck to Chrome in one click. Works on any code-accessible site &mdash; staging, production, localhost, and legacy apps. Not for closed no-code platforms (Webflow, Wix).</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-content">
-          <h3>Click any element on your site</h3>
-          <p>Hover any button, layout block, text, or image. VibeCheck highlights it and captures the DOM context automatically.</p>
+          <h3>Select the issue on your site</h3>
+          <p>Hover any button, layout block, text, or image. VibeCheck captures the selected element, DOM context, and file path automatically.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-content">
-          <h3>Leave a comment or hit <span class="fix-it-badge">Fix It</span></h3>
-          <p><strong>Fix It (free)</strong> — captures element + DOM context and routes it to your own AI (Claude Code, Cursor, Codex).<br>
-          <strong>Fix It → Vibers (paid)</strong> — a Vibers reviewer digs into your repo, finds the root cause, and sends you a PR.</p>
+          <h3>Choose your fix mode</h3>
+          <p><strong>Send to my AI (free)</strong> &mdash; captures element + DOM context and routes it to your own AI (Claude Code, Cursor, Codex).<br>
+          <strong>Fix it for me (paid)</strong> &mdash; we dig into your repo, find the root cause, and open a Pull Request.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-content">
-          <h3>Get a pull request, not a ticket</h3>
-          <p>The Vibers reviewer finds the root cause in your repo, writes the fix, and opens a PR on GitHub. You review and merge — or deploy via FTP/SSH if it's WordPress.</p>
+          <h3>Get a code fix, not just feedback</h3>
+          <p>You receive a patch, a Pull Request, or a deploy-ready update &mdash; not a screenshot and not a ticket. Review and merge on GitHub, or we deploy via FTP/SSH if it&rsquo;s WordPress.</p>
         </div>
       </div>
     </div>
@@ -1316,7 +1343,7 @@
       </div>
       <div class="case-card">
         <h3>Agencies doing client QA</h3>
-        <p>Your client spots 12 visual issues before launch. Instead of exporting a ticket spreadsheet, send each one to Fix It and get PRs by morning.</p>
+        <p>Your client spots 12 visual issues before launch. Instead of exporting a ticket spreadsheet, send each one to your AI or to us and get PRs by morning.</p>
       </div>
       <div class="case-card">
         <h3>Non-technical founders</h3>
@@ -1332,24 +1359,28 @@
   <section class="faq-section">
     <h2 data-i18n="h2-faq">FAQ</h2>
     <div class="faq-item">
-      <div class="faq-q">How is VibeCheck different from Marker.io or Feedbucket?</div>
-      <div class="faq-a">Marker.io and Feedbucket create bug reports. VibeCheck creates bug fixes. When you click Fix It, a Vibers reviewer digs into your repo, writes the fix, and sends you a pull request. You don't just get a ticket — you get working code.</div>
+      <div class="faq-q">How is VibeCheck different from Marker.io or other feedback tools?</div>
+      <div class="faq-a">Most feedback tools stop at screenshots and bug reports. VibeCheck captures the issue and helps turn it into a real code fix &mdash; either via your own AI agent (free) or by us (paid).</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">Do I need a developer on my team to use VibeCheck?</div>
-      <div class="faq-a">No. That's the point. VibeCheck is built for teams that use AI tools like Cursor or Claude to build. You spot the visual issue, VibeCheck routes it to a Vibers reviewer who sends the PR.</div>
+      <div class="faq-q">Do I need my own AI agent?</div>
+      <div class="faq-a">No. You can use VibeCheck in two ways: free with your own AI agent (Claude Code, Codex, Cursor), or paid if you want us to fix it for you.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What does the Fix It button actually do?</div>
-      <div class="faq-a">Clicking Fix It captures the selected element, its CSS, the surrounding DOM context, and your comment. This is sent to a Vibers reviewer who diagnoses the root cause in your codebase and submits a pull request with the actual fix — not a screenshot, not a ticket.</div>
+      <div class="faq-q">What does the Fix It button do?</div>
+      <div class="faq-a">VibeCheck captures the selected element, its DOM context, and your comment. You can send it to your own AI agent for free, or pay us to review the code and deliver the fix.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">How long does a fix take?</div>
-      <div class="faq-a">Most visual fixes are reviewed within a few hours on business days. Complex logic bugs may take longer. You'll get a PR on GitHub you can review and merge at any time.</div>
+      <div class="faq-q">What kinds of sites does it work on?</div>
+      <div class="faq-a">VibeCheck works on any code-accessible site, including React, Vue, Next.js, WordPress, plain HTML/CSS, and legacy codebases. It does not work on closed no-code platforms without file access.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does a paid fix take?</div>
+      <div class="faq-a">Most visual fixes land within a few hours on business days. Complex logic bugs may take longer. You receive a Pull Request on GitHub &mdash; or a deploy on WordPress via FTP/SSH &mdash; to review and merge at any time.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Is it free?</div>
-      <div class="faq-a">The Chrome extension is free — install it and use it with your own AI (Claude Code, Codex, Cursor). No account needed. If you want a Vibers reviewer to dig into your repo and send you a PR, that's the paid part — from $15/hr.</div>
+      <div class="faq-a">The Chrome extension is free. Using it with your own AI agent is also free. If you want us to fix it for you, that&rsquo;s the paid part &mdash; from $15/hr.</div>
     </div>
   </section>
 
@@ -1376,25 +1407,25 @@
 var TAB_DATA = {
   bug: {
     url: 'onout.org/dashboard/',
-    desc: '(1) Select the broken element. (2) Describe the issue in plain words. (3) Fix It — AI generates the fix, or Vibers opens a Pull Request.',
+    desc: '(1) Select the broken element. (2) Describe the issue in plain words. (3) Send it to your own AI agent for free, or pay us to ship the Pull Request.',
     text: "the 'View transaction details' label overflows the card width — shorten to 'View details'",
     caption: '✓ PR #247 merged — button copy fixed in 2 hours'
   },
   feature: {
     url: 'onout.org/dashboard/',
-    desc: '(1) Select where the feature should go. (2) Describe what you want. (3) Add Feature — AI drafts the code, or a Vibers dev builds it and opens a Pull Request.',
+    desc: '(1) Select where the feature should go. (2) Describe what you want. (3) Send it to your own AI agent for free, or pay us to build it and ship the Pull Request.',
     text: "can we add a search bar here? users keep asking how to filter transactions by date",
     caption: '✓ PR #248 merged — search filter added to nav'
   },
   improve: {
     url: 'onout.org/landing/',
-    desc: '(1) Select the text block. (2) Explain what\'s off — tone, clarity, conversion. (3) Improve — AI rewrites, or a human copywriter ships it as a Pull Request.',
+    desc: '(1) Select the text block. (2) Explain what\'s off — tone, clarity, conversion. (3) Send it to your own AI agent for free, or pay us to rewrite it and ship the Pull Request.',
     text: "headline feels too generic — 'See exactly where your money goes' might convert better",
     caption: '✓ PR #249 merged — hero copy rewritten, CTR +18%'
   },
   wp: {
     url: 'mystore.com/shop/',
-    desc: '(1) Select the broken element. (2) Describe the issue. (3) Fix It — Vibers patches wp-content and deploys via FTP/SSH. No GitHub needed.',
+    desc: '(1) Select the broken element. (2) Describe the issue. (3) Send it to your own AI agent for free, or pay us to patch wp-content and deploy via FTP/SSH. No GitHub needed.',
     text: "the Camera Lens product shows 'Unavailable' but it's in stock — looks like a WooCommerce status bug",
     caption: '✓ Fix deployed to WordPress via FTP — product back on sale in 1 hour'
   }
@@ -1478,6 +1509,8 @@ function applyFix(tab, gen) {
     setTimeout(function() {
       if (animGen !== gen) return;
       if (btn) { btn.style.display = 'none'; }
+      var paidBtn2 = document.getElementById('paid-btn-' + tab);
+      if (paidBtn2) paidBtn2.style.display = 'none';
       if (ps) {
         var msgs = {
           bug:     '✓ PR #247 opened\nfix: prevent kpi button overflow on narrow viewports\nbranch: fix/kpi-button-overflow\nsrc/components/dashboard/KPICard.tsx  ·  1 file changed',
@@ -1518,7 +1551,9 @@ function applyFix(tab, gen) {
 function resetTab(tab) {
   var btn = document.getElementById('fix-btn-' + tab);
   var ps  = document.getElementById('ps-' + tab);
-  if (btn) { btn.classList.remove('sending'); btn.style.display = ''; btn.textContent = tab === 'bug' ? 'Fix It →' : tab === 'feature' ? 'Add Feature →' : tab === 'improve' ? 'Improve →' : 'Fix It →'; }
+  if (btn) { btn.classList.remove('sending'); btn.style.display = ''; btn.textContent = 'Send to my AI →'; }
+  var paidBtn = document.getElementById('paid-btn-' + tab);
+  if (paidBtn) paidBtn.style.display = '';
   if (ps)  { ps.style.display = 'none'; ps.textContent = ''; }
   var pd = document.getElementById('pd-' + tab);
   if (pd)  { pd.style.display = 'none'; pd.textContent = ''; }
@@ -1583,10 +1618,10 @@ switchTab(TAB_DATA[initTab] ? initTab : 'bug');
 <script>
 var ru = {
   'badge':               'VibeCheck · Chrome Расширение — Ранний доступ',
-  'hero-title':          'Кликаешь на любую проблему на сайте. AI фиксит и отправляет PR.',
+  'hero-title':          'Кликаешь на любую проблему на сайте. Бесплатно — с твоим AI-агентом. Платно — чиним сами.',
   'cta-primary':         'Получить ранний доступ',
   'cta-secondary':       'Как это работает →',
-  'beta-note':           'Используй свой AI — Claude Code, Codex или Cursor. Нет AI? <a href="/vibers/" style="color:#888;">Vibers сделают за тебя.</a>',
+  'beta-note':           'Работает на любом сайте с доступом к коду — legacy-приложения, WordPress, современные фреймворки.',
   'try-scenario':        'Попробуй сценарий:',
   'tab-bug':             '🐛 Баг-фикс',
   'tab-feature':         '✨ Фича',
@@ -1603,10 +1638,10 @@ var ru = {
 };
 
 TAB_DESC_RU = {
-  bug:     '(1) Выдели сломанный элемент. (2) Опиши проблему обычными словами. (3) Fix It — AI генерирует фикс, либо Vibers открывает Pull Request.',
-  feature: '(1) Выдели место, где нужна фича. (2) Опиши, что хочешь. (3) Add Feature — AI пишет черновик, либо Vibers-разработчик собирает и открывает Pull Request.',
-  improve: '(1) Выдели текстовый блок. (2) Объясни, что не так — тон, смысл, конверсия. (3) Improve — AI переписывает, либо живой копирайтер отправляет Pull Request.',
-  wp:      '(1) Выдели сломанный элемент. (2) Опиши проблему. (3) Fix It — Vibers правит wp-content и деплоит по FTP/SSH. GitHub не нужен.'
+  bug:     '(1) Выдели сломанный элемент. (2) Опиши проблему обычными словами. (3) Отправь в свой AI-агент бесплатно, либо заплати нам — и получи Pull Request.',
+  feature: '(1) Выдели место, где нужна фича. (2) Опиши, что хочешь. (3) Отправь в свой AI-агент бесплатно, либо заплати нам — и получи Pull Request.',
+  improve: '(1) Выдели текстовый блок. (2) Объясни, что не так — тон, смысл, конверсия. (3) Отправь в свой AI-агент бесплатно, либо заплати нам — и получи Pull Request.',
+  wp:      '(1) Выдели сломанный элемент. (2) Опиши проблему. (3) Отправь в свой AI-агент бесплатно, либо заплати нам — мы правим wp-content и деплоим по FTP/SSH. GitHub не нужен.'
 };
 
 // TAB_DESC_RU and currentLang declared in main script above
