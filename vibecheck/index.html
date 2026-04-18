@@ -460,11 +460,35 @@
       text-align: center;
       cursor: pointer;
     }
-    .panel-hint {
+    .panel-comment-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .panel-comment-label {
       font-size: 9px;
-      color: #555;
-      line-height: 1.4;
-      text-align: center;
+      color: #888;
+    }
+    .panel-comment-box {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 7px 8px;
+      font-size: 10px;
+      color: #e5e7eb;
+      line-height: 1.5;
+      min-height: 52px;
+    }
+    .type-cursor {
+      display: inline-block;
+      color: #FF6B35;
+      font-weight: 100;
+      animation: blink 0.7s step-end infinite;
+      margin-left: 1px;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0; }
     }
     .demo-banner-caption {
       text-align: center;
@@ -602,9 +626,11 @@
           <div class="panel-element-text">"View transaction details"</div>
           <div class="panel-element-path">.kpi-card &gt; span.btn</div>
         </div>
+        <div class="panel-comment-wrap">
+          <div class="panel-comment-label">Comment</div>
+          <div class="panel-comment-box"><span id="typewriter-text"></span><span class="type-cursor">|</span></div>
+        </div>
         <button class="panel-btn-fix">Fix It →</button>
-        <button class="panel-btn-comment">Add comment</button>
-        <div class="panel-hint">Fix It sends the element + your codebase to a reviewer who ships a PR</div>
       </div>
     </div>
     <p class="demo-banner-caption">Hover any element &rarr; click Fix It &rarr; get a PR within hours</p>
@@ -777,6 +803,30 @@
 
 </div>
 
+<script>
+(function() {
+  var el = document.getElementById('typewriter-text');
+  if (!el) return;
+  var text = "button text cuts off on mobile — maybe shorten to 'View details'?";
+  var i = 0;
+  var delays = [];
+  for (var c = 0; c < text.length; c++) {
+    // natural typing: spaces slightly slower, punctuation pauses
+    var d = 55 + Math.random() * 60;
+    if (text[c] === ' ') d += 30;
+    if ('.,—?!'.indexOf(text[c]) !== -1) d += 180;
+    delays.push(d);
+  }
+  function type() {
+    if (i >= text.length) return;
+    el.textContent += text[i];
+    i++;
+    setTimeout(type, delays[i] || 70);
+  }
+  // start after 1.8s so user notices the element highlight first
+  setTimeout(type, 1800);
+})();
+</script>
 <script src="https://op.wpmix.net/embed.js" data-app="vibers"></script>
 </body>
 </html>
