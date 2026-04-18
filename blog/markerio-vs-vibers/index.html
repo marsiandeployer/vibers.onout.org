@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marker.io vs Vibers: Report Bugs vs Fix Bugs — Vibers Blog</title>
+  <meta name="description" content="Marker.io lets your team report bugs visually. Vibers finds bugs you don't know exist and sends fix PRs. Different tools for different stages — here's when to use which.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/markerio-vs-vibers/">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="../../favicon.png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Marker.io vs Vibers: Report Bugs vs Fix Bugs">
+  <meta property="og:description" content="Marker.io lets your team report bugs visually. Vibers finds bugs you don't know exist and sends fix PRs. Different tools for different stages.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/markerio-vs-vibers/">
+  <meta property="og:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Marker.io vs Vibers: Report Bugs vs Fix Bugs",
+    "description": "Marker.io lets your team report bugs visually. Vibers finds bugs you don't know exist and sends fix PRs. Different tools for different stages — here's when to use which.",
+    "url": "https://onout.org/vibers/blog/markerio-vs-vibers/",
+    "datePublished": "2026-04-18",
+    "dateModified": "2026-04-18",
+    "author": {
+      "@type": "Person",
+      "name": "Alex Noxon",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://onout.org/vibers/",
+      "logo": { "@type": "ImageObject", "url": "https://onout.org/vibers/favicon.png" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://onout.org/vibers/blog/markerio-vs-vibers/" },
+    "keywords": ["marker.io vs vibers", "bug reporting tool", "code review service", "vibe coding", "UAT testing", "ai code review"],
+    "articleSection": "Code Review"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between Marker.io and Vibers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Marker.io is a visual bug reporting tool: your team or clients annotate screenshots on the live site and create tickets in Jira or GitHub. Vibers is a human code review service: a developer reads your spec, reviews your codebase, and sends fix PRs for bugs they find. Marker.io captures bugs reported by people who see them. Vibers proactively finds bugs — including logic errors, spec mismatches, and security issues — before anyone sees them in production."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Marker.io fix bugs or just report them?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Marker.io only reports bugs — it does not fix them. When a tester or client uses Marker.io, they annotate a screenshot on the live site, and the annotation becomes a ticket in Jira, Trello, or GitHub Issues. Your development team still needs to investigate, reproduce, and fix each reported issue. Vibers, by contrast, sends actual fix PRs: the reviewer finds the bug in the code, writes the fix, and submits a pull request you can merge directly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use Marker.io and Vibers together?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, and they complement each other well. The recommended workflow: use Vibers before launch (code review against your spec catches logic bugs, security issues, and requirement mismatches before any user sees the app) and use Marker.io after launch (gives your team and clients a structured way to report visual and functional issues they encounter on the live site). Vibers reduces the number of issues that reach production; Marker.io makes it easier to capture the ones that do."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does Marker.io cost vs Vibers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Marker.io pricing starts at $39/month (Essential plan) for up to 3 projects, with a 15-day free trial and no credit card required. Vibers charges $15/hour for human code review, with the first review free when you give the repo a GitHub star. For a typical vibe-coded MVP (a 2-3 hour review), Vibers costs $30-45 per review cycle. Both tools solve different problems — Marker.io is recurring infrastructure for a team; Vibers is a pre-launch quality gate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Marker.io good for reviewing AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Marker.io is not a code review tool. It captures visual and functional bugs reported by people using the live site — not issues in the code itself. For reviewing AI-generated code before deployment, the relevant tools are static analysis (ESLint, Semgrep), AI reviewers (CodeRabbit, Qodo), or human code review services like Vibers. Marker.io becomes useful after code has been deployed and real users or QA testers are reporting what they find."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
+    .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
+    @media(max-width:600px){.page{padding:24px 20px}}
+    a{color:#5b44e8;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
+    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
+    .site-nav .nav-links a{color:#555}
+    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
+    @media(max-width:600px){h1{font-size:24px}}
+    .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
+    .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+    .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+    .key-takeaways ul{padding-left:20px}
+    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
+    h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
+    p{margin-bottom:16px;color:#333}
+    ul,ol{padding-left:24px;margin-bottom:16px}
+    li{margin-bottom:8px;color:#333}
+    .table-wrap{overflow-x:auto;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    td{padding:9px 14px;border-bottom:1px solid #eee}
+    tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
+    .stat-box strong{color:#92400e}
+    blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
+    blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
+    .vs-split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+    @media(max-width:600px){.vs-split{grid-template-columns:1fr}}
+    .vs-card{border:1px solid #eee;border-radius:8px;padding:20px}
+    .vs-card.marker{border-top:3px solid #6366f1}
+    .vs-card.vibers{border-top:3px solid #5b44e8}
+    .vs-card h3{margin-top:0;margin-bottom:10px;font-size:16px}
+    .vs-card ul{padding-left:18px;margin:0}
+    .vs-card li{font-size:14px;margin-bottom:6px}
+    .verdict-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+    .verdict-row:last-child{border-bottom:none}
+    .verdict-label{flex:1;font-size:14px;color:#555}
+    .verdict-marker,.verdict-vibers{width:110px;text-align:center;font-size:13px;font-weight:600;padding:4px 8px;border-radius:4px}
+    .verdict-marker{background:#ede9fe;color:#4c1d95}
+    .verdict-vibers{background:#dbeafe;color:#1e3a8a}
+    .v-no{background:#fef2f2!important;color:#991b1b!important}
+    .v-yes{background:#f0fdf4!important;color:#166534!important}
+    .v-partial{background:#fff7ed!important;color:#92400e!important}
+    .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
+    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}
+    .cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-section h2{border-top:none;padding-top:0}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
+    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
+    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
+    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
+    .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}
+    .related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
+    .related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 18, 2026</span>
+    <span>9 min read</span>
+    <span><a href="/vibers/blog/">Blog</a> · Code Review</span>
+  </div>
+
+  <h1>Marker.io vs Vibers: Report Bugs vs Fix Bugs</h1>
+
+  <p class="article-lead">Marker.io and Vibers solve adjacent but fundamentally different problems. Marker.io gives your team a structured way to report bugs they encounter on the live site. Vibers finds bugs in your code before anyone encounters them — and sends you the fix as a pull request. One captures problems already visible in production; the other prevents them from reaching production.</p>
+
+  <div class="key-takeaways">
+    <h3>Quick Answer</h3>
+    <ul>
+      <li><strong>Marker.io</strong> — visual bug reporting tool ($39/mo). Team and clients annotate screenshots on the live site → tickets created in Jira/GitHub automatically.</li>
+      <li><strong>Vibers</strong> — human code review service ($15/hr). A developer reads your spec, reviews your code, sends fix PRs before launch.</li>
+      <li>Marker.io requires someone to find the bug first. Vibers finds bugs proactively — including ones no user would naturally trigger.</li>
+      <li>They complement each other: Vibers before launch, Marker.io after launch.</li>
+      <li>For <a href="/vibers/blog/vibe-coded-app-production-ready/">vibe-coded apps</a> specifically, pre-launch code review is more critical — AI-generated code has 1.7x more defects than human-written code.</li>
+    </ul>
+  </div>
+
+  <h2>What Marker.io Actually Does</h2>
+
+  <p><a href="https://marker.io" target="_blank" rel="noopener">Marker.io</a> is a browser-based feedback and bug reporting tool. You install a JavaScript widget on your site or use their Chrome extension, and then anyone — a QA tester, a non-technical client, a product manager — can click the widget, annotate a screenshot, write a note, and have that annotation automatically become a ticket in Jira, Trello, GitHub Issues, Asana, ClickUp, or 17 other integrations.</p>
+
+  <p>The ticket includes the screenshot with annotation, the browser version, the OS, the URL, and optionally a session replay. No more "the button doesn't work" Slack messages. The tester points to exactly what broke, and the developer gets a reproducible ticket with technical metadata attached.</p>
+
+  <p>Marker.io's top-traffic article is about <a href="https://marker.io/blog/user-acceptance-testing-template" target="_blank" rel="noopener">user acceptance testing templates</a> — that framing tells you a lot about their primary use case: structured UAT workflows where a client or stakeholder validates that a deliverable matches the requirements. The tool is designed for the feedback loop between "we built it" and "the client signs off."</p>
+
+  <div class="vs-split">
+    <div class="vs-card marker">
+      <h3>Marker.io is for</h3>
+      <ul>
+        <li>Non-technical clients annotating bugs on live sites</li>
+        <li>QA testers doing manual UAT sessions</li>
+        <li>Agencies getting client sign-off before handoff</li>
+        <li>Design reviews and visual feedback</li>
+        <li>Teams that need to triage visible, reproducible bugs</li>
+      </ul>
+    </div>
+    <div class="vs-card vibers">
+      <h3>Vibers is for</h3>
+      <ul>
+        <li>Founders who need code reviewed before launch</li>
+        <li>Vibe coders shipping AI-generated MVPs</li>
+        <li>Teams that want bugs found before users see them</li>
+        <li>Projects that need spec-aware review (logic, security, flows)</li>
+        <li>Anyone who wants fix PRs, not just bug reports</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What Vibers Actually Does</h2>
+
+  <p>Vibers is a human-in-the-loop code review service. When you install the Vibers GitHub App and open a review request, a human developer receives your repository link, reads your product spec (Google Doc, Notion, Figma — whatever you share), and reviews your code against it.</p>
+
+  <p>The reviewer looks for things automated tools miss: logic bugs tied to your business rules, broken user flows, race conditions in async code, security issues, and requirement mismatches between what the AI wrote and what your spec describes. When they find issues, they don't create a ticket — they write the fix and submit a pull request you can merge directly.</p>
+
+  <p>This distinction matters especially for <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">AI-generated code</a>. According to CodeRabbit's December 2025 research on 470 real-world pull requests, AI-generated code has 1.7x more defects than human-written code, with logic and correctness bugs 75% more common. These aren't the kind of bugs a UAT tester would naturally stumble across — they're subtle business logic errors that only surface under specific conditions, or security vulnerabilities that require someone to read the code, not just use the app.</p>
+
+  <div class="stat-box">
+    <strong>1.7x</strong> more defects in AI-generated PRs versus human-written ones. Logic bugs are 75% more common; security issues up to 2.74x higher. Source: CodeRabbit State of AI vs Human Code Generation Report, Dec 2025.
+  </div>
+
+  <h2>Side-by-Side Comparison</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Marker.io</th>
+          <th>Vibers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Finds bugs proactively</td><td>✗ Requires a tester to encounter the bug first</td><td>✓ Reviewer audits the code for issues</td></tr>
+        <tr><td>Reads your product spec</td><td>✗ No — reviews the live site only</td><td>✓ Yes — spec awareness is the core differentiator</td></tr>
+        <tr><td>Catches logic/business rule bugs</td><td>✗ Only if a human manually tests the exact flow</td><td>✓ Yes — logic bugs are the primary catch category</td></tr>
+        <tr><td>Catches security vulnerabilities</td><td>✗ No</td><td>✓ Yes — OWASP Top 10, injection, auth, IDOR</td></tr>
+        <tr><td>Works before deployment</td><td>✗ Requires a live site</td><td>✓ Works on any GitHub branch or PR</td></tr>
+        <tr><td>Non-technical users can participate</td><td>✓ Yes — designed for clients and PMs</td><td>✗ Code review requires a developer</td></tr>
+        <tr><td>Sends fix PRs</td><td>✗ Creates tickets only</td><td>✓ Fix PRs are the primary output</td></tr>
+        <tr><td>Integrates with Jira / GitHub Issues</td><td>✓ 20+ integrations</td><td>✓ Works natively via GitHub</td></tr>
+        <tr><td>Visual annotation</td><td>✓ Core feature</td><td>✗ Code-level, not visual</td></tr>
+        <tr><td>Starting price</td><td>$39/month (3 projects)</td><td>$15/hour (free first review)</td></tr>
+        <tr><td>Best for</td><td>UAT, client sign-off, post-launch QA</td><td>Pre-launch code review, vibe-coded MVPs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The Core Difference: Reactive vs Proactive</h2>
+
+  <p>Marker.io is a reactive tool. It makes it easier for people to report bugs they encounter. The bottleneck is still discovery: a bug that no tester happens to trigger during UAT will not be reported, no matter how good the tooling is.</p>
+
+  <p>Vibers is a proactive tool. A reviewer doesn't wait for a bug to surface — they read the spec and systematically ask: "Does this code actually implement what the spec describes? Are there edge cases the AI overlooked? Is there a race condition in this payment flow? Does this admin route check permissions correctly?"</p>
+
+  <blockquote>
+    "UAT is not enough for AI-generated code. A UAT tester checks the happy path. They don't know to check whether the free-tier limit applies per user or per workspace — they just log in, create a project, and it works. The billing bypass exists, but no tester triggers it."
+    <cite>— Alex Noxon, Vibers</cite>
+  </blockquote>
+
+  <p>This is why the two tools are most useful at different stages. <a href="/vibers/blog/review-vibe-coded-app-before-launch/">Before launch</a>, code review catches what no amount of manual testing would naturally surface. After launch, Marker.io gives your team and clients a structured way to report the issues they do encounter in the wild.</p>
+
+  <h2>Three Scenarios: Which Tool to Use</h2>
+
+  <h3>Scenario 1: Agency delivering a client website</h3>
+  <p>You built a site for a client who needs to review it and sign off before going live. The client is non-technical. <strong>Marker.io</strong> is the right tool: the client can annotate exactly what they want changed, and you get structured tickets without email chains. Vibers becomes relevant if the site has significant backend logic (user accounts, payments, data processing) that warrants a pre-launch security and logic review.</p>
+
+  <h3>Scenario 2: Founder shipping a vibe-coded SaaS MVP</h3>
+  <p>You used Cursor to build a subscription SaaS in three weeks. You have a paying user waiting. <strong>Vibers</strong> is the right tool first: the reviewer reads your spec, checks the auth flow, subscription logic, and data isolation, and sends fix PRs before your first paying customer hits a billing bug. After launch, add Marker.io to capture feedback from your beta users systematically.</p>
+
+  <h3>Scenario 3: Internal tool with a QA team</h3>
+  <p>Your team is doing a UAT sprint on a new internal dashboard. QA testers need to log bugs efficiently during their testing sessions. <strong>Marker.io</strong> is the right tool: it turns the tester's session into a structured list of reproducible tickets with screenshots. If the underlying code was AI-generated, consider a Vibers review before the QA sprint — it's faster to fix logic bugs at the code level than to discover them during testing.</p>
+
+  <h2>Pricing Comparison</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Plan</th><th>Marker.io</th><th>Vibers</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Free entry</td><td>15-day trial, no credit card</td><td>First review free (GitHub star)</td></tr>
+        <tr><td>Paid</td><td>$39/mo — 3 projects, unlimited reporters</td><td>$15/hour, pay-per-review</td></tr>
+        <tr><td>Team tier</td><td>$159/mo — unlimited projects</td><td>Same rate, volume available</td></tr>
+        <tr><td>Model</td><td>Recurring subscription</td><td>Per-review service</td></tr>
+        <tr><td>Typical spend / MVP</td><td>$39/mo ongoing</td><td>$30–60 per review cycle (2–4 hrs)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Can You Use Both?</h2>
+
+  <p>Yes — and for most product teams shipping AI-generated code, using both is the right answer. The recommended workflow:</p>
+
+  <ol>
+    <li><strong>Before any code ships:</strong> Vibers review — catches logic bugs, security vulnerabilities, and spec mismatches while they're cheapest to fix.</li>
+    <li><strong>Before client sign-off / UAT:</strong> Marker.io — gives non-technical stakeholders a structured way to report visual and functional feedback.</li>
+    <li><strong>After launch:</strong> Marker.io ongoing — captures bugs that real users encounter that your review and UAT didn't catch.</li>
+    <li><strong>After significant new features:</strong> Another Vibers review — AI-generated features accumulate risk at the same rate as the first version.</li>
+  </ol>
+
+  <p>Vibers reduces the volume of bugs that reach UAT and production. Marker.io makes it easier to handle the ones that do. They solve different parts of the same quality problem.</p>
+
+  <p>If you're also using browser-based tools to review code yourself, see our list of <a href="/vibers/blog/best-chrome-extensions-ai-code-review/">best Chrome extensions for AI code review</a>.</p>
+
+  <div class="cta-block">
+    <h3>Find the bugs before your users do.</h3>
+    <p>Vibers reviews your AI-generated code against your spec and sends fix PRs. First review free — install the GitHub App to get started.</p>
+    <a href="https://github.com/apps/vibers-review/installations/new" class="cta-btn" onclick="trackLead && trackLead('click_install_app')">Install GitHub App — Free</a>
+  </div>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <p class="faq-q">What is the difference between Marker.io and Vibers?</p>
+      <p class="faq-a">Marker.io is a visual bug reporting tool: your team or clients annotate screenshots on the live site and create tickets in Jira or GitHub. Vibers is a human code review service: a developer reads your spec, reviews your codebase, and sends fix PRs for bugs they find. Marker.io captures bugs reported by people who see them. Vibers proactively finds bugs — including logic errors, spec mismatches, and security issues — before anyone sees them in production.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Does Marker.io fix bugs or just report them?</p>
+      <p class="faq-a">Marker.io only reports bugs — it does not fix them. When a tester uses Marker.io, their annotation becomes a ticket in your project management tool. Your development team still investigates, reproduces, and fixes each issue. Vibers sends actual fix PRs: the reviewer finds the bug, writes the fix, and submits a pull request you can merge directly.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Can I use Marker.io and Vibers together?</p>
+      <p class="faq-a">Yes, and they complement each other well. Use Vibers before launch to catch logic bugs, security issues, and requirement mismatches in the code. Use Marker.io after launch to give your team and clients a structured way to report issues they encounter on the live site. Vibers reduces the number of bugs that reach production; Marker.io makes it easier to capture the ones that do.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">What does Marker.io cost vs Vibers?</p>
+      <p class="faq-a">Marker.io starts at $39/month for up to 3 projects, with a 15-day free trial and no credit card required. Vibers charges $15/hour, with the first review free when you give the repo a GitHub star. A typical vibe-coded MVP review takes 2–4 hours ($30–60). Marker.io is recurring infrastructure; Vibers is a per-review quality gate.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Is Marker.io good for reviewing AI-generated code?</p>
+      <p class="faq-a">Marker.io is not a code review tool. It captures visual and functional bugs reported by people using the live site — not issues in the code itself. For reviewing AI-generated code before deployment, the relevant tools are static analysis (ESLint, Semgrep), AI reviewers (CodeRabbit, Qodo), or human code review services like Vibers. Marker.io is useful after code has been deployed and real users are reporting what they find.</p>
+    </div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Alex Noxon — Vibers</h4>
+      <p>Building Vibers — human-in-the-loop code review for vibe coders. Previously shipped production systems reviewed by a combined 40,000+ hours of senior developer time. Writes about the gap between what AI generates and what actually ships safely.</p>
+    </div>
+  </div>
+
+  <div class="related-posts">
+    <h3>Related Articles</h3>
+    <div class="related-grid">
+      <div class="related-card">
+        <a href="/vibers/blog/best-chrome-extensions-ai-code-review/">Best Chrome Extensions for AI Code Review</a>
+        <p>7 extensions that make reviewing AI-generated code on GitHub faster.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/review-vibe-coded-app-before-launch/">How to Review a Vibe-Coded App Before Launch</a>
+        <p>A practical checklist for what to verify before shipping AI-built software.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+        <p>Why automated tools catch syntax but miss logic — and what that costs in production.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/coderabbit-alternative-human-review/">CodeRabbit Alternative: Why Human Review Wins</a>
+        <p>Comparing CodeRabbit, Qodo, and human review for AI-generated MVPs.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/human-in-the-loop-code-review-teams/">Human-in-the-Loop Code Review</a>
+        <p>How to add a human quality gate to your AI-assisted development workflow.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers — Human Code Review</span>
+    <span><a href="/vibers/">Home</a> · <a href="/vibers/blog/">Blog</a> · <a href="https://github.com/apps/vibers-review/installations/new">Install App</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

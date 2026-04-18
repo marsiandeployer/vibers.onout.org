@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Best Chrome Extensions for AI Code Review in 2026 — Vibers Blog</title>
+  <meta name="description" content="7 Chrome extensions that make reviewing AI-generated code faster: Refined GitHub, Sourcegraph, Octotree, axe DevTools, Jam.dev, and more. Plus when browser extensions aren't enough.">
+  <link rel="canonical" href="https://onout.org/vibers/blog/best-chrome-extensions-ai-code-review/">
+  <link rel="icon" type="image/x-icon" href="../../favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="../../favicon.png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Best Chrome Extensions for AI Code Review in 2026">
+  <meta property="og:description" content="7 Chrome extensions that make reviewing AI-generated code faster: Refined GitHub, Sourcegraph, Octotree, axe DevTools, Jam.dev, and more.">
+  <meta property="og:url" content="https://onout.org/vibers/blog/best-chrome-extensions-ai-code-review/">
+  <meta property="og:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://onout.org/vibers/assets/vibers-logo-source.jpg">
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LQLZ1SZS26"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LQLZ1SZS26');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Best Chrome Extensions for AI Code Review in 2026",
+    "description": "7 Chrome extensions that make reviewing AI-generated code faster: Refined GitHub, Sourcegraph, Octotree, axe DevTools, Jam.dev, and more. Plus when browser extensions aren't enough.",
+    "url": "https://onout.org/vibers/blog/best-chrome-extensions-ai-code-review/",
+    "datePublished": "2026-04-18",
+    "dateModified": "2026-04-18",
+    "author": {
+      "@type": "Person",
+      "name": "Alex Noxon",
+      "url": "https://onout.org/vibers/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vibers",
+      "url": "https://onout.org/vibers/",
+      "logo": { "@type": "ImageObject", "url": "https://onout.org/vibers/favicon.png" }
+    },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://onout.org/vibers/blog/best-chrome-extensions-ai-code-review/" },
+    "keywords": ["chrome extensions for code review", "ai code review tools", "github chrome extensions", "code review extensions", "vibe coding tools"],
+    "articleSection": "Code Review Tools"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What Chrome extension is best for reviewing GitHub pull requests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Refined GitHub is the most widely used Chrome extension for reviewing GitHub pull requests. It adds a one-click diff collapse, better file tree navigation, reaction avatars, and cleaner PR timelines without changing GitHub's core workflow. For large repos, pairing it with Octotree (file tree sidebar) or Sourcegraph (cross-repo code navigation) gives better context when reviewing AI-generated code that spans many files."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are Chrome extensions enough for reviewing AI-generated code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Chrome extensions improve the GitHub review UI but cannot catch logic bugs, business rule violations, or spec mismatches in AI-generated code. Extensions like Refined GitHub make diffs easier to read; they do not understand what the code is supposed to do. For AI-generated codebases — where logic errors are 75% more common than in human-written code — browser extensions are useful tooling but not a substitute for a reviewer who has read your product spec."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best free tool for recording bugs in a browser?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Jam.dev is the most developer-friendly free tool for recording browser bugs. It captures a video replay of the bug alongside the full console log, network requests, and browser metadata — all packaged into a shareable link. Unlike Loom or screen recorders, Jam is built specifically for bug reports and integrates with GitHub Issues, Jira, and Linear. It is free for individuals with unlimited recordings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Sourcegraph work as a Chrome extension?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Sourcegraph offers a browser extension for Chrome and Firefox that adds 'Go to Definition' and 'Find References' directly on GitHub, GitLab, and Bitbucket. When reviewing AI-generated code that calls functions defined elsewhere in the repo, Sourcegraph lets you navigate cross-file references without leaving the browser — a significant time-saver on large AI-generated codebases."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I check accessibility of AI-generated frontend code in Chrome?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "axe DevTools (free tier) is the most accurate accessibility checker available as a Chrome extension. It integrates into Chrome DevTools and scans the rendered page for WCAG violations, flagging issues like missing alt text, insufficient color contrast, and broken ARIA roles — all common in AI-generated frontend code. The free version covers the most critical WCAG 2.1 rules and is maintained by Deque Systems, a leading accessibility consultancy."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fafaf8;color:#1a1a1a;line-height:1.7;font-size:16px}
+    .page{max-width:800px;margin:0 auto;padding:48px 40px;background:#fff;min-height:100vh}
+    @media(max-width:600px){.page{padding:24px 20px}}
+    a{color:#5b44e8;text-decoration:none}
+    a:hover{text-decoration:underline}
+    .site-nav{border-bottom:2px solid #1a1a1a;padding-bottom:16px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-nav .brand{font-size:18px;font-weight:700;color:#1a1a1a}
+    .site-nav .brand:hover{color:#5b44e8;text-decoration:none}
+    .site-nav .nav-links{display:flex;gap:20px;font-size:14px}
+    .site-nav .nav-links a{color:#555}
+    .site-nav .nav-links a:hover{color:#5b44e8;text-decoration:none}
+    .article-meta{font-size:13px;color:#888;margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.2;margin-bottom:12px}
+    @media(max-width:600px){h1{font-size:24px}}
+    .article-lead{font-size:18px;color:#444;line-height:1.6;margin-bottom:24px;border-left:3px solid #5b44e8;padding-left:16px}
+    .key-takeaways{background:#f4f2ff;border:1px solid #d4ccf8;border-radius:8px;padding:20px 24px;margin-bottom:32px}
+    .key-takeaways h3{font-size:14px;font-weight:600;color:#2d2080;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+    .key-takeaways ul{padding-left:20px}
+    .key-takeaways li{margin-bottom:6px;font-size:15px;color:#333}
+    h2{font-size:22px;font-weight:700;margin:40px 0 14px;letter-spacing:-0.3px;padding-top:8px;border-top:1px solid #eee}
+    h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:#2d2080}
+    p{margin-bottom:16px;color:#333}
+    ul,ol{padding-left:24px;margin-bottom:16px}
+    li{margin-bottom:8px;color:#333}
+    .table-wrap{overflow-x:auto;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#1a1a1a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+    td{padding:9px 14px;border-bottom:1px solid #eee}
+    tr:nth-child(even) td{background:#fafaf8}
+    .stat-box{background:#fff7ed;border-left:4px solid #f59e0b;padding:14px 18px;margin:20px 0;border-radius:0 6px 6px 0;font-size:15px}
+    .stat-box strong{color:#92400e}
+    blockquote{border-left:3px solid #5b44e8;padding:12px 16px;margin:20px 0;color:#444;font-style:italic}
+    blockquote cite{font-size:12px;color:#888;font-style:normal;display:block;margin-top:6px}
+    .ext-card{border:1px solid #eee;border-radius:8px;padding:20px 24px;margin-bottom:20px}
+    .ext-card:hover{border-color:#5b44e8}
+    .ext-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+    .ext-name{font-size:17px;font-weight:700;color:#1a1a1a}
+    .ext-badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:4px;white-space:nowrap}
+    .badge-free{background:#dcfce7;color:#166534}
+    .badge-freemium{background:#fff7ed;color:#92400e}
+    .ext-meta{font-size:13px;color:#888;margin-bottom:8px}
+    .ext-desc{font-size:15px;color:#333;line-height:1.6}
+    .cta-block{background:#1a1a1a;color:#fff;border-radius:10px;padding:28px 32px;margin:40px 0;text-align:center}
+    .cta-block h3{font-size:20px;font-weight:700;margin-bottom:8px;color:#fff}
+    .cta-block p{color:#ccc;margin-bottom:20px;font-size:15px}
+    .cta-btn{display:inline-block;background:#5b44e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:600;font-size:15px}
+    .cta-btn:hover{background:#4834c8;text-decoration:none}
+    .faq-section h2{border-top:none;padding-top:0}
+    .faq-item{border-bottom:1px solid #eee;padding:16px 0}
+    .faq-q{font-weight:600;color:#1a1a1a;margin-bottom:8px;font-size:16px}
+    .faq-a{color:#444;font-size:15px;line-height:1.6}
+    .author-bio{display:flex;gap:16px;align-items:flex-start;background:#fafaf8;border-radius:8px;padding:20px;margin:40px 0;border:1px solid #eee}
+    .author-bio .author-info h4{font-size:15px;font-weight:600;margin-bottom:4px}
+    .author-bio .author-info p{font-size:13px;color:#666;margin:0}
+    .related-posts{margin-top:40px;padding-top:32px;border-top:2px solid #1a1a1a}
+    .related-posts h3{font-size:18px;font-weight:700;margin-bottom:16px}
+    .related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .related-card{border:1px solid #eee;border-radius:8px;padding:16px}
+    .related-card:hover{border-color:#5b44e8}
+    .related-card a{color:#1a1a1a;font-weight:600;font-size:14px}
+    .related-card p{font-size:13px;color:#888;margin-top:6px}
+    .site-footer{border-top:1px solid #eee;margin-top:48px;padding-top:24px;font-size:13px;color:#888;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+    .site-footer a{color:#555}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <nav class="site-nav">
+    <a class="brand" href="/vibers/">Vibers — Human Code Review</a>
+    <div class="nav-links">
+      <a href="https://github.com/apps/vibers-review/installations/new">Install App</a>
+      <a href="/vibers/blog/">Blog</a>
+      <a href="https://t.me/onoutnoxon">Telegram</a>
+    </div>
+  </nav>
+
+  <div class="article-meta">
+    <span>April 18, 2026</span>
+    <span>8 min read</span>
+    <span><a href="/vibers/blog/">Blog</a> · Tools</span>
+  </div>
+
+  <h1>Best Chrome Extensions for AI Code Review in 2026</h1>
+
+  <p class="article-lead">When you're reviewing AI-generated code on GitHub, the right Chrome extension can turn a painful diff into a navigable codebase. Here are the 7 extensions actually worth installing — plus the one thing they all can't do.</p>
+
+  <div class="key-takeaways">
+    <h3>Quick Summary</h3>
+    <ul>
+      <li><strong>Refined GitHub</strong> — best overall GitHub UI upgrade, free.</li>
+      <li><strong>Octotree</strong> — file tree sidebar for navigating large AI-generated repos.</li>
+      <li><strong>Sourcegraph</strong> — Go to Definition and Find References across the whole repo, free.</li>
+      <li><strong>axe DevTools</strong> — catches accessibility violations in AI-generated frontend code.</li>
+      <li><strong>Jam.dev</strong> — records bugs with console + network logs attached, free.</li>
+      <li><strong>Web Vitals</strong> — real-time Core Web Vitals on any page, free from Google.</li>
+      <li><strong>React / Vue DevTools</strong> — inspect component state without touching the IDE.</li>
+      <li>Extensions improve the review UI. They don't catch logic bugs, spec mismatches, or race conditions — that still requires a human reviewer who has read your product spec.</li>
+    </ul>
+  </div>
+
+  <h2>Why Chrome Extensions Matter for AI Code Review</h2>
+
+  <p>Reviewing AI-generated code is different from reviewing code written by a human teammate. The commits are larger, the file count per PR is higher, and the logic can be subtly wrong in ways that look syntactically correct. Cursor or Copilot doesn't second-guess itself — it ships whatever satisfies the prompt.</p>
+
+  <p>According to <a href="https://coderabbit.ai/blog/state-of-ai-vs-human-code-generation-report" target="_blank" rel="noopener">CodeRabbit's December 2025 research</a> on 470 real-world pull requests, AI-generated PRs average 10.83 issues per PR versus 6.45 for human-written PRs — a 1.7x increase in defect density. Navigating those diffs efficiently matters. The extensions below don't find bugs for you, but they make the review surface significantly easier to work with.</p>
+
+  <div class="stat-box">
+    <strong>67%</strong> of developers say the biggest barrier to thorough code review is the time it takes to understand context across multiple files. Source: Stack Overflow Developer Survey, 2025.
+  </div>
+
+  <h2>The 7 Best Chrome Extensions for Reviewing Code on GitHub</h2>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">1. Refined GitHub</span>
+      <span class="ext-badge badge-free">Free</span>
+    </div>
+    <div class="ext-meta">⭐ 26,000+ GitHub stars · Chrome Web Store · Also available for Firefox</div>
+    <p class="ext-desc">Refined GitHub is the single most impactful extension for anyone doing code review on GitHub. It adds over 200 quality-of-life improvements: collapsing reviewed files with one click, cleaner PR timelines, reaction avatars on comments, "Mark as viewed" buttons that persist, and a smarter merge button that defaults to squash merge. When reviewing a 40-file AI-generated PR, the difference is significant — you can track what you've reviewed and what remains without losing your place.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Anyone reviewing PRs on GitHub regularly. Install this first.</p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">2. Octotree — GitHub Code Tree</span>
+      <span class="ext-badge badge-freemium">Free / Pro $10/yr</span>
+    </div>
+    <div class="ext-meta">⭐ 2M+ users · Chrome Web Store · Also Firefox, Edge, Safari</div>
+    <p class="ext-desc">Octotree adds a persistent file tree sidebar to GitHub — the same tree you see in VS Code, but directly in your browser tab. When AI tools generate code across a dozen new files, jumping between them in GitHub's native PR view requires repeated back-and-forth. Octotree lets you navigate the full repo structure while keeping the diff open. The free tier covers public repos; Pro ($10/year) adds private repos and dark mode.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Reviewing AI-generated PRs that touch many files across the repo.</p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">3. Sourcegraph Browser Extension</span>
+      <span class="ext-badge badge-free">Free</span>
+    </div>
+    <div class="ext-meta">⭐ 2M+ users · Chrome Web Store · Works on GitHub, GitLab, Bitbucket</div>
+    <p class="ext-desc">Sourcegraph's browser extension adds "Go to Definition" and "Find References" directly on GitHub — you hover over any symbol and get a popup with all usages across the entire codebase, not just the current file. This is especially useful when reviewing AI-generated code that calls helper functions defined elsewhere: instead of opening a new tab and searching, you navigate inline. The extension is free and connects to Sourcegraph.com for cross-repo searches on public code.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Understanding where AI-generated functions are used and what they call.</p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">4. axe DevTools</span>
+      <span class="ext-badge badge-freemium">Free tier available</span>
+    </div>
+    <div class="ext-meta">By Deque Systems · Chrome Web Store · Industry standard for a11y testing</div>
+    <p class="ext-desc">AI-generated frontend code consistently misses accessibility. Missing alt text on images, insufficient color contrast, broken ARIA roles, and unlabeled form fields are all common in Cursor- or v0-generated components. axe DevTools integrates into Chrome DevTools and scans the rendered page for WCAG 2.1 violations with zero false positives on its critical rules (by design). The free tier catches the most impactful issues. Run it on any page built from AI-generated code before shipping — it takes under 30 seconds.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Reviewing AI-generated frontend. See also: <a href="/vibers/blog/ai-generated-code-security-vulnerabilities/">AI-Generated Code Security Vulnerabilities</a>.</p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">5. Jam.dev — Bug Reporting with Console Logs</span>
+      <span class="ext-badge badge-free">Free (unlimited recordings)</span>
+    </div>
+    <div class="ext-meta">Chrome Web Store · Integrates with GitHub Issues, Jira, Linear</div>
+    <p class="ext-desc">When you find a bug while reviewing AI-generated code in the browser, Jam lets you record a video replay of the issue with the full console log, network requests, device info, and browser metadata automatically attached. Instead of writing "the checkout button doesn't work sometimes," you send a Jam link that shows exactly what happened, what the console said, and what network call failed. It replaces the tedious bug report template with a shareable replay. Free for individuals with unlimited recordings.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Bug reporting during browser-based testing of AI-built apps. <a href="/vibers/blog/markerio-vs-vibers/">Compare Jam/Marker.io vs Vibers →</a></p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">6. Web Vitals</span>
+      <span class="ext-badge badge-free">Free — by Google</span>
+    </div>
+    <div class="ext-meta">Chrome Web Store · Official extension from the Google Chrome team</div>
+    <p class="ext-desc">Web Vitals shows real-time Core Web Vitals (LCP, INP, CLS) as a badge on any page. AI-generated frontend code frequently has performance issues — according to CodeRabbit's research, performance problems like excessive I/O are 8x more common in AI-authored code. Running the Web Vitals extension on an AI-built landing page or dashboard takes 10 seconds and tells you immediately whether the page will hurt your SEO and user experience. It shows field data where available (from CrUX) and lab data otherwise.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Quick performance check on AI-generated pages before launch.</p>
+  </div>
+
+  <div class="ext-card">
+    <div class="ext-header">
+      <span class="ext-name">7. React Developer Tools / Vue DevTools</span>
+      <span class="ext-badge badge-free">Free — official</span>
+    </div>
+    <div class="ext-meta">Chrome Web Store · Official extensions by Meta (React) and the Vue core team</div>
+    <p class="ext-desc">When reviewing AI-generated React or Vue components, the official DevTools let you inspect component state, props, and context directly in the browser — without switching to the IDE. Useful for catching bugs like "the AI passed the wrong prop type" or "this component re-renders on every keystroke because state is initialized inside the render function." Both extensions are free and maintained by the framework core teams.</p>
+    <p class="ext-desc"><strong>Best for:</strong> Reviewing AI-generated React or Vue frontends.</p>
+  </div>
+
+  <h2>The Comparison Table</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Extension</th>
+          <th>Primary use</th>
+          <th>Price</th>
+          <th>Works on</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Refined GitHub</td><td>PR review UI improvements</td><td>Free</td><td>GitHub</td></tr>
+        <tr><td>Octotree</td><td>File tree navigation</td><td>Free / $10/yr</td><td>GitHub, GitLab, Bitbucket</td></tr>
+        <tr><td>Sourcegraph</td><td>Cross-repo code navigation</td><td>Free</td><td>GitHub, GitLab, Bitbucket</td></tr>
+        <tr><td>axe DevTools</td><td>Accessibility violations</td><td>Free tier</td><td>Any rendered page</td></tr>
+        <tr><td>Jam.dev</td><td>Bug recording + console logs</td><td>Free</td><td>Any page</td></tr>
+        <tr><td>Web Vitals</td><td>Core Web Vitals performance</td><td>Free</td><td>Any page</td></tr>
+        <tr><td>React / Vue DevTools</td><td>Component state inspection</td><td>Free</td><td>React / Vue apps</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What Chrome Extensions Cannot Do</h2>
+
+  <p>Every extension above makes the review process faster or more informative. None of them can catch what matters most in AI-generated code: <strong>logic bugs tied to your business rules</strong>.</p>
+
+  <p>An AI that generated your subscription billing flow doesn't know your spec says "free users get 3 projects, not 3 workspaces." Refined GitHub shows you the diff more clearly — it still looks like valid code. Sourcegraph lets you navigate the codebase faster — the billing bypass is still there. axe DevTools scans for accessibility — the wrong tier limit passes silently.</p>
+
+  <p>According to CodeRabbit's own research, logic and correctness bugs are 75% more common in AI-generated PRs than human-written ones. These are the bugs that only surface when someone who has read your spec traces the full user journey through the code.</p>
+
+  <p>That's the gap extensions don't fill. It's also the gap Vibers is built to fill: a human reviewer reads your spec, reviews your PR, and sends fix PRs for what they find. See how that compares to automated tools in <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a> — or compare the full approach in <a href="/vibers/blog/human-in-the-loop-code-review-teams/">Human-in-the-Loop Code Review</a>.</p>
+
+  <div class="cta-block">
+    <h3>Need a reviewer who actually reads your spec?</h3>
+    <p>Extensions make reviewing easier. A human reviewer makes it complete. Install the Vibers GitHub App — first review is free with a GitHub star.</p>
+    <a href="https://github.com/apps/vibers-review/installations/new" class="cta-btn" onclick="trackLead && trackLead('click_install_app')">Install GitHub App — Free</a>
+  </div>
+
+  <h2>Bonus: Extensions for Bug Reporting During Manual QA</h2>
+
+  <p>If your team does manual QA on AI-built apps before launch, two more tools are worth knowing:</p>
+
+  <h3>Marker.io</h3>
+  <p><a href="https://marker.io" target="_blank" rel="noopener">Marker.io</a> ($39/mo) is a visual feedback tool that lets non-technical team members and clients annotate screenshots directly on the live site and create tickets in Jira, Trello, or GitHub — without leaving the browser. It's designed for UAT workflows where stakeholders need to report issues without writing bug reports. See the full comparison: <a href="/vibers/blog/markerio-vs-vibers/">Marker.io vs Vibers — report bugs vs fix bugs</a>.</p>
+
+  <h3>Loom</h3>
+  <p>For async video-based code review — recording a walkthrough of the code while narrating what you see — Loom remains the standard tool. Free for recordings under 5 minutes.</p>
+
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <p class="faq-q">What Chrome extension is best for reviewing GitHub pull requests?</p>
+      <p class="faq-a">Refined GitHub is the most widely used Chrome extension for reviewing GitHub pull requests. It adds one-click diff collapse, better file tree navigation, reaction avatars, and cleaner PR timelines without changing GitHub's core workflow. For large repos, pairing it with Octotree or Sourcegraph gives better context when reviewing AI-generated code that spans many files.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Are Chrome extensions enough for reviewing AI-generated code?</p>
+      <p class="faq-a">Chrome extensions improve the GitHub review UI but cannot catch logic bugs, business rule violations, or spec mismatches in AI-generated code. For AI-generated codebases — where logic errors are 75% more common than in human-written code — browser extensions are useful tooling but not a substitute for a reviewer who has read your product spec.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">What is the best free tool for recording bugs in a browser?</p>
+      <p class="faq-a">Jam.dev is the most developer-friendly free tool for recording browser bugs. It captures a video replay alongside the full console log, network requests, and browser metadata. Unlike screen recorders, Jam is built specifically for bug reports and integrates with GitHub Issues, Jira, and Linear. Free for individuals with unlimited recordings.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Does Sourcegraph work as a Chrome extension?</p>
+      <p class="faq-a">Yes. Sourcegraph offers a browser extension for Chrome and Firefox that adds "Go to Definition" and "Find References" directly on GitHub, GitLab, and Bitbucket. When reviewing AI-generated code that calls functions defined elsewhere in the repo, Sourcegraph lets you navigate cross-file references without leaving the browser.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">How do I check accessibility of AI-generated frontend code in Chrome?</p>
+      <p class="faq-a">axe DevTools (free tier) is the most accurate accessibility checker available as a Chrome extension. It integrates into Chrome DevTools and scans the rendered page for WCAG violations — missing alt text, insufficient contrast, broken ARIA roles — all common in AI-generated frontend. The free version covers the most critical WCAG 2.1 rules and has zero false positives on those rules by design.</p>
+    </div>
+  </div>
+
+  <div class="author-bio">
+    <div class="author-info">
+      <h4>Alex Noxon — Vibers</h4>
+      <p>Building Vibers — human-in-the-loop code review for vibe coders. Previously shipped production systems reviewed by a combined 40,000+ hours of senior developer time. Writes about the gap between what AI generates and what actually ships safely.</p>
+    </div>
+  </div>
+
+  <div class="related-posts">
+    <h3>Related Articles</h3>
+    <div class="related-grid">
+      <div class="related-card">
+        <a href="/vibers/blog/ai-code-review-bots-miss-bugs/">What AI Code Review Bots Miss</a>
+        <p>Why automated tools catch syntax but miss logic — and what that costs in production.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/markerio-vs-vibers/">Marker.io vs Vibers</a>
+        <p>Bug reporting tools vs. a service that finds and fixes the bugs. When to use which.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/human-in-the-loop-code-review-teams/">Human-in-the-Loop Code Review</a>
+        <p>How human reviewers catch what AI misses in vibe-coded projects.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/review-cursor-generated-code/">How to Review Cursor-Generated Code</a>
+        <p>A practical checklist for reviewing code written by Cursor AI.</p>
+      </div>
+      <div class="related-card">
+        <a href="/vibers/blog/vibe-coding-security-risks/">Vibe Coding Security Risks</a>
+        <p>The security issues AI tools consistently introduce — and how to catch them.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>© 2026 Vibers — Human Code Review</span>
+    <span><a href="/vibers/">Home</a> · <a href="/vibers/blog/">Blog</a> · <a href="https://github.com/apps/vibers-review/installations/new">Install App</a></span>
+  </footer>
+
+</div>
+</body>
+</html>

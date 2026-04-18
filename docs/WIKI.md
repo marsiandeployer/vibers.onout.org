@@ -21,7 +21,7 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 | [keywords/](keywords/) | SEMrush keyword exports (6 CSV files, 2026-04-14) |
 | [reddit-alpha-beta-users.md](reddit-alpha-beta-users.md) | Reddit strategy for finding alpha/beta users |
 | [backlink-opportunities.md](backlink-opportunities.md) | 13 directories + 6 dev blogs + media pitch targets |
-| [COMPETITORS.md#markerio-markerio](COMPETITORS.md) | Marker.io — adjacent competitor (website feedback/UAT tool, $39/mo, tooling only — не чинит). Их UAT-контент: https://marker.io/blog/user-acceptance-testing-template |
+| [COMPETITORS.md#markerio-markerio](COMPETITORS.md) | Marker.io — adjacent competitor ($39/mo, tooling only — не чинит). Топ-5 статей + контент-паттерн (template hubs, platform × format matrix, utility tripwire, living docs) разобраны в секции Marker.io |
 | [advertising-channels.md](advertising-channels.md) | Полная карта рекламы: каталоги, ad networks, newsletters, стратегия по бюджету |
 | [backlinks/](backlinks/) | Raw SEMrush backlink exports (CodeRabbit 4.6K, Qodo 6K domains) |
 | [topic-research-20260414.xlsx](topic-research-20260414.xlsx) | SEMrush Topic Research — 108 content ideas with volumes, questions, backlinks |
@@ -59,6 +59,13 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 **Priority 6 — Programmatic SEO (шаблонные страницы):**
 - [ ] `/review/cursor-code`, `/review/claude-code`, `/review/copilot-code`
 - [ ] `/review/bolt-code`, `/review/v0-code`, `/review/lovable-code`, `/review/replit-code`
+
+**Priority 7 — Template hubs & utility content (вдохновлено Marker.io паттерном):**
+- [ ] "AI Code Review Checklist Templates" — long-form (4-5K слов) с шаблонами под GitHub PR / GitLab MR / Jira / Notion / Confluence / Google Docs (аналог `/blog/user-acceptance-testing-template` — 1.6K uniques/mo у них)
+- [ ] "Code Review Bug Report Templates" — шаблоны под { GitHub, Jira, Linear, Asana, Notion } × { critical bug, security, perf, logic } (аналог `/blog/bug-report-template`)
+- [x] "Best Chrome Extensions for AI Code Review" — utility tripwire (смежная аудитория, аналог `/blog/google-chrome-screenshot-extensions` — 774 uniques/mo)
+- [ ] "AI Code Review Tools" — перестроить `best-ai-code-review-tools` как resource hub: каждый tool → внутренняя ссылка на "vs" comparison
+- [ ] Добавить visible "Last updated" даты на топ-статьи + квартальный апдейт-цикл (freshness signal)
 
 **People Also Ask (для FAQ-секций):**
 - "What is the best free website for code reviews?"
@@ -129,6 +136,8 @@ Internal knowledge base. For the public README see [../README.md](../README.md).
 | `code-review-as-a-service` | code review as a service | NEW |
 | `best-ai-code-review-tools` | best ai code review tools | NEW |
 | `claude-code-review` | claude code review | NEW |
+| `best-chrome-extensions-ai-code-review` | best chrome extensions for ai code review | Published |
+| `markerio-vs-vibers` | marker.io vs vibers | Published |
 | `coderabbit-alternative-human-review` | coderabbit alternative | Published |
 | `coderabbit-vs-human-review` | coderabbit vs human review | Published |
 | `ai-code-review-bots-miss-bugs` | ai code review bots miss bugs | Published |
