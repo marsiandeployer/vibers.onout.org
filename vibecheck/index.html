@@ -48,7 +48,7 @@
       {"@type": "Question", "name": "Do I need a developer on my team to use VibeCheck?", "acceptedAnswer": {"@type": "Answer", "text": "No. That's the point. VibeCheck is for teams that use AI tools like Cursor or Claude to build their product. You spot the visual issue, VibeCheck routes it to a human reviewer who sends the PR."}},
       {"@type": "Question", "name": "What does the Fix It button actually do?", "acceptedAnswer": {"@type": "Answer", "text": "Clicking Fix It captures the selected element, its CSS, the surrounding DOM context, and your comment. This is sent to a Vibers reviewer who diagnoses the root cause in your codebase and submits a pull request with the actual fix — not a screenshot, not a ticket."}},
       {"@type": "Question", "name": "How long does a fix take?", "acceptedAnswer": {"@type": "Answer", "text": "Most visual fixes are reviewed within a few hours on business days. Complex logic bugs may take longer. You'll get a PR on GitHub you can review and merge at any time."}},
-      {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "Early access is free. We're currently in beta. Sign up to get notified and receive your first fix at no cost."}}
+      {"@type": "Question", "name": "Is it free?", "acceptedAnswer": {"@type": "Answer", "text": "The Chrome extension is free to use with your own AI (Claude Code, Codex, Cursor). If you want a Vibers reviewer to do the work for you — find the root cause in your code and open a PR — that's the paid service, from $15/hr."}}
     ]
   }
   </script>
@@ -660,13 +660,13 @@
   <header class="hero">
     <div class="hero-badge">Chrome Extension &mdash; Early Access</div>
     <h1>VibeCheck</h1>
-    <p class="hero-sub">Website Feedback &amp; Fix Tool.<br>
-    Click any element &rarr; leave a comment &rarr; hit <strong>Fix It</strong> &rarr; get a real pull request.</p>
+    <p class="hero-sub">Free Chrome extension for website feedback.<br>
+    Click any element &rarr; leave a comment &rarr; let your AI fix it — or have a Vibers reviewer send you a real PR.</p>
     <div class="cta-group">
       <a href="https://t.me/onoutnoxon" target="_blank" rel="noopener noreferrer" class="btn-primary" onclick="gtag('event','generate_lead',{event_category:'vibecheck',event_label:'join_waitlist'});">Join Early Access</a>
       <a href="/vibers/" class="btn-secondary">Learn about Vibers &rarr;</a>
     </div>
-    <p class="beta-note">Beta &mdash; free first fix for early users. No credit card.</p>
+    <p class="beta-note">Free to use with your own AI (Claude Code, Codex, Cursor). Human review from $15/hr — <a href="/vibers/" style="color:#888;">learn more</a>.</p>
   </header>
   </div><!-- /content-wrap hero -->
 
@@ -1038,7 +1038,7 @@
     </div>
     <div class="faq-item">
       <div class="faq-q">Is it free?</div>
-      <div class="faq-a">Early access is free. We're in beta. Join the waitlist to get first access and your first fix at no cost.</div>
+      <div class="faq-a">The Chrome extension is free — install it and use it with your own AI (Claude Code, Codex, Cursor). No account needed. If you want a Vibers human reviewer to dig into your repo and send you a PR, that's the paid part — from $15/hr.</div>
     </div>
   </section>
 
@@ -1065,25 +1065,25 @@
 var TAB_DATA = {
   bug: {
     url: 'onout.org/dashboard/',
-    desc: 'A button label overflows its container. Click Fix It — reviewer finds the CSS root cause and opens a PR within hours.',
+    desc: 'Spot a visual bug on any element. The tool captures DOM + CSS context and sends it to your AI (free) — or to a Vibers reviewer who digs into your repo and opens a PR (paid).',
     text: "the 'View transaction details' label overflows the card width — shorten to 'View details'",
     caption: '✓ PR #247 merged — button copy fixed in 2 hours'
   },
   feature: {
     url: 'onout.org/dashboard/',
-    desc: 'Users keep asking for a search filter but there is none. Leave a feature comment — reviewer adds it to the codebase and sends a PR.',
+    desc: 'Leave a feature request on any element. Route it to your own AI (Claude Code, Codex) for a free suggestion — or let a Vibers developer build it and open a PR.',
     text: "can we add a search bar here? users keep asking how to filter transactions by date",
     caption: '✓ PR #248 merged — search filter added to nav'
   },
   improve: {
     url: 'onout.org/landing/',
-    desc: 'Your hero headline is generic and not converting. A copywriter + developer rewrites it and ships the change as a PR.',
+    desc: 'Flag copy or UX that\'s not working. Your AI rewrites it for free (BYOK) — or a human copywriter + developer rewrites, tests, and ships the change for you.',
     text: "headline feels too generic — 'See exactly where your money goes' might convert better",
     caption: '✓ PR #249 merged — hero copy rewritten, CTR +18%'
   },
   wp: {
     url: 'mystore.com/shop/',
-    desc: 'A WooCommerce product shows "Unavailable" even though it\'s in stock. Fix is deployed directly to WordPress via FTP — no GitHub needed.',
+    desc: 'Works on WordPress too — no GitHub required. The free tool collects the issue; a Vibers reviewer fixes it in wp-content and deploys via FTP/SSH.',
     text: "the Camera Lens product shows 'Unavailable' but it's in stock — looks like a WooCommerce status bug",
     caption: '✓ Fix deployed to WordPress via FTP — product back on sale in 1 hour'
   }
