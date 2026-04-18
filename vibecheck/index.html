@@ -875,10 +875,14 @@
           <div class="panel-element-path">.kpi-card &gt; span.btn</div>
         </div>
         <div class="panel-comment-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 2: Describe the issue in plain words">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-bug"></span><span class="type-cursor">|</span></div>
         </div>
-        <button class="panel-btn-fix" id="fix-btn-bug">Fix It →</button>
+        <div class="panel-btn-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 3: Fix It — routes to your AI (free) or Vibers reviewer (paid)">3</span>
+          <button class="panel-btn-fix" id="fix-btn-bug">Fix It →</button>
+        </div>
         <div class="panel-success" id="ps-bug"></div>
         <div class="panel-deploy" id="pd-bug"></div>
       </div>
@@ -945,10 +949,14 @@
           <div class="panel-element-path">main &gt; section.transactions</div>
         </div>
         <div class="panel-comment-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 2: Describe what feature you need">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-feature"></span><span class="type-cursor">|</span></div>
         </div>
-        <button class="panel-btn-fix" id="fix-btn-feature" style="background:#7c3aed;">Add Feature →</button>
+        <div class="panel-btn-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 3: Add Feature — Vibers reviewer implements it and sends a PR">3</span>
+          <button class="panel-btn-fix" id="fix-btn-feature" style="background:#7c3aed;">Add Feature →</button>
+        </div>
         <div class="panel-success" id="ps-feature"></div>
         <div class="panel-deploy" id="pd-feature"></div>
       </div>
@@ -957,8 +965,6 @@
     <!-- TAB: Improve -->
     <div class="demo-viewport" id="tab-improve" style="display:none">
       <span class="step-badge" style="top:58px;left:14px;" data-tip="Step 1: Click the hero section to select it">1</span>
-      <span class="step-badge tip-left" style="top:104px;right:195px;" data-tip="Step 2: Explain the copy problem or what tone to use">2</span>
-      <span class="step-badge tip-left" style="top:164px;right:195px;" data-tip="Step 3: Improve — copywriter rewrites and sends a PR">3</span>
       <div class="demo-site">
         <!-- wireframe nav bar -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
@@ -1015,10 +1021,14 @@
           <div class="panel-element-path">main &gt; section.hero</div>
         </div>
         <div class="panel-comment-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 2: Explain the copy problem or what tone to use">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-improve"></span><span class="type-cursor">|</span></div>
         </div>
-        <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Improve →</button>
+        <div class="panel-btn-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 3: Improve — copywriter rewrites and sends a PR">3</span>
+          <button class="panel-btn-fix" id="fix-btn-improve" style="background:#16a34a;">Improve →</button>
+        </div>
         <div class="panel-success" id="ps-improve"></div>
         <div class="panel-deploy" id="pd-improve"></div>
       </div>
@@ -1027,8 +1037,6 @@
     <!-- TAB: WordPress -->
     <div class="demo-viewport" id="tab-wp" style="display:none">
       <span class="step-badge" style="top:96px;left:14px;" data-tip="Step 1: Click the WooCommerce product button to select it">1</span>
-      <span class="step-badge tip-left" style="top:104px;right:195px;" data-tip="Step 2: Describe the issue — e.g. button should be enabled">2</span>
-      <span class="step-badge tip-left" style="top:164px;right:195px;" data-tip="Step 3: Fix It — reviewer updates WooCommerce code via SSH/FTP">3</span>
       <div class="demo-site">
         <!-- wireframe header -->
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e4e4e4;padding-bottom:10px;margin-bottom:14px;">
@@ -1097,10 +1105,14 @@
           <div class="panel-element-path">li.product &gt; a.button</div>
         </div>
         <div class="panel-comment-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 2: Describe the issue — e.g. button should be enabled">2</span>
           <div class="panel-comment-label">Comment</div>
           <div class="panel-comment-box"><span class="tw" id="tw-wp"></span><span class="type-cursor">|</span></div>
         </div>
-        <button class="panel-btn-fix" id="fix-btn-wp" style="background:#21759b;">Fix It →</button>
+        <div class="panel-btn-wrap">
+          <span class="step-badge step-badge-panel" data-tip="Step 3: Fix It — reviewer updates WooCommerce code via SSH/FTP">3</span>
+          <button class="panel-btn-fix" id="fix-btn-wp" style="background:#21759b;">Fix It →</button>
+        </div>
         <div class="panel-success" id="ps-wp"></div>
         <div class="panel-deploy" id="pd-wp"></div>
       </div>
@@ -1284,25 +1296,25 @@
 var TAB_DATA = {
   bug: {
     url: 'onout.org/dashboard/',
-    desc: 'Spot a visual bug on any element. Click Fix It — VibeCheck sends the context to your AI for free, or a Vibers reviewer digs into your repo and opens a PR (paid).',
+    desc: '(1) Click any element to select it. (2) Describe the bug in plain words. (3) Fix It — routes to your AI for free, or a Vibers reviewer digs into your repo and opens a PR.',
     text: "the 'View transaction details' label overflows the card width — shorten to 'View details'",
     caption: '✓ PR #247 merged — button copy fixed in 2 hours'
   },
   feature: {
     url: 'onout.org/dashboard/',
-    desc: 'Leave a feature request on any element. Route it to your own AI for a free implementation suggestion — or let a Vibers developer build it and open a PR.',
+    desc: '(1) Click any element to select it. (2) Describe the feature you want. (3) Add Feature — your AI suggests an implementation for free, or a Vibers developer builds it and sends a PR.',
     text: "can we add a search bar here? users keep asking how to filter transactions by date",
     caption: '✓ PR #248 merged — search filter added to nav'
   },
   improve: {
     url: 'onout.org/landing/',
-    desc: 'Flag copy or UX that\'s not working. Your AI rewrites it for free — or a human copywriter + developer rewrites, tests, and ships the change for you.',
+    desc: '(1) Click the hero or any text block. (2) Explain what\'s off — tone, clarity, conversion. (3) Improve — your AI rewrites for free, or a human copywriter ships the change.',
     text: "headline feels too generic — 'See exactly where your money goes' might convert better",
     caption: '✓ PR #249 merged — hero copy rewritten, CTR +18%'
   },
   wp: {
     url: 'mystore.com/shop/',
-    desc: 'Works on WordPress too — no GitHub required. The free tool collects the issue; a Vibers reviewer fixes it in wp-content and deploys via FTP/SSH.',
+    desc: '(1) Click any element on your WordPress site. (2) Describe what\'s broken. (3) Fix It — Vibers reviewer patches wp-content and deploys via FTP/SSH. No GitHub needed.',
     text: "the Camera Lens product shows 'Unavailable' but it's in stock — looks like a WooCommerce status bug",
     caption: '✓ Fix deployed to WordPress via FTP — product back on sale in 1 hour'
   }
@@ -1505,10 +1517,10 @@ var ru = {
 };
 
 TAB_DESC_RU = {
-  bug:     'Заметил визуальный баг — нажми Fix It. Контекст уйдёт твоему AI бесплатно, или Vibers-ревьюер разберётся в коде и откроет PR (платно).',
-  feature: 'Оставь запрос на улучшение на любом элементе. AI предложит реализацию бесплатно — или Vibers-разработчик сделает всё за тебя и откроет PR.',
-  improve: 'Отметь текст или UX, который не конвертит. AI перепишет бесплатно — или человек-копирайтер + разработчик сделают это за тебя.',
-  wp:      'Работает с WordPress — GitHub не нужен. Опиши проблему, и Vibers-ревьюер исправит её напрямую в файлах сайта.'
+  bug:     '(1) Кликни на любой элемент с багом. (2) Опиши проблему обычными словами. (3) Fix It — отправит контекст твоему AI бесплатно или Vibers-ревьюер откроет PR.',
+  feature: '(1) Кликни на нужный элемент. (2) Опиши, что хочешь добавить. (3) Add Feature — AI предложит реализацию бесплатно, или Vibers-разработчик сделает и откроет PR.',
+  improve: '(1) Кликни на заголовок или любой текст. (2) Объясни, что не так — тон, смысл, конверсия. (3) Improve — AI перепишет бесплатно или человек-копирайтер сделает сам.',
+  wp:      '(1) Кликни на любой элемент WordPress-сайта. (2) Опиши, что сломано. (3) Fix It — Vibers-ревьюер правит файлы напрямую по FTP/SSH. GitHub не нужен.'
 };
 
 // TAB_DESC_RU and currentLang declared in main script above
